@@ -13,7 +13,9 @@ module.exports = {
       },
       colors: {
         primary: "#681277",
+        "primary-light": "#8d1fa0",
         secondary: "#850d2e",
+        "secondary-light": "#9e1138",
         black: "#0b020c",
         "black-75": "#484149",
         "black-50": "#858186",
@@ -33,8 +35,8 @@ module.exports = {
         "heading-6": "1.563rem",
       },
       boxShadow: {
-        "light-shadow": "0px 11px 16px rgba(0, 0, 0, 0.10%)",
-        "light-shadow": "0px 0px 10px rgba(0, 0, 0, 0.25%)",
+        "light-shadow": "0 8px 8px 0 rgba(0, 0, 0, 0.20)",
+        baseline: "0 0 10px 0 rgba(0, 0, 0, 0.25)",
       },
     },
   },

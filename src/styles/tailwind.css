@@ -2,7 +2,11 @@
 
 /* CUSTOM CLASSES */
 @layer components {
-    .navbar-li {
-        @apply hover:text-primary text-[1.2rem] transition-all antialiased
-    }
+  .navbar-li {
+    @apply hover:text-primary text-[1.2rem] transition-all antialiased;
+  }
+
+  .button {
+    @apply bg-gradient-to-r from-primary to-secondary px-2 py-2 text-[#fff] font-bold rounded-md hover:from-primary-light hover:to-secondary-light tracking-wide;
+  }
 }

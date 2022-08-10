@@ -11,6 +11,8 @@ const Home: NextPage = () => {
         <title>Inicio | Mylo</title>
         <meta name="description" content="Inicio de Mylo" />
       </Head>
+
+      <p>Index page</p>
     </>
   );
 };

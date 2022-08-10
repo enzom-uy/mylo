@@ -1,0 +1,8 @@
+@tailwind components;
+
+/* CUSTOM CLASSES */
+@layer components {
+    .navbar-li {
+        @apply hover:text-primary text-[1.2rem] transition-all antialiased
+    }
+}

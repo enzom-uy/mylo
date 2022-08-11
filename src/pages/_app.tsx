@@ -19,7 +19,7 @@ const MyApp: AppType = ({
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 3500);
   }, []);
   return (
     <SessionProvider session={session}>

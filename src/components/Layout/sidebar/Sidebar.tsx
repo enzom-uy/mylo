@@ -7,7 +7,7 @@ import SidebarContent from "./SidebarContent";
 
 const Sidebar: React.FC = () => {
   return (
-    <Flex as="aside" height="fit-content" flexDir="column">
+    <Flex as="aside" height="fit-content" flexDir="column" userSelect="none">
       <Flex
         flexDir="column"
         h="fit-content"

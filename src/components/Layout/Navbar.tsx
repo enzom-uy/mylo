@@ -1,4 +1,4 @@
-import { Box, chakra, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -17,6 +17,7 @@ const Navbar: React.FC = () => {
       justifyContent="space-between"
       px={isMobile ? "16px" : "24px"}
       py={isMobile ? "8px" : "16px"}
+      userSelect="none"
     >
       <Link href="/">
         <Flex

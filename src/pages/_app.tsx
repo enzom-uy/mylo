@@ -15,9 +15,8 @@ const MyApp: AppType = ({
   pageProps: { session, ...pageProps },
   router,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);

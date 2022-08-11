@@ -1,22 +1,27 @@
 // src/pages/_app.tsx
+import { ChakraProvider, ScaleFade } from "@chakra-ui/react";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
+import theme from "src/chakraTheme";
 import Layout from "src/components/Layout/Layout";
 import superjson from "superjson";
 import type { AppRouter } from "../server/router";
-import "../styles/globals.css";
-import "../styles/tailwind.css";
 
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
+  router,
 }) => {
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ChakraProvider theme={theme}>
+        <Layout>
+          <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
+            <Component {...pageProps} />
+          </ScaleFade>
+        </Layout>
+      </ChakraProvider>
     </SessionProvider>
   );
 };

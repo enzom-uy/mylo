@@ -1,11 +1,22 @@
+import { Button } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineGoogle } from "react-icons/ai";
 
 const SignWithGoogle = () => {
   return (
-    <button className="flex items-center gap-2 button whitespace-nowrap shadow-baseline">
-      <AiOutlineGoogle className="text-[1.8rem]" /> Iniciar con Google
-    </button>
+    <Button
+      display="flex"
+      alignItems="center"
+      gap={2}
+      whiteSpace="nowrap"
+      boxShadow="baseline"
+      bgColor="primary"
+      color="white"
+      _hover={{ bgColor: "secondary" }}
+      transition="all 150"
+    >
+      <AiOutlineGoogle fontSize="1.8rem" /> Login
+    </Button>
   );
 };
 

@@ -38,6 +38,34 @@ export const navbarLinks = [
   },
 ];
 
+export const mapsLinks = [
+  {
+    title: "Mirage",
+    img: mirage,
+    href: "/maps/mirage",
+  },
+  {
+    title: "Dust 2",
+    img: dust2,
+    href: "/maps/dust2",
+  },
+  {
+    title: "Inferno",
+    img: inferno,
+    href: "/maps/inferno",
+  },
+  {
+    title: "Nuke",
+    img: nuke,
+    href: "/maps/nuke",
+  },
+  {
+    title: "Overpass",
+    img: overpass,
+    href: "/maps/overpass",
+  },
+];
+
 export const breakpoints = {
   xsm: 320,
   sm: 576,

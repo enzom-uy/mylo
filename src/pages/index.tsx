@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import MobileMenu from "src/components/Layout/MobileMenu";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {

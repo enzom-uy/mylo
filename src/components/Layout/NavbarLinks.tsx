@@ -1,45 +1,56 @@
-import { MenuItem } from "@szhsin/react-menu";
+import { chakra, Icon, Link as ChakraLink, ListItem } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { navbarLinks } from "src/helpers/variables";
-import useViewport from "src/hooks/useViewport";
 
 const NavbarLinks: React.FC = () => {
-  const { data: session } = useSession();
-  const pathname = useRouter().pathname;
+  const pathname = useRouter().query.map;
   return (
     <>
-      {!session
-        ? navbarLinks.unauthorized.map((link) => (
-            <li
-              key={link.href}
-              role="menuitem"
-              tabIndex={-1}
-              className={`navbar-li ${
-                pathname === link.href ? "text-primary" : undefined
-              }`}
-            >
-              <Link href={link.href}>
-                <a>{link.title}</a>
-              </Link>
-            </li>
-          ))
-        : navbarLinks.authorized.map((link) => (
-            <li
-              key={link.href}
-              tabIndex={-1}
-              role="menuitem"
-              className={`navbar-li ${
-                pathname === link.href ? "text-primary" : undefined
-              }`}
-            >
-              <Link href={link.href}>
-                <a>{link.title}</a>
-              </Link>
-            </li>
-          ))}
+      {navbarLinks.map((link) => {
+        const formattedLinkTitle = link.title.toLowerCase().replace(/\s/g, "");
+        const userIsHere = pathname === formattedLinkTitle;
+        return (
+          <ListItem
+            key={link.title}
+            transition="all 150ms"
+            cursor="pointer"
+            color="black-75"
+            _hover={{ bgColor: "white" }}
+            _first={{ roundedTop: "lg" }}
+            _last={{ roundedBottom: "lg" }}
+            bgColor={userIsHere ? "white" : undefined}
+          >
+            <Link href={link.href}>
+              <chakra.a
+                display="flex"
+                gap={4}
+                alignItems="center"
+                px={6}
+                py={4}
+                fontWeight="semibold"
+                textDecoration="none"
+              >
+                {link.img && (
+                  <Image
+                    src={link.img}
+                    height={24}
+                    width={24}
+                    alt={`${link.title} logo`}
+                    layout="fixed"
+                  />
+                )}
+                {link.icon && <Icon as={link.icon} fontSize="24px" />}
+
+                {link.title}
+              </chakra.a>
+            </Link>
+          </ListItem>
+        );
+      })}
     </>
   );
 };

@@ -1,33 +1,47 @@
-import { useSession } from "next-auth/react";
+import { Box, chakra, Flex } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { AiOutlineGoogle } from "react-icons/ai";
 import useViewport from "src/hooks/useViewport";
-import MobileMenu from "./MobileMenu";
-import NavbarLinks from "./NavbarLinks";
+import DrawerContainer from "./sidebar/DrawerContainer";
 import SignWithGoogle from "./SignWithGoogle";
 import myloLogo from "/public/navbar-logo.svg";
 
 const Navbar: React.FC = () => {
-  const { isMobile } = useViewport();
-  const { data: session } = useSession();
+  const isMobile = useViewport();
   return (
-    <nav className="flex relative items-center justify-between px-4 py-2 md:px-6 md:py-4">
+    <Flex
+      as="nav"
+      position="relative"
+      alignItems="center"
+      justifyContent="space-between"
+      px={isMobile ? "16px" : "24px"}
+      py={isMobile ? "8px" : "16px"}
+    >
       <Link href="/">
-        <a className="transition-all hover:rotate-[20deg]">
+        <Flex
+          cursor="pointer"
+          alignItems="center"
+          gap={4}
+          fontWeight="semibold"
+          letterSpacing="wider"
+          fontSize="1.5rem"
+          bgGradient="linear(to-r, primary, secondary)"
+          bgClip="text"
+        >
           <Image
             src={myloLogo}
             alt="Logo de Mateo y los otros"
+            layout="fixed"
             height={38}
             width={38}
             priority
           />
-        </a>
+          Mylo
+        </Flex>
       </Link>
-      {!session && !isMobile ? <SignWithGoogle /> : undefined}
-      <ul>{isMobile && <MobileMenu />}</ul>
-    </nav>
+      {isMobile && <SignWithGoogle />}
+    </Flex>
   );
 };
 

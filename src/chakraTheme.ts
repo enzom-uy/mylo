@@ -29,6 +29,7 @@ const colors = {
   "black-25": "#c2bfc2",
   "black-10": "#e7e6e7",
   "black-5": "#f2f2f3",
+  "blue-gray": "#2d3748",
   white: "#ebf0f6",
   error: "#ab0935",
 };

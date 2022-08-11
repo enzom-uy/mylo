@@ -1,3 +1,5 @@
+import { FiSettings } from "react-icons/fi";
+import { GiStunGrenade } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import dust2 from "/public/dust2.webp";
 import inferno from "/public/inferno.webp";
@@ -63,6 +65,19 @@ export const mapsLinks = [
     title: "Overpass",
     img: overpass,
     href: "/maps/overpass",
+  },
+];
+
+export const mobileMenuItems = [
+  {
+    title: "CFGs",
+    icon: FiSettings,
+    href: "/cfgs",
+  },
+  {
+    title: "Mis Nades",
+    icon: GiStunGrenade,
+    href: "/user/nades",
   },
 ];
 

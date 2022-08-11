@@ -1,7 +1,7 @@
-import { Flex, Spinner } from "@chakra-ui/react";
-import React from "react";
+import { Flex, Spinner, useBreakpoint } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 
-const Loading = () => {
+const Loading: React.FC = () => {
   return (
     <Flex
       bgColor="#121212"

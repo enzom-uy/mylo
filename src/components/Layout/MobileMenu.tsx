@@ -61,7 +61,7 @@ const MobileMenu: React.FC = () => {
           _active={{ bgColor: backgroundColor }}
         >
           <Menu isLazy>
-            <Tooltip label="Mapas" hasArrow closeOnClick>
+            <Tooltip label="Mapas" hasArrow closeOnClick offset={[0, 20]}>
               <MenuButton minW="100%">
                 <Icon
                   as={TbMapSearch}

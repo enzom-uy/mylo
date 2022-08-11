@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuList,
   Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -36,16 +37,15 @@ const mobileMenuItems = [
 ];
 
 const MobileMenu: React.FC = () => {
-  const { data: session } = useSession();
+  const iconColor = useColorModeValue("primary", "white");
+  const backgroundColor = useColorModeValue("black-10", "#23272e");
   return (
     <Flex
       position="fixed"
       w="full"
       bottom="0"
-      // borderTop="2px"
-      // borderColor="black-50"
       px={2}
-      bgColor="#fafafa"
+      bgColor={useColorModeValue("#fafafa", "#2d3748")}
       boxShadow="0px -5px 35px -10px rgba(0,0,0, .25)"
     >
       <List display="flex" width="full" justifyContent="space-around">
@@ -58,7 +58,7 @@ const MobileMenu: React.FC = () => {
           px={2}
           py={3}
           transition="all 150ms"
-          _active={{ bgColor: "black-10" }}
+          _active={{ bgColor: backgroundColor }}
         >
           <Menu isLazy>
             <Tooltip label="Mapas" hasArrow closeOnClick>
@@ -66,7 +66,7 @@ const MobileMenu: React.FC = () => {
                 <Icon
                   as={TbMapSearch}
                   fontSize="1.5rem"
-                  color="primary"
+                  color={iconColor}
                   w="100%"
                 />
               </MenuButton>
@@ -88,12 +88,12 @@ const MobileMenu: React.FC = () => {
               px={2}
               py={3}
               transition="all 150ms"
-              _active={{ bgColor: "black-10" }}
+              _active={{ bgColor: backgroundColor }}
             >
               <Link href={item.href}>
                 <chakra.a w="full">
                   <ListItem>
-                    <Icon as={item.icon} fontSize="1.5rem" color="primary" />
+                    <Icon as={item.icon} fontSize="1.5rem" color={iconColor} />
                   </ListItem>
                 </chakra.a>
               </Link>

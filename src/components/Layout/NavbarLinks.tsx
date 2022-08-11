@@ -1,4 +1,10 @@
-import { chakra, Icon, Link as ChakraLink, ListItem } from "@chakra-ui/react";
+import {
+  chakra,
+  Icon,
+  Link as ChakraLink,
+  ListItem,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +14,8 @@ import { navbarLinks } from "src/helpers/variables";
 
 const NavbarLinks: React.FC = () => {
   const pathname = useRouter().query.map;
+  const textColor = useColorModeValue("black-75", "white");
+  const backgroundColor = useColorModeValue("white", "#23272e");
   return (
     <>
       {navbarLinks.map((link) => {
@@ -18,11 +26,11 @@ const NavbarLinks: React.FC = () => {
             key={link.title}
             transition="all 150ms"
             cursor="pointer"
-            color="black-75"
-            _hover={{ bgColor: "white" }}
+            color={textColor}
+            _hover={{ bgColor: backgroundColor }}
             _first={{ roundedTop: "lg" }}
             _last={{ roundedBottom: "lg" }}
-            bgColor={userIsHere ? "white" : undefined}
+            bgColor={userIsHere ? backgroundColor : undefined}
           >
             <Link href={link.href}>
               <chakra.a

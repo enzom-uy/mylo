@@ -1,4 +1,4 @@
-import { Box, Flex, List } from "@chakra-ui/react";
+import { Box, Flex, List, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 
 import NavbarLinks from "../NavbarLinks";
@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
         h="fit-content"
         rounded="8px"
         boxShadow="light-shadow"
-        bgColor="#fff"
+        bgColor={useColorModeValue("#fff", "#2d3748")}
         mb="1rem"
       >
         <SidebarContent />

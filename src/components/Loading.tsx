@@ -13,8 +13,8 @@ const Loading: React.FC = () => {
         style={{
           display: "flex",
           backgroundColor: "#121212",
-          minWidth: "100%",
-          minHeight: "100%",
+          minWidth: "100vw",
+          minHeight: "100vh",
           position: "absolute",
           zIndex: 99,
           alignItems: "center",

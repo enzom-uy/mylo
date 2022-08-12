@@ -12,7 +12,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
       <Navbar />
       <Flex px="1.5rem" gap="40px">
         {!isMobile && <Sidebar />}
-        <Flex as="main" minH="100vh">
+        <Flex as="main" minH="90vh">
           {children}
         </Flex>
       </Flex>

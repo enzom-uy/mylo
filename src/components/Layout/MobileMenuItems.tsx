@@ -2,15 +2,22 @@ import { chakra, Icon, ListItem, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { mobileMenuItems } from "src/helpers/variables";
+import useViewport from "src/hooks/useViewport";
 
 const MobileMenuItems: React.FC<{
   backgroundColor: string;
   iconColor: string;
 }> = ({ backgroundColor, iconColor }) => {
+  const isMobile = useViewport();
   return (
     <>
       {mobileMenuItems.map((item) => (
-        <Tooltip key={item.title} label={item.title} hasArrow>
+        <Tooltip
+          key={item.title}
+          label={item.title}
+          hasArrow
+          isDisabled={isMobile ? true : false}
+        >
           <chakra.button
             display="flex"
             flexDir="column"

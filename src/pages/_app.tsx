@@ -22,6 +22,7 @@ const MyApp: AppType = ({
       setIsLoading(false);
     }, 3500);
   }, []);
+
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>

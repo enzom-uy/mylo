@@ -1,8 +1,7 @@
-import { Box, Flex, List, useColorModeValue } from "@chakra-ui/react";
+import { Flex, useColorModeValue } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import React from "react";
 
-import NavbarLinks from "../NavbarLinks";
 import SignWithGoogle from "../SignWithGoogle";
 import SidebarContent from "./SidebarContent";
 

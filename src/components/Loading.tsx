@@ -1,4 +1,4 @@
-import { chakra, Flex, Spinner } from "@chakra-ui/react";
+import { chakra, Spinner } from "@chakra-ui/react";
 import { AnimatePresence, isValidMotionProp, motion } from "framer-motion";
 import React from "react";
 

@@ -1,10 +1,8 @@
 import { Button } from "@chakra-ui/react";
-import { signIn, useSession } from "next-auth/react";
-import React from "react";
+import { signIn } from "next-auth/react";
 import { AiOutlineGoogle } from "react-icons/ai";
 
 const SignWithGoogle = () => {
-  const { data: session } = useSession();
   return (
     <Button
       display="flex"

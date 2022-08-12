@@ -5,7 +5,10 @@ import MobileMenuItems from "./MobileMenuItems";
 
 const MobileMenu: React.FC = () => {
   const iconColor = useColorModeValue("primary", "white");
-  const menuBgColor = useColorModeValue("black-10", "rgba(45, 55, 72, .2)");
+  const menuBgColor = useColorModeValue(
+    "rgba(255,255,255, .1)",
+    "rgba(45, 55, 72, .2)"
+  );
   return (
     <Flex
       position="fixed"

@@ -6,3 +6,17 @@ html {
     sans-serif;
   list-style: none;
 }
+
+body {
+  background-image: url("../../public/bg.svg") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center 250px !important;
+}
+
+@media (max-width: 1090px) {
+  body {
+    background-position: center 200px !important;
+    background-size: cover !important;
+  }
+}

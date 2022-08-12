@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import useViewport from "src/hooks/useViewport";
+import ColorToggler from "./ColorToggler";
 import DrawerContainer from "./sidebar/DrawerContainer";
 import SignWithGoogle from "./SignWithGoogle";
 import myloLogo from "/public/navbar-logo.svg";
@@ -41,7 +42,10 @@ const Navbar: React.FC = () => {
           Mylo
         </Flex>
       </Link>
-      {isMobile && <SignWithGoogle />}
+      <Flex gap={4}>
+        {isMobile && <SignWithGoogle />}
+        <ColorToggler />
+      </Flex>
     </Flex>
   );
 };

@@ -13,7 +13,8 @@ const Sidebar: React.FC = () => {
         h="fit-content"
         rounded="8px"
         boxShadow="light-shadow"
-        bgColor={useColorModeValue("#fff", "blue-gray")}
+        bgColor={useColorModeValue("#fff", "blue-gray-transparent")}
+        backdropFilter="auto"
         mb="1rem"
       >
         <SidebarContent />

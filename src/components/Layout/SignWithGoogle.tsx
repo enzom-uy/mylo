@@ -7,6 +7,7 @@ const SignWithGoogle = () => {
     <Button
       display="flex"
       alignItems="center"
+      justifyContent="center"
       gap={2}
       whiteSpace="nowrap"
       boxShadow="baseline"

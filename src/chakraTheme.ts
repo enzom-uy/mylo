@@ -30,6 +30,7 @@ const colors = {
   "black-10": "#e7e6e7",
   "black-5": "#f2f2f3",
   "blue-gray": "#2d3748",
+  "blue-gray-transparent": "rgba(45, 55, 72, .3)",
   white: "#ebf0f6",
   error: "#ab0935",
 };

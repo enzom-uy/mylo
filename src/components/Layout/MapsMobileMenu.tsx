@@ -11,7 +11,13 @@ const MapsMobileMenu: React.FC<{ iconColor: string }> = ({ iconColor }) => {
           <Icon as={TbMapSearch} fontSize="1.5rem" color={iconColor} w="100%" />
         </MenuButton>
       </Tooltip>
-      <MenuList mb=".5rem" zIndex="99">
+      <MenuList
+        mb=".5rem"
+        zIndex="99"
+        backdropFilter="auto"
+        backdropBlur="6px"
+        bgColor="rgba(45, 55, 72, .45)"
+      >
         <MobileMenuMapsLinks />
       </MenuList>
     </Menu>

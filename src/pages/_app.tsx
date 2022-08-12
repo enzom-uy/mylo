@@ -9,6 +9,7 @@ import Layout from "src/components/Layout/Layout";
 import Loading from "src/components/Loading";
 import superjson from "superjson";
 import type { AppRouter } from "../server/router";
+import "../styles/globals.css";
 
 const MyApp: AppType = ({
   Component,

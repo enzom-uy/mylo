@@ -16,7 +16,7 @@ const MobileMenu: React.FC = () => {
         "rgba(255,255,255,.1)",
         "blue-gray-transparent"
       )}
-      boxShadow="0px -5px 35px -10px rgba(0,0,0, .25)"
+      // boxShadow="0px -5px 35px -10px rgba(0,0,0, .25)"
       backdropFilter="auto"
       backdropBlur="8px"
     >

@@ -5,7 +5,6 @@ import { AiOutlineGoogle } from "react-icons/ai";
 
 const SignWithGoogle = () => {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <Button
       display="flex"

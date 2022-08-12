@@ -1,4 +1,5 @@
 import { Box, Flex, List, useColorModeValue } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 import NavbarLinks from "../NavbarLinks";
@@ -6,6 +7,7 @@ import SignWithGoogle from "../SignWithGoogle";
 import SidebarContent from "./SidebarContent";
 
 const Sidebar: React.FC = () => {
+  const { data: session } = useSession();
   return (
     <Flex as="aside" height="fit-content" flexDir="column" userSelect="none">
       <Flex
@@ -19,7 +21,7 @@ const Sidebar: React.FC = () => {
       >
         <SidebarContent />
       </Flex>
-      <SignWithGoogle />
+      {!session && <SignWithGoogle />}
     </Flex>
   );
 };

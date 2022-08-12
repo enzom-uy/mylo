@@ -1,4 +1,5 @@
 import { Flex } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -10,6 +11,7 @@ import myloLogo from "/public/navbar-logo.svg";
 
 const Navbar: React.FC = () => {
   const isMobile = useViewport();
+  const { data: session } = useSession();
   return (
     <Flex
       as="nav"
@@ -43,7 +45,7 @@ const Navbar: React.FC = () => {
         </Flex>
       </Link>
       <Flex gap={4}>
-        {isMobile && <SignWithGoogle />}
+        {isMobile && !session && <SignWithGoogle />}
         <ColorToggler />
       </Flex>
     </Flex>

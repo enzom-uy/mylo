@@ -27,7 +27,7 @@ const Custom404: React.FC = () => {
       >
         Esta página no existe.
       </Heading>
-      <Image src={ferre} alt="NiFerreyra haciendo magia" />
+      <Image src={ferre} alt="NiFerreyra haciendo magia" priority={true} />
       <Link href="/">
         <ChakraLink
           _hover={{ textDecoration: "none", color: "secondary" }}

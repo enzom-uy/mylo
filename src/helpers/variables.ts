@@ -81,6 +81,34 @@ export const mobileMenuItems = [
   },
 ];
 
+export const mapsPaths = [
+  {
+    params: {
+      map: "mirage",
+    },
+  },
+  {
+    params: {
+      map: "inferno",
+    },
+  },
+  {
+    params: {
+      map: "nuke",
+    },
+  },
+  {
+    params: {
+      map: "dust2",
+    },
+  },
+  {
+    params: {
+      map: "overpass",
+    },
+  },
+];
+
 export const breakpoints = {
   xsm: 320,
   sm: 576,

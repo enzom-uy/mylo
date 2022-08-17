@@ -1,5 +1,6 @@
 import { Flex, List, ListItem, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
+import useViewport from "src/hooks/useViewport";
 import MapsMobileMenu from "./MapsMobileMenu";
 import MobileMenuItems from "./MobileMenuItems";
 
@@ -9,6 +10,7 @@ const MobileMenu: React.FC = () => {
     "rgba(255,255,255, .1)",
     "rgba(45, 55, 72, .2)"
   );
+  const isMobile = useViewport();
   return (
     <Flex
       position="fixed"
@@ -19,9 +21,9 @@ const MobileMenu: React.FC = () => {
         "rgba(255,255,255,.1)",
         "blue-gray-transparent"
       )}
-      // boxShadow="0px -5px 35px -10px rgba(0,0,0, .25)"
       backdropFilter="auto"
       backdropBlur="8px"
+      display={!isMobile ? "none" : undefined}
     >
       <List display="flex" width="full" justifyContent="space-around">
         <ListItem

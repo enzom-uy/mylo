@@ -8,6 +8,7 @@ const styles = {
       fontFamily: "Poppins",
       transitionProperty: "all",
       transitionDuration: "normal",
+      minHeight: "100vh",
     },
   }),
 };
@@ -42,7 +43,6 @@ const shadows = {
 
 const breakpoints = {
   xsm: "320px",
-  sm: "576px",
   md: "768px",
   lg: "992px",
   xl: "1200px",

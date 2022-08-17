@@ -1,3 +1,4 @@
+import { getRedirectStatus } from "next/dist/lib/load-custom-routes.js";
 import { env } from "./src/env/server.mjs";
 
 /**
@@ -15,4 +16,7 @@ function defineNextConfig(config) {
 export default defineNextConfig({
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ["unsplash.com"],
+  },
 });

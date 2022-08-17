@@ -14,7 +14,10 @@ const Navbar: React.FC = () => {
   return (
     <Flex
       as="nav"
-      position="relative"
+      position="absolute"
+      top="0"
+      left="0"
+      width="100%"
       alignItems="center"
       justifyContent="space-between"
       px={isMobile ? "16px" : "24px"}

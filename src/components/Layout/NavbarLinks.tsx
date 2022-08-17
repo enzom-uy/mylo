@@ -1,4 +1,10 @@
-import { chakra, Icon, ListItem, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  chakra,
+  Icon,
+  ListItem,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -35,7 +41,7 @@ const NavbarLinks: React.FC = () => {
                 fontWeight="semibold"
                 textDecoration="none"
               >
-                {link.img && (
+                {link.img ? (
                   <Image
                     src={link.img}
                     height={24}
@@ -43,8 +49,11 @@ const NavbarLinks: React.FC = () => {
                     alt={`${link.title} logo`}
                     layout="fixed"
                   />
+                ) : link.icon ? (
+                  <Icon as={link.icon} fontSize="24px" />
+                ) : (
+                  <Box height="24px" width="24px"></Box>
                 )}
-                {link.icon && <Icon as={link.icon} fontSize="24px" />}
 
                 {link.title}
               </chakra.a>

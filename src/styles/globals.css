@@ -8,10 +8,10 @@ html {
 }
 
 body {
-  background-image: url("../../public/bg.svg") !important;
+  /* background-image: url("../../public/bg.svg") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
-  background-position: center 250px !important;
+  background-position: center 250px !important; */
 }
 
 @media (max-width: 1090px) {

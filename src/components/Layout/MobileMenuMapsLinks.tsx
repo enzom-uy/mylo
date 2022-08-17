@@ -1,4 +1,4 @@
-import { chakra, MenuItem } from "@chakra-ui/react";
+import { Box, chakra, MenuItem } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { mapsLinks } from "src/helpers/variables";
@@ -16,12 +16,17 @@ const MobileMenuMapsLinks = () => {
               gap={3}
               fontWeight="medium"
             >
-              <Image
-                src={map.img}
-                height="24"
-                width="24"
-                alt={`Icono de ${map.title}`}
-              />
+              {map.img ? (
+                <Image
+                  src={map.img}
+                  height="24"
+                  width="24"
+                  alt={`Icono de ${map.title}`}
+                />
+              ) : (
+                <Box height="24px" width="24px"></Box>
+              )}
+
               {map.title}
             </chakra.a>
           </Link>

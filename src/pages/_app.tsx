@@ -1,12 +1,16 @@
 // src/pages/_app.tsx
-import { ChakraProvider, ScaleFade, Spinner } from "@chakra-ui/react";
+import { ChakraProvider, ScaleFade } from "@chakra-ui/react";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
 import { useEffect, useState } from "react";
 import theme from "src/chakraTheme";
 import Layout from "src/components/Layout/Layout";
+import MobileMenu from "src/components/Layout/MobileMenu";
+import Navbar from "src/components/Layout/Navbar";
+import Sidebar from "src/components/Layout/sidebar/Sidebar";
 import Loading from "src/components/Loading";
+import useViewport from "src/hooks/useViewport";
 import superjson from "superjson";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
@@ -27,11 +31,14 @@ const MyApp: AppType = ({
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
         {isLoading ? <Loading /> : undefined}
-        <Layout>
-          <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
+        <Navbar />
+        <Sidebar />
+        <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
+          <Layout>
             <Component {...pageProps} />
-          </ScaleFade>
-        </Layout>
+          </Layout>
+        </ScaleFade>
+        <MobileMenu />
       </ChakraProvider>
     </SessionProvider>
   );

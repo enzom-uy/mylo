@@ -1,14 +1,25 @@
 import { Flex, useColorModeValue } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import React from "react";
-
+import useViewport from "src/hooks/useViewport";
+import AccountButton from "../../CustomButton";
 import SignWithGoogle from "../SignWithGoogle";
 import SidebarContent from "./SidebarContent";
 
 const Sidebar: React.FC = () => {
   const { data: session } = useSession();
+  const isMobile = useViewport();
   return (
-    <Flex as="aside" height="fit-content" flexDir="column" userSelect="none">
+    <Flex
+      as="aside"
+      position="absolute"
+      top="5rem"
+      left="1.5rem"
+      height="fit-content"
+      flexDir="column"
+      userSelect="none"
+      display={isMobile ? "none" : ""}
+    >
       <Flex
         flexDir="column"
         h="fit-content"
@@ -20,7 +31,7 @@ const Sidebar: React.FC = () => {
       >
         <SidebarContent />
       </Flex>
-      {!session && <SignWithGoogle />}
+      {!session ? <SignWithGoogle /> : <AccountButton />}
     </Flex>
   );
 };

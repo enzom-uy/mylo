@@ -14,8 +14,8 @@ const styles = {
 };
 
 const config: ThemeConfig = {
-  initialColorMode: "light",
-  useSystemColorMode: false,
+  initialColorMode: "dark",
+  useSystemColorMode: true,
   disableTransitionOnChange: false,
 };
 

@@ -1,3 +1,5 @@
+import MobileMenuMapsLinks from "@/components/Layout/MobileMenuMapsLinks";
+import useViewport from "@/hooks/useViewport";
 import {
   Icon,
   Menu,
@@ -8,8 +10,6 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { TbMapSearch } from "react-icons/tb";
-import useViewport from "src/hooks/useViewport";
-import MobileMenuMapsLinks from "./MobileMenuMapsLinks";
 
 const MapsMobileMenu: React.FC<{ iconColor: string }> = ({ iconColor }) => {
   const isMobile = useViewport();

@@ -1,11 +1,11 @@
+import ColorToggler from "@/components/Layout/ColorToggler";
+import SignWithGoogle from "@/components/Layout/SignWithGoogle";
+import useViewport from "@/hooks/useViewport";
 import { Flex } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import useViewport from "src/hooks/useViewport";
-import ColorToggler from "./ColorToggler";
-import SignWithGoogle from "./SignWithGoogle";
 import myloLogo from "/public/navbar-logo.svg";
 
 const Navbar: React.FC = () => {

@@ -1,4 +1,5 @@
 // src/pages/_app.tsx
+import useViewport from "@/hooks/useViewport";
 import { ChakraProvider, ScaleFade } from "@chakra-ui/react";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
@@ -10,7 +11,6 @@ import MobileMenu from "src/components/Layout/MobileMenu";
 import Navbar from "src/components/Layout/Navbar";
 import Sidebar from "src/components/Layout/sidebar/Sidebar";
 import Loading from "src/components/Loading";
-import useViewport from "src/hooks/useViewport";
 import superjson from "superjson";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";

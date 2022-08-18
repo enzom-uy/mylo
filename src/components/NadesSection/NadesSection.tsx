@@ -1,9 +1,7 @@
+import SectionTitle from "@/components/SectionTitle";
+import { FindAllNadesResponse } from "@/interfaces/nades";
 import { Flex, useBreakpointValue } from "@chakra-ui/react";
 import React from "react";
-import { FindAllNadesResponse } from "src/interfaces/nades";
-import { map } from "zod";
-import SectionTitle from "../SectionTitle";
-import NadeCard from "./NadeCard/NadeCard";
 
 interface IProps {
   nades: FindAllNadesResponse[];

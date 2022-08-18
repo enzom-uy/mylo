@@ -1,8 +1,8 @@
+import { mobileMenuItems } from "@/helpers/variables";
+import useViewport from "@/hooks/useViewport";
 import { chakra, Icon, ListItem, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { mobileMenuItems } from "src/helpers/variables";
-import useViewport from "src/hooks/useViewport";
 
 const MobileMenuItems: React.FC<{
   backgroundColor: string;

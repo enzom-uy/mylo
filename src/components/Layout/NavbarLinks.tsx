@@ -1,3 +1,4 @@
+import { navbarLinks } from "@/helpers/variables";
 import {
   Box,
   chakra,
@@ -9,7 +10,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { navbarLinks } from "src/helpers/variables";
 
 const NavbarLinks: React.FC = () => {
   const pathname = useRouter().query.map;

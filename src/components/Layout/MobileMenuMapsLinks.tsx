@@ -1,7 +1,7 @@
+import { mapsLinks } from "@/helpers/variables";
 import { Box, chakra, MenuItem } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { mapsLinks } from "src/helpers/variables";
 
 const MobileMenuMapsLinks = () => {
   return (

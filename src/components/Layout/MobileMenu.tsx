@@ -1,8 +1,8 @@
+import MapsMobileMenu from "@/components/Layout/MapsMobileMenu";
+import MobileMenuItems from "@/components/Layout/MobileMenuItems";
+import useViewport from "@/hooks/useViewport";
 import { Flex, List, ListItem, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
-import useViewport from "src/hooks/useViewport";
-import MapsMobileMenu from "./MapsMobileMenu";
-import MobileMenuItems from "./MobileMenuItems";
 
 const MobileMenu: React.FC = () => {
   const iconColor = useColorModeValue("primary", "white");

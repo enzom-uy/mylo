@@ -1,8 +1,8 @@
+import useViewport from "@/hooks/useViewport";
 import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import NadeCard from "src/components/NadesSection/NadeCard/NadeCard";
 import NadesSection from "src/components/NadesSection/NadesSection";
-import useViewport from "src/hooks/useViewport";
 import getAllNades, { getNewerNades } from "src/services/getAllNades";
 import { trpc } from "../utils/trpc";
 

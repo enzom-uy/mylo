@@ -1,5 +1,5 @@
+import NavbarLinks from "@/components/Layout/NavbarLinks";
 import { List } from "@chakra-ui/react";
-import NavbarLinks from "../NavbarLinks";
 
 const SidebarContent = () => {
   return (

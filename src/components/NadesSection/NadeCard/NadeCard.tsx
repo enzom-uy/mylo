@@ -1,14 +1,6 @@
-import {
-  AspectRatio,
-  Box,
-  chakra,
-  Text,
-  useColorModeValue,
-  VStack,
-} from "@chakra-ui/react";
+import SimpleContainer from "@/components/SimpleContainer";
+import { chakra, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 import React from "react";
-import { FindAllNadesResponse } from "src/interfaces/nades";
-import SimpleContainer from "../../SimpleContainer";
 
 interface IProps {
   to: string;

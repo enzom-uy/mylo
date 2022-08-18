@@ -1,8 +1,10 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
+import { unstable_getServerSession } from "next-auth";
+import { redirect } from "next/dist/server/api-utils";
 import Head from "next/head";
-import React from "react";
 import SimpleContainer from "src/components/SimpleContainer";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 const Account: NextPage = () => {
   return (
@@ -22,3 +24,25 @@ const Account: NextPage = () => {
 };
 
 export default Account;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
+  return {
+    props: {
+      session,
+    },
+  };
+};

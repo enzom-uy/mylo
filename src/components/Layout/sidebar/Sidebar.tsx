@@ -1,8 +1,10 @@
 import { Flex, useColorModeValue } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import React from "react";
+import { FiUser } from "react-icons/fi";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import useViewport from "src/hooks/useViewport";
-import AccountButton from "../../CustomButton";
+import CustomButton from "../../CustomButton";
 import SignWithGoogle from "../SignWithGoogle";
 import SidebarContent from "./SidebarContent";
 
@@ -31,7 +33,16 @@ const Sidebar: React.FC = () => {
       >
         <SidebarContent />
       </Flex>
-      {!session ? <SignWithGoogle /> : <AccountButton />}
+      {!session ? (
+        <SignWithGoogle />
+      ) : (
+        <CustomButton href="/account" text="Mi perfil" icon={FiUser} />
+      )}
+      <CustomButton
+        href="/create"
+        text="Subir Nade"
+        icon={IoIosAddCircleOutline}
+      />
     </Flex>
   );
 };

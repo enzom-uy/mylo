@@ -1,14 +1,19 @@
+import { Icon } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { FiUser } from "react-icons/fi";
+import { IconType } from "react-icons";
 import StyledLink from "../components/Layout/StyledLink";
 
-const CustomButton: React.FC = () => {
+const CustomButton: React.FC<{
+  href: string;
+  text: string;
+  icon: IconType;
+}> = ({ href, text, icon }) => {
   return (
-    <Link href="/account">
+    <Link href={href}>
       <StyledLink>
-        <FiUser fontSize="1.7rem" />
-        Mi Perfil
+        {icon && <Icon fontSize="1.5rem" as={icon} />}
+        {text}
       </StyledLink>
     </Link>
   );

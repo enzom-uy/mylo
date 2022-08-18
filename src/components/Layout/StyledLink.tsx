@@ -4,10 +4,10 @@ import Link from "next/link";
 const StyledLink = chakra("a", {
   baseStyle: {
     display: "flex",
-    p: 2,
+    py: 2,
+    px: 4,
     alignItems: "center",
-    justifyContent: "center",
-    gap: 2,
+    gap: 4,
     whiteSpace: "nowrap",
     boxShadow: "baseline",
     transitionProperty: "all",

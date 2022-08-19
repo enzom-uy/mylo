@@ -6,7 +6,7 @@ import React from "react";
 const MapOverlay: React.FC<{ img: StaticImageData }> = ({ img }) => {
   return (
     <Flex maxWidth="800px">
-      <ChakraNextImage src={img} rounded="xl" />
+      <ChakraNextImage src={img} rounded="xl" priority />
     </Flex>
   );
 };

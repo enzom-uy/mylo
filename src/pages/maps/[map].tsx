@@ -63,7 +63,12 @@ const Map: NextPage = () => {
       <Head>
         <title>{map && convertedMap} Nades | Mylo</title>
       </Head>
-      <Flex gap={5} flexDir={isMobile ? "column" : "row"}>
+      <Flex
+        gap={5}
+        flexDir={isMobile ? "column" : "row"}
+        height="800px"
+        width="100%"
+      >
         <Flex
           minHeight={isMobile ? "50px" : "400px"}
           minWidth={isMobile ? "100%" : "50px"}

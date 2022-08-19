@@ -62,6 +62,7 @@ const Map: NextPage = () => {
     <>
       <Head>
         <title>{map && convertedMap} Nades | Mylo</title>
+        <meta name="description" content={`Nades de ${map && convertedMap}`} />
       </Head>
       <Flex
         gap={5}
@@ -75,7 +76,7 @@ const Map: NextPage = () => {
           bgColor="red.500"
           rounded="lg"
         ></Flex>
-        <MapOverlay img={img} />
+        <MapOverlay img={img} map={convertedMap as string} />
       </Flex>
     </>
   );

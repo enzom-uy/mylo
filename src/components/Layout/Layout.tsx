@@ -9,8 +9,8 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
       <Flex
         as="main"
         minH="90vh"
-        pr={!isMobile ? "1.5rem" : undefined}
-        pl={!isMobile ? "13.5rem" : undefined}
+        pr={!isMobile ? "1.5rem" : "1rem"}
+        pl={!isMobile ? "13.5rem" : "1rem"}
         gap="40px"
         justifyContent={!isMobile ? "flex-start" : "flex-start"}
         alignItems={isMobile ? "center" : undefined}

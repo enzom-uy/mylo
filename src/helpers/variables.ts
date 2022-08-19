@@ -1,6 +1,6 @@
 import { FiSettings, FiUser } from "react-icons/fi";
 import { GiStunGrenade } from "react-icons/gi";
-import { IoMdSettings } from "react-icons/io";
+import { IoIosAddCircleOutline, IoMdSettings } from "react-icons/io";
 import dust2 from "/public/dust2.webp";
 import inferno from "/public/inferno.webp";
 import mirage from "/public/mirage.webp";
@@ -88,6 +88,11 @@ export const navbarLinks = [
 ];
 
 export const mobileMenuItems = [
+  {
+    title: "Subir Nade",
+    icon: IoIosAddCircleOutline,
+    href: "/create-nade",
+  },
   {
     title: "CFGs",
     icon: FiSettings,

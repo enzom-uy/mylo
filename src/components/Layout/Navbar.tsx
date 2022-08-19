@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   const { data: session } = useSession();
   return (
     <Flex
-      as="nav"
+      as="header"
       position="absolute"
       top="0"
       left="0"

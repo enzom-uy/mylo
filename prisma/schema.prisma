@@ -64,19 +64,18 @@ model Map {
 }
 
 model Nade {
-    id          String  @id @default(cuid()) // Nade Id
+    id          String     @id @default(cuid()) // Nade Id
+    NadeType    NadeType[]
     thrownFrom  String // Location from where it's thrown (eg. T Spawn)
     endLocation String // Location where it lands (eg. Mid Window)
-    nadeType    String // Nade type (smoke, flash, he, molotov)
-    fromMap     Map     @relation(fields: [mapId], references: [id]) // In which map is
+    fromMap     Map        @relation(fields: [mapId], references: [id]) // In which map is
     mapId       String // Map id
-    uploadedBy  User    @relation(fields: [userId], references: [id]) // Which user uploaded it
+    uploadedBy  User       @relation(fields: [userId], references: [id]) // Which user uploaded it
     userId      String // User id
-    votes       Int     @default(0) // Current votes
-    isOneWay    Boolean // If its one-way or not
+    votes       Int        @default(0) // Current votes
     tickrate    String // If its 64 or 128 tickrate
     ttOrCt      String // If its for CTs or TTs
-    gfycatUrl   String  @unique // Gfycat url
+    gfycatUrl   String     @unique // Gfycat url
     description String? // If there's a description
     movement    String // Parado, Caminando, Corriendo, Agachado, Agachado moviéndose
     technique   String // Clic izquierdo, Click derecho, Izquierdo + Derecho, Jumpthrow, Jumpthrow + W, Jumpthrow + Izq y Der
@@ -85,6 +84,12 @@ model Nade {
     position  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model NadeType {
+    typeName        String  @id
+    nadesOfThisType Nade?   @relation(fields: [nadeId], references: [id])
+    nadeId          String?
 }
 
 enum Role {

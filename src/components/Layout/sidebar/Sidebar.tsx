@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
   const isMobile = useViewport();
   return (
     <Flex
-      as="aside"
+      as="nav"
       position="absolute"
       top="5rem"
       left="1.5rem"
@@ -39,7 +39,7 @@ const Sidebar: React.FC = () => {
         <CustomButton href="/account" text="Mi perfil" icon={FiUser} />
       )}
       <CustomButton
-        href="/create"
+        href="/create-nade"
         text="Subir Nade"
         icon={IoIosAddCircleOutline}
       />

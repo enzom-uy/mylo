@@ -1,16 +1,14 @@
 import {
   Button,
   chakra,
-  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
   Select,
-  Switch,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -100,7 +98,7 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
       <FormControl isInvalid={!!errors?.fromMap?.message} isRequired>
         <FormLabel htmlFor="fromMap">Mapa</FormLabel>
         <Select placeholder="..." id="fromMap" {...register("fromMap")}>
-          {maps.map((map) => (
+          {maps?.map((map) => (
             <option key={map.id}>{map.mapName}</option>
           ))}
         </Select>
@@ -151,7 +149,7 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
       <FormControl isInvalid={!!errors?.nadeType?.message} isRequired>
         <FormLabel htmlFor="nadeType">Tipo</FormLabel>
         <Select placeholder="..." id="nadeType" {...register("nadeType")}>
-          {nadeTypes.map((nadeType) => (
+          {nadeTypes?.map((nadeType) => (
             <option key={nadeType.typeName}>{nadeType.typeName}</option>
           ))}
         </Select>

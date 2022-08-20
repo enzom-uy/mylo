@@ -1,8 +1,8 @@
+import CreateNadeForm from "@/components/Form/CreateNadeForm";
 import { getAllmaps, getAllNadeTypes } from "@/services/database.services";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import React from "react";
-import CreateNadeForm from "./components/CreateNadeForm";
 
 interface Props {
   maps: { id: string; mapName: string; nadesInMap?: [{}] }[];

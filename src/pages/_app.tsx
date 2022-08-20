@@ -30,7 +30,7 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
-        {isLoading ? <Loading /> : undefined}
+        {/* {isLoading ? <Loading /> : undefined} */}
         <Navbar />
         <Sidebar />
         <ScaleFade key={router.asPath} initialScale={0.9} in={true}>

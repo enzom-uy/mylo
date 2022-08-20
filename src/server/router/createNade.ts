@@ -1,25 +1,27 @@
 import { z } from "zod";
 import { createRouter } from "./context";
 
-const required = "Este campo es obligatorio.";
-const min4Characters = "Debe tener mínimo 4 caracteres.";
+const tooSmallMsg = "Debe tener mínimo 4 letras.";
+const required_error = "Campo obligatorio.";
 
-export const createNade = createRouter().query("hello", {
+export const createNade = createRouter().mutation("create-nade", {
   input: z.object({
     thrownFrom: z
-      .string({
-        required_error: required,
-      })
-      .min(4, { message: min4Characters }),
-    endLocation: z
-      .string({
-        required_error: required,
-      })
-      .min(4, { message: min4Characters }),
-    nadeType: z.string(),
-    fromMap: z.string(),
+      .string({ required_error: required_error })
+      .min(4, { message: tooSmallMsg }),
+    endLocation: z.string({ required_error }).min(4, { message: tooSmallMsg }),
+    nadeType: z.string({ required_error }),
+    fromMap: z.string({ required_error }),
+    ttOrCt: z.string({ required_error }),
+    gfycatUrl: z
+      .string({ required_error })
+      .regex(new RegExp("https://gfycat.com/[a-zA-Z]+")),
+    description: z.string({ required_error }).optional(),
+    movement: z.string({ required_error }),
+    technique: z.string({ required_error }),
+    position: z.string({ required_error }),
   }),
-  resolve({ input }) {
+  async resolve({ input }) {
     return {};
   },
 });

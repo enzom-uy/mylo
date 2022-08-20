@@ -15,7 +15,7 @@ import Overpass from "/public/mapsoverlays/overpass-overlay.jpg";
 import Tuscan from "/public/mapsoverlays/tuscan-overlay.jpg";
 import Vertigo from "/public/mapsoverlays/vertigo-overlay.jpg";
 
-const mapOverlays = [
+export const mapOverlays = [
   {
     name: "Mirage",
     img: Mirage,
@@ -69,9 +69,11 @@ const Map: NextPage = () => {
         flexDir={isMobile ? "column" : "row"}
         height="800px"
         width="100%"
+        alignItems={isMobile ? "center" : ""}
       >
         <Flex
-          minHeight={isMobile ? "50px" : "400px"}
+          minHeight={isMobile ? "45px" : "600px"}
+          maxHeight="600px"
           minWidth={isMobile ? "100%" : "50px"}
           bgColor="red.500"
           rounded="lg"

@@ -1,6 +1,6 @@
+import { CreateNadeFormInputs, formSchema } from "@/schemas/formSchema";
 import {
   Button,
-  chakra,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -8,82 +8,49 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { ChakraForm } from "./ChakraForm";
+import MovementOptions from "./MovementOptions";
+import SetNadePosition from "./SetNadePosition";
+import TechniquesOptions from "./TechniquesOptions";
 
 interface Props {
   maps: { id: string; mapName: string; nadesInMap?: [{}] }[];
   nadeTypes: { typeName: string; nadesOfThisType?: {}[] | undefined }[];
 }
 
-interface CreateNadeFormInputs {
-  thrownFrom: string;
-  endLocation: string;
-  nadeType: "Smoke" | "Molo" | "Deto" | "Flash";
-  fromMap:
-    | "Mirage"
-    | "Inferno"
-    | "Dust 2"
-    | "Vertigo"
-    | "Nuke"
-    | "Overpass"
-    | "Tuscan";
-  isOneWay: boolean;
-  tickrate: "64" | "128";
-  ttOrCt: "TT" | "CT";
-  gfycatUrl: string;
-  description: string | undefined;
-  movement:
-    | "Parado"
-    | "Caminando"
-    | "Corriendo"
-    | "Agachado"
-    | "Agachado moviéndose";
-  technique:
-    | "Clic izquierdo"
-    | "Clic derecho"
-    | "Izquierdo + Derecho"
-    | "Jumpthrow"
-    | "Jumpthrow + W"
-    | "Jumpthrow + Izq y Der";
-  position: { x: number; y: number };
-}
-
-const tooSmallMsg = "Debe tener mínimo 4 letras.";
-const required_error = "Campo obligatorio.";
-
-const formSchema = z.object({
-  thrownFrom: z
-    .string({ required_error: required_error })
-    .min(4, { message: tooSmallMsg }),
-  endLocation: z.string({ required_error }).min(4, { message: tooSmallMsg }),
-  nadeType: z.string({ required_error }),
-  fromMap: z.string({ required_error }),
-  ttOrCt: z.string({ required_error }),
-  gfycatUrl: z
-    .string({ required_error })
-    .regex(new RegExp("https://gfycat.com/[a-zA-Z]+")),
-  description: z.string({ required_error }).optional(),
-  movement: z.string({ required_error }),
-  technique: z.string({ required_error }),
-  // position: z.string({ required_error }),
-});
-
-const ChakraForm = chakra("form");
-
 const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<CreateNadeFormInputs>({
-    mode: "onBlur",
+    mode: "onTouched",
     resolver: zodResolver(formSchema),
   });
+  const [selectedMap, setSelectedMap] = useState("");
+  const [nadePosition, setNadePosition] = useState("");
+  const [formValues, setFormValues] = useState<CreateNadeFormInputs>();
 
+  useEffect(() => {
+    setNadePosition("");
+  }, [selectedMap]);
+
+  const getNadePosition = (pos: { x: number; y: number }) => {
+    const position = JSON.stringify(pos);
+    if (position !== '{"x":0,"y":0}') {
+      setNadePosition(JSON.stringify(pos));
+    }
+  };
+
+  const nadeHasPosition =
+    nadePosition !== '{"x":0,"y":0}' &&
+    nadePosition !== "" &&
+    nadePosition !== undefined;
+  const noErrors = Object.entries(errors).length === 0;
   const onSubmit = (data: CreateNadeFormInputs) => {
-    console.log(data);
+    setFormValues({ ...data, position: nadePosition });
   };
 
   return (
@@ -97,7 +64,12 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
     >
       <FormControl isInvalid={!!errors?.fromMap?.message} isRequired>
         <FormLabel htmlFor="fromMap">Mapa</FormLabel>
-        <Select placeholder="..." id="fromMap" {...register("fromMap")}>
+        <Select
+          placeholder="..."
+          id="fromMap"
+          {...register("fromMap")}
+          onChange={(e) => setSelectedMap(e.target.value.replace(" ", ""))}
+        >
           {maps?.map((map) => (
             <option key={map.id}>{map.mapName}</option>
           ))}
@@ -106,6 +78,13 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
           {errors?.fromMap && errors?.fromMap?.message}
         </FormErrorMessage>
       </FormControl>
+
+      <SetNadePosition
+        selectedMap={selectedMap}
+        getNadePosition={getNadePosition}
+        disabled={!selectedMap ? true : false}
+        nadeHasPosition={nadeHasPosition}
+      />
 
       <FormControl isInvalid={!!errors?.thrownFrom?.message} isRequired>
         <FormLabel htmlFor="thrownFrom">Desde</FormLabel>
@@ -170,22 +149,10 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
         </FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors?.gfycatUrl?.message} isRequired>
-        <FormLabel htmlFor="gfycatUrl">Link de Gfycat</FormLabel>
-        <Input type="url" id="gfycatUrl" {...register("gfycatUrl")} />
-        <FormErrorMessage>
-          {errors?.gfycatUrl && errors?.gfycatUrl?.message}
-        </FormErrorMessage>
-      </FormControl>
-
       <FormControl isInvalid={!!errors?.movement?.message} isRequired>
         <FormLabel htmlFor="movement">Movimiento</FormLabel>
         <Select placeholder="..." id="movement" {...register("movement")}>
-          <option>Parado</option>
-          <option>Caminando</option>
-          <option>Corriendo</option>
-          <option>Agachado</option>
-          <option>Agachado moviéndose</option>
+          <MovementOptions />
         </Select>
         <FormErrorMessage>
           {errors?.movement && errors?.movement?.message}
@@ -193,22 +160,49 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
       </FormControl>
 
       <FormControl isInvalid={!!errors?.technique?.message} isRequired>
-        <FormLabel htmlFor="technique">Movimiento</FormLabel>
+        <FormLabel htmlFor="technique">Técnica</FormLabel>
         <Select placeholder="..." id="technique" {...register("technique")}>
-          <option>Clic izquierdo</option>
-          <option>Clic derecho</option>
-          <option>Izquierdo + Derecho</option>
-          <option>Jumpthrow</option>
-          <option>Jumpthrow + W/A/S/D</option>
-          <option>Jumpthrow + Izq y Der</option>
+          <TechniquesOptions />
         </Select>
         <FormErrorMessage>
           {errors?.technique && errors?.technique?.message}
         </FormErrorMessage>
       </FormControl>
-
-      <Button type="submit" isLoading={isSubmitting}>
-        Submit
+      <FormControl isInvalid={!!errors?.gfycatUrl?.message} isRequired>
+        <FormLabel htmlFor="gfycatUrl">Link de Gfycat</FormLabel>
+        <Input
+          type="url"
+          id="gfycatUrl"
+          {...register("gfycatUrl")}
+          placeholder="https://gfycat.com/..."
+        />
+        <FormErrorMessage>
+          {errors?.gfycatUrl && errors?.gfycatUrl?.message}
+        </FormErrorMessage>
+      </FormControl>
+      <Button
+        type="submit"
+        bgColor="primary"
+        _hover={{ bgColor: "primary-light" }}
+        isLoading={isSubmitting}
+        isDisabled={
+          nadeHasPosition && isValid && selectedMap !== "" && noErrors
+            ? false
+            : true
+        }
+        color="white"
+      >
+        {!isValid && "El formulario está incompleto o tiene errores."}
+        {!nadeHasPosition &&
+          isValid &&
+          noErrors &&
+          "Elige una posición para la nade."}
+        {nadeHasPosition && selectedMap === "" && "Vuelve a elegir un mapa"}
+        {isValid &&
+          nadeHasPosition &&
+          selectedMap !== "" &&
+          noErrors &&
+          "Subir nade"}
       </Button>
     </ChakraForm>
   );

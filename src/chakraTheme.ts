@@ -1,5 +1,23 @@
 import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
+import type { ComponentStyleConfig } from "@chakra-ui/theme";
 import { mode } from "@chakra-ui/theme-tools";
+
+const colors = {
+  primary: "#681277",
+  "primary-light": "#8d1fa0",
+  secondary: "#850d2e",
+  "secondary-light": "#9e1138",
+  black: "#0b020c",
+  "black-75": "#484149",
+  "black-50": "#858186",
+  "black-25": "#c2bfc2",
+  "black-10": "#e7e6e7",
+  "black-5": "#f2f2f3",
+  "blue-gray": "#2d3748",
+  "blue-gray-transparent": "rgba(45, 55, 72, .3)",
+  white: "#ebf0f6",
+  error: "#ab0935",
+};
 
 const styles = {
   global: (props: any) => ({
@@ -17,23 +35,6 @@ const config: ThemeConfig = {
   initialColorMode: "dark",
   useSystemColorMode: true,
   disableTransitionOnChange: false,
-};
-
-const colors = {
-  primary: "#681277",
-  "primary-light": "#8d1fa0",
-  secondary: "#850d2e",
-  "secondary-light": "#9e1138",
-  black: "#0b020c",
-  "black-75": "#484149",
-  "black-50": "#858186",
-  "black-25": "#c2bfc2",
-  "black-10": "#e7e6e7",
-  "black-5": "#f2f2f3",
-  "blue-gray": "#2d3748",
-  "blue-gray-transparent": "rgba(45, 55, 72, .3)",
-  white: "#ebf0f6",
-  error: "#ab0935",
 };
 
 const shadows = {

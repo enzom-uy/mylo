@@ -1,6 +1,6 @@
 import NadesSection from "@/components/NadesSection/NadesSection";
 import { getAllNades } from "@/services/database.services";
-import { Text } from "@chakra-ui/react";
+
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 
@@ -17,7 +17,7 @@ const Home: NextPage<{ nades: any[] }> = ({ nades }) => {
 };
 
 export default Home;
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const nades = await getAllNades();
   res.setHeader(
     "Cache-Control",

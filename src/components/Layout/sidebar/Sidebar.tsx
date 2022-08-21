@@ -39,15 +39,16 @@ const Sidebar: React.FC = () => {
         ) : !session ? (
           <SignWithGoogle />
         ) : (
-          <CustomButton href="/account" text="Mi perfil" icon={FiUser} />
+          <>
+            <CustomButton href="/account" text="Mi perfil" icon={FiUser} />
+            <CustomButton
+              href="/create-nade"
+              text="Subir Nade"
+              icon={IoIosAddCircleOutline}
+            />
+          </>
         )}
       </Flex>
-
-      <CustomButton
-        href="/create-nade"
-        text="Subir Nade"
-        icon={IoIosAddCircleOutline}
-      />
     </Flex>
   );
 };

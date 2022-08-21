@@ -1,10 +1,4 @@
-import {
-  CreateNadeErrorsResponse,
-  CreateNadeResponse,
-} from "@/interfaces/nades";
 import { prisma } from "@/server/db/client";
-import { Nade } from "@prisma/client";
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { createRouter } from "./context";
 

@@ -24,6 +24,9 @@ interface Props {
 }
 
 const Create: NextPage<Props> = ({ maps, nadeTypes, user }) => {
+  if (!user) {
+    console.log("No hay usuario");
+  } else console.log("Sí hay usuario");
   return (
     <>
       <Head>
@@ -33,6 +36,7 @@ const Create: NextPage<Props> = ({ maps, nadeTypes, user }) => {
           content="Formulario para subir una nueva nade."
         />
       </Head>
+
       <CreateNadeForm user={user} />
     </>
   );
@@ -50,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/?unauthenticated",
       },
     };
   }

@@ -27,18 +27,6 @@ export const getNewerNades = async () => {
   });
 };
 
-export const getAllNadeTypes = async (getNadesOfThisType?: "getNadesToo") => {
-  if (getNadesOfThisType === "getNadesToo") {
-    return await prisma.nadeType.findMany({
-      select: {
-        typeName: true,
-        nadesOfThisType: true,
-      },
-    });
-  }
-  return await prisma.nadeType.findMany();
-};
-
 export const getUser = async (email: string) => {
   return await prisma.user.findMany({
     where: {
@@ -51,14 +39,6 @@ export const getSingleMap = async (map: string) => {
   return await prisma.map.findMany({
     where: {
       mapName: map,
-    },
-  });
-};
-
-export const getSingleNadeType = async (nadeType: string) => {
-  return await prisma.nadeType.findMany({
-    where: {
-      typeName: nadeType,
     },
   });
 };

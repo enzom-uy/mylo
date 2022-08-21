@@ -48,6 +48,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     context.res,
     authOptions
   );
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
   const userEmail = session?.user?.email;
   const userResponse = await getUser(userEmail as string);
   const user = userResponse[0];

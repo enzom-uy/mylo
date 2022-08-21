@@ -39,6 +39,9 @@ export interface CreateNadeResponse {
   position: string;
   createdAt: string;
   updatedAt: string;
-  error: "ALREADY_EXISTS";
+}
+
+export interface CreateNadeErrorsResponse {
+  error: string;
   message: string;
 }

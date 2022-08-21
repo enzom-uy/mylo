@@ -16,6 +16,7 @@ const SignWithGoogle = () => {
       color="white"
       _hover={{ bgColor: "secondary" }}
       transition="all 150"
+      mb={2}
       onClick={() => {
         signIn("google");
       }}

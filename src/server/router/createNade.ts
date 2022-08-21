@@ -1,3 +1,7 @@
+import {
+  CreateNadeErrorsResponse,
+  CreateNadeResponse,
+} from "@/interfaces/nades";
 import { prisma } from "@/server/db/client";
 import { Nade } from "@prisma/client";
 import * as trpc from "@trpc/server";
@@ -33,62 +37,43 @@ export const nadesRouter = createRouter().mutation("create", {
     nadeType: z.string(),
   }),
   async resolve({ input, ctx }) {
-    if (!ctx.session?.user) {
-      return new trpc.TRPCError({
-        code: "FORBIDDEN",
-        message: "Testing forbidden message",
-      });
-    }
-
     const nadeAlreadyExists = await prisma.nade.findFirst({
       where: {
         gfycatUrl: input.gfycatUrl,
       },
     });
+    let error;
     if (nadeAlreadyExists) {
-      return {
+      error = {
         error: "ALREADY_EXISTS",
         message: "Ya existe una granada con el mismo link de Gfycat.",
       };
+      return error;
     }
 
-    try {
-      const newInput = {
+    const newNade = await ctx.prisma.nade.create({
+      data: {
         ...input,
-        approved: false,
         tickrate: "128",
-        uploadedBy: input.user,
-      };
-      const newNade = await ctx.prisma.nade.create({
-        data: {
-          ...input,
-          tickrate: "128",
-          approved: false,
-          user: {
-            connect: {
-              email: ctx.session.user.email as string,
-            },
-          },
-          map: {
-            connect: {
-              mapName: input.map,
-            },
-          },
-          nadeType: {
-            connect: {
-              typeName: input.nadeType,
-            },
+        approved: false,
+        user: {
+          connect: {
+            email: ctx!.session!.user!.email as string,
           },
         },
-      });
+        map: {
+          connect: {
+            mapName: input.map,
+          },
+        },
+        nadeType: {
+          connect: {
+            typeName: input.nadeType,
+          },
+        },
+      },
+    });
 
-      return { newNade, code: "UPLOADED" };
-    } catch (error) {
-      let errorMessage = "Failed to do something exceptional";
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      console.log(errorMessage);
-    }
+    return { newNade, status: "UPLOADED", error: error };
   },
 });

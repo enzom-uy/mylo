@@ -67,6 +67,7 @@ const MapOverlay: React.FC<{
         priority
         objectFit="contain"
         alt={`Imágen del rader del mapa ${map}`}
+        draggable={false}
       />
       {userClicked ? (
         <YellowMark y={nadePosition.y} x={nadePosition.x} />

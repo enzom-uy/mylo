@@ -60,11 +60,6 @@ export const createNadeRouter = createRouter().mutation("create", {
             mapName: input.map,
           },
         },
-        nadeType: {
-          connect: {
-            typeName: input.nadeType,
-          },
-        },
       },
     });
 

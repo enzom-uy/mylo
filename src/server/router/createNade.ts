@@ -5,7 +5,7 @@ import { createRouter } from "./context";
 const tooSmallMsg = "Debe tener mínimo 4 letras.";
 const required_error = "Campo obligatorio.";
 
-export const nadesRouter = createRouter().mutation("create", {
+export const createNadeRouter = createRouter().mutation("create", {
   input: z.object({
     thrownFrom: z
       .string({ required_error: required_error })

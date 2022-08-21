@@ -52,7 +52,6 @@ const MyApp: AppType = ({
 
 function Auth({ children }: any): JSX.Element {
   const { data: session, status } = useSession();
-  const isUser = !!session?.user;
   if (status === "loading") {
     return (
       <>

@@ -9,7 +9,7 @@ import { FiUser } from "react-icons/fi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 const Sidebar: React.FC = () => {
-  const { data: session, status } = useSession({ required: true });
+  const { data: session, status } = useSession();
   const isMobile = useViewport();
   return (
     <Flex

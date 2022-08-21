@@ -1,3 +1,4 @@
+import { mapsLinks } from "@/helpers/variables";
 import { CreateNadeFormInputs, formSchema } from "@/schemas/formSchema";
 import { trpc } from "@/utils/trpc";
 import {
@@ -19,8 +20,6 @@ import SetNadePosition from "./SetNadePosition";
 import TechniquesOptions from "./TechniquesOptions";
 
 interface Props {
-  maps: { id: string; mapName: string; nadesInMap?: [{}] }[];
-  nadeTypes: { typeName: string; nadesOfThisType?: {}[] | undefined }[];
   user: {
     id: string;
     name: string;
@@ -31,7 +30,25 @@ interface Props {
   };
 }
 
-const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes, user }) => {
+const nadeTypes = [
+  {
+    typeName: "Deto",
+  },
+  {
+    typeName: "Flash",
+  },
+  {
+    typeName: "Molo",
+  },
+  {
+    typeName: "Smoke",
+  },
+  {
+    typeName: "One way",
+  },
+];
+
+const CreateNadeForm: React.FC<Props> = ({ user }) => {
   const {
     handleSubmit,
     register,
@@ -70,7 +87,7 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes, user }) => {
     nadePosition !== undefined;
   const noErrors = Object.entries(errors).length === 0;
 
-  const activeMap = maps.filter((map) => {
+  const activeMap = mapsLinks.filter((map) => {
     return map.mapName === selectedMap;
   })[0];
 
@@ -136,8 +153,8 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes, user }) => {
             {...register("map")}
             onChange={(e) => setSelectedMap(e.target.value)}
           >
-            {maps?.map((map) => (
-              <option key={map.id}>{map.mapName}</option>
+            {mapsLinks.map((map) => (
+              <option key={map.mapName}>{map.mapName}</option>
             ))}
           </Select>
           <FormErrorMessage>

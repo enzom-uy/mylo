@@ -33,7 +33,7 @@ const Create: NextPage<Props> = ({ maps, nadeTypes, user }) => {
           content="Formulario para subir una nueva nade."
         />
       </Head>
-      <CreateNadeForm user={user} maps={maps} nadeTypes={nadeTypes} />
+      <CreateNadeForm user={user} />
     </>
   );
 };
@@ -41,8 +41,6 @@ const Create: NextPage<Props> = ({ maps, nadeTypes, user }) => {
 export default Create;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const maps = await getAllmaps();
-  const nadeTypes = await getAllNadeTypes();
   const session = await unstable_getServerSession(
     context.req,
     context.res,
@@ -56,14 +54,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+
   const userEmail = session?.user?.email;
   const userResponse = await getUser(userEmail as string);
   const user = userResponse[0];
 
   return {
     props: {
-      maps,
-      nadeTypes,
       user,
     },
   };

@@ -7,7 +7,7 @@ const MobileMenuMapsLinks = () => {
   return (
     <>
       {mapsLinks.map((map) => (
-        <MenuItem key={map.title} display="flex">
+        <MenuItem key={map.mapName} display="flex">
           <Link href={map.href}>
             <chakra.a
               width="100%"
@@ -21,13 +21,13 @@ const MobileMenuMapsLinks = () => {
                   src={map.img}
                   height="24"
                   width="24"
-                  alt={`Icono de ${map.title}`}
+                  alt={`Icono de ${map.mapName}`}
                 />
               ) : (
                 <Box height="24px" width="24px"></Box>
               )}
 
-              {map.title}
+              {map.mapName}
             </chakra.a>
           </Link>
         </MenuItem>

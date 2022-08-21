@@ -10,36 +10,36 @@ import vertigo from "/public/vertigo.webp";
 
 export const mapsLinks = [
   {
-    title: "Mirage",
+    mapName: "Mirage",
     img: mirage,
     href: "/maps/mirage",
   },
   {
-    title: "Dust2",
+    mapName: "Dust2",
     img: dust2,
     href: "/maps/dust2",
   },
   {
-    title: "Inferno",
+    mapName: "Inferno",
     img: inferno,
     href: "/maps/inferno",
   },
   {
-    title: "Nuke",
+    mapName: "Nuke",
     img: nuke,
     href: "/maps/nuke",
   },
   {
-    title: "Overpass",
+    mapName: "Overpass",
     img: overpass,
     href: "/maps/overpass",
   },
   {
-    title: "Tuscan",
+    mapName: "Tuscan",
     href: "/maps/tuscan",
   },
   {
-    title: "Vertigo",
+    mapName: "Vertigo",
     img: vertigo,
     href: "/maps/vertigo",
   },

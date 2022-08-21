@@ -2,11 +2,11 @@
 import superjson from "superjson";
 import { createRouter } from "./context";
 
-import { createNade } from "./createNade";
+import { nadesRouter } from "./createNade";
 
 export const appRouter = createRouter()
   .transformer(superjson)
-  .merge("createNade.", createNade);
+  .merge("createNade.", nadesRouter);
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

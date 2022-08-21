@@ -38,7 +38,7 @@ export const mapOverlays = [
   },
   {
     img: Dust2,
-    name: "Dust2",
+    name: "Dust 2",
   },
   {
     img: Vertigo,

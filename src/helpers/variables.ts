@@ -15,7 +15,7 @@ export const mapsLinks = [
     href: "/maps/mirage",
   },
   {
-    title: "Dust 2",
+    title: "Dust2",
     img: dust2,
     href: "/maps/dust2",
   },
@@ -52,7 +52,7 @@ export const navbarLinks = [
     href: "/maps/mirage",
   },
   {
-    title: "Dust 2",
+    title: "Dust2",
     img: dust2,
     href: "/maps/dust2",
   },

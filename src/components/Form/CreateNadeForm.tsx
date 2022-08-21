@@ -1,4 +1,6 @@
+import { CreateNadeResponse } from "@/interfaces/nades";
 import { CreateNadeFormInputs, formSchema } from "@/schemas/formSchema";
+import { trpc } from "@/utils/trpc";
 import {
   Button,
   FormControl,
@@ -8,6 +10,9 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Nade } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ChakraForm } from "./ChakraForm";
@@ -18,20 +23,40 @@ import TechniquesOptions from "./TechniquesOptions";
 interface Props {
   maps: { id: string; mapName: string; nadesInMap?: [{}] }[];
   nadeTypes: { typeName: string; nadesOfThisType?: {}[] | undefined }[];
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    emailVerified: null;
+    image: string;
+    role: string;
+  };
 }
 
-const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
+const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes, user }) => {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting, isValid },
+    watch,
   } = useForm<CreateNadeFormInputs>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
   });
   const [selectedMap, setSelectedMap] = useState("");
+  const [nType, setNType] = useState("");
   const [nadePosition, setNadePosition] = useState("");
   const [formValues, setFormValues] = useState<CreateNadeFormInputs>();
+  const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
+
+  let newNadeId;
+
+  const createNade = trpc.useMutation("createNade.create", {
+    async onSuccess() {
+      console.log("Success");
+    },
+  });
 
   useEffect(() => {
     setNadePosition("");
@@ -49,9 +74,33 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
     nadePosition !== "" &&
     nadePosition !== undefined;
   const noErrors = Object.entries(errors).length === 0;
-  const onSubmit = (data: CreateNadeFormInputs) => {
-    setFormValues({ ...data, position: nadePosition });
+
+  const activeMap = maps.filter((map) => {
+    return map.mapName === selectedMap;
+  })[0];
+
+  const activeNadeType = nadeTypes.filter((type) => {
+    return type.typeName === nType;
+  })[0];
+
+  const onSubmit = async (data: CreateNadeFormInputs) => {
+    const newData = {
+      ...data,
+      user,
+      map: activeMap!.mapName,
+      nadeType: activeNadeType!.typeName,
+      position: nadePosition,
+    };
+
+    const { newNade, code, error, message }: CreateNadeResponse =
+      await createNade.mutateAsync(newData);
+
+    console.log(newNade, code, error, message);
   };
+
+  // useEffect(() => {
+  //   createNade.mutateAsync(formValues)
+  // }, formValues)
 
   return (
     <ChakraForm
@@ -62,20 +111,20 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
       mb="6rem"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <FormControl isInvalid={!!errors?.fromMap?.message} isRequired>
-        <FormLabel htmlFor="fromMap">Mapa</FormLabel>
+      <FormControl isInvalid={!!errors?.map?.message} isRequired>
+        <FormLabel htmlFor="map">Mapa</FormLabel>
         <Select
           placeholder="..."
-          id="fromMap"
-          {...register("fromMap")}
-          onChange={(e) => setSelectedMap(e.target.value.replace(" ", ""))}
+          id="map"
+          {...register("map")}
+          onChange={(e) => setSelectedMap(e.target.value)}
         >
           {maps?.map((map) => (
             <option key={map.id}>{map.mapName}</option>
           ))}
         </Select>
         <FormErrorMessage>
-          {errors?.fromMap && errors?.fromMap?.message}
+          {errors?.map && errors?.map?.message}
         </FormErrorMessage>
       </FormControl>
 
@@ -127,7 +176,12 @@ const CreateNadeForm: React.FC<Props> = ({ maps, nadeTypes }) => {
 
       <FormControl isInvalid={!!errors?.nadeType?.message} isRequired>
         <FormLabel htmlFor="nadeType">Tipo</FormLabel>
-        <Select placeholder="..." id="nadeType" {...register("nadeType")}>
+        <Select
+          placeholder="..."
+          id="nadeType"
+          {...register("nadeType")}
+          onChange={(e) => setNType(e.target.value)}
+        >
           {nadeTypes?.map((nadeType) => (
             <option key={nadeType.typeName}>{nadeType.typeName}</option>
           ))}

@@ -6,15 +6,8 @@ const required_error = "Campo obligatorio.";
 export interface CreateNadeFormInputs {
   thrownFrom: string;
   endLocation: string;
-  nadeType: "Smoke" | "Molo" | "Deto" | "Flash";
-  fromMap:
-    | "Mirage"
-    | "Inferno"
-    | "Dust 2"
-    | "Vertigo"
-    | "Nuke"
-    | "Overpass"
-    | "Tuscan";
+  nadeType: { typeName: string; nadeId: any };
+  map: { id: string; mapName: string };
   isOneWay: boolean;
   tickrate: "64" | "128";
   ttOrCt: "TT" | "CT";
@@ -42,7 +35,7 @@ export const formSchema = z.object({
     .min(4, { message: tooSmallMsg }),
   endLocation: z.string({ required_error }).min(4, { message: tooSmallMsg }),
   nadeType: z.string({ required_error }),
-  fromMap: z.string({ required_error }),
+  map: z.string({ required_error }),
   ttOrCt: z.string({ required_error }),
   gfycatUrl: z
     .string({ required_error })

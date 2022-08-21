@@ -16,6 +16,37 @@ import Overpass from "/public/mapsoverlays/overpass-overlay.jpg";
 import Tuscan from "/public/mapsoverlays/tuscan-overlay.jpg";
 import Vertigo from "/public/mapsoverlays/vertigo-overlay.jpg";
 
+export const mapOverlays = [
+  {
+    name: "Mirage",
+    img: Mirage,
+  },
+  {
+    name: "Overpass",
+    img: Overpass,
+  },
+  {
+    img: Nuke,
+    name: "Nuke",
+  },
+  {
+    img: Inferno,
+    name: "Inferno",
+  },
+  {
+    img: Tuscan,
+    name: "Tuscan",
+  },
+  {
+    img: Dust2,
+    name: "Dust 2",
+  },
+  {
+    img: Vertigo,
+    name: "Vertigo",
+  },
+];
+
 const Map: NextPage<{
   mapOverlays: { img: StaticImageData; name: string }[];
 }> = ({ mapOverlays }) => {

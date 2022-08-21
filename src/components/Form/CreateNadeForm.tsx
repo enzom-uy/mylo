@@ -47,7 +47,7 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
 
   const createNade = trpc.useMutation("createNade.create", {
     async onSuccess() {
-      console.log("Success");
+      // Do something here in the future okay?
     },
   });
 
@@ -96,7 +96,6 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
     );
 
     if (error) {
-      console.log(error);
       toast.close(toastIdRef.current);
       toast({
         title: "Ha ocurrido un error.",

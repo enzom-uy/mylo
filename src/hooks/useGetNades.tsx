@@ -10,7 +10,7 @@ const useGetNades = (
   const nade = type;
   const trpcGetNades = trpc.useMutation("getNades.getAllNades", {
     async onSuccess() {
-      console.log("Success");
+      // Do something here in the future okay? :)!
     },
   });
   useEffect(() => {

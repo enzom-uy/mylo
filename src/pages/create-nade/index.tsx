@@ -20,9 +20,6 @@ interface Props {
 }
 
 const Create: NextPage<Props> = ({ maps, nadeTypes, user }) => {
-  if (!user) {
-    console.log("No hay usuario");
-  } else console.log("Sí hay usuario");
   return (
     <>
       <Head>

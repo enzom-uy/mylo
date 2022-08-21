@@ -1,21 +1,14 @@
-// src/pages/_app.tsx
-import useViewport from "@/hooks/useViewport";
 import { ChakraProvider, Progress, ScaleFade } from "@chakra-ui/react";
 import { withTRPC } from "@trpc/next";
-import {
-  getSession,
-  SessionProvider,
-  signIn,
-  useSession,
-} from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
-import { ReactNode, useEffect, useState } from "react";
+import { Router } from "next/router";
+import { useEffect, useState } from "react";
 import theme from "src/chakraTheme";
 import Layout from "src/components/Layout/Layout";
 import MobileMenu from "src/components/Layout/MobileMenu";
 import Navbar from "src/components/Layout/Navbar";
 import Sidebar from "src/components/Layout/sidebar/Sidebar";
-import Loading from "src/components/Loading";
 import superjson from "superjson";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
@@ -25,11 +18,24 @@ const MyApp: AppType = ({
   pageProps: { session, ...pageProps },
   router,
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3500);
+    const start = () => {
+      console.log("start");
+      setLoading(true);
+    };
+    const end = () => {
+      console.log("finished");
+      setLoading(false);
+    };
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
   }, []);
 
   return (
@@ -38,11 +44,15 @@ const MyApp: AppType = ({
         <Auth>
           <Navbar />
           <Sidebar />
-          <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ScaleFade>
+          {loading ? (
+            <Progress size="xs" isIndeterminate />
+          ) : (
+            <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ScaleFade>
+          )}
         </Auth>
         <MobileMenu />
       </ChakraProvider>

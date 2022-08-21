@@ -1,3 +1,4 @@
+import { ChakraNextImage } from "@/components/ChakraNextImage";
 import SectionTitle from "@/components/SectionTitle";
 import { mapsPaths as paths } from "@/helpers/variables";
 import useViewport from "@/hooks/useViewport";
@@ -39,7 +40,7 @@ export const mapOverlays = [
   },
   {
     img: Dust2,
-    name: "Dust 2",
+    name: "Dust2",
   },
   {
     img: Vertigo,
@@ -52,9 +53,11 @@ const Map: NextPage<{
 }> = ({ mapOverlays }) => {
   const router = useRouter();
   const isBrowser = typeof window !== undefined;
-  const map = isBrowser && (router.query.map as string);
+  const mapRouter = isBrowser && (router.query.map as string);
   const convertedMap =
-    isBrowser && map && map.charAt(0).toUpperCase() + map.slice(1);
+    isBrowser &&
+    mapRouter &&
+    mapRouter.charAt(0).toUpperCase() + mapRouter.slice(1);
 
   const currentMap = mapOverlays.filter((map) => map.name === convertedMap);
   const img = currentMap[0]!.img;
@@ -64,8 +67,11 @@ const Map: NextPage<{
   return (
     <>
       <Head>
-        <title>{map && convertedMap} Nades | Mylo</title>
-        <meta name="description" content={`Nades de ${map && convertedMap}`} />
+        <title>{mapRouter && convertedMap} Nades | Mylo</title>
+        <meta
+          name="description"
+          content={`Nades de ${mapRouter && convertedMap}`}
+        />
       </Head>
       <Flex
         gap={5}
@@ -120,7 +126,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
     {
       img: Dust2,
-      name: "Dust 2",
+      name: "Dust2",
     },
     {
       img: Vertigo,

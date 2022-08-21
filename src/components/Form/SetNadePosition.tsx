@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -20,8 +21,8 @@ const SetNadePosition: React.FC<{
   nadeHasPosition: boolean;
 }> = ({ selectedMap, getNadePosition, disabled, nadeHasPosition }) => {
   const [map] = mapOverlays.filter((map) => map.name === selectedMap);
-  const mapImg = map!.img;
-  const mapName = map!.name;
+  const mapImg = map?.img;
+  const mapName = map?.name;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pos, setPos] = useState<{ x: number; y: number }>();
 

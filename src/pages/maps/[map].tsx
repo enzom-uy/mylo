@@ -4,6 +4,7 @@ import useViewport from "@/hooks/useViewport";
 import { Flex } from "@chakra-ui/react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
+import { StaticImageData } from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import MapOverlay from "./MapOverlay";
@@ -15,38 +16,9 @@ import Overpass from "/public/mapsoverlays/overpass-overlay.jpg";
 import Tuscan from "/public/mapsoverlays/tuscan-overlay.jpg";
 import Vertigo from "/public/mapsoverlays/vertigo-overlay.jpg";
 
-export const mapOverlays = [
-  {
-    name: "Mirage",
-    img: Mirage,
-  },
-  {
-    name: "Overpass",
-    img: Overpass,
-  },
-  {
-    img: Nuke,
-    name: "Nuke",
-  },
-  {
-    img: Inferno,
-    name: "Inferno",
-  },
-  {
-    img: Tuscan,
-    name: "Tuscan",
-  },
-  {
-    img: Dust2,
-    name: "Dust 2",
-  },
-  {
-    img: Vertigo,
-    name: "Vertigo",
-  },
-];
-
-const Map: NextPage = () => {
+const Map: NextPage<{
+  mapOverlays: { img: StaticImageData; name: string }[];
+}> = ({ mapOverlays }) => {
   const router = useRouter();
   const isBrowser = typeof window !== undefined;
   const map = isBrowser && (router.query.map as string);
@@ -54,7 +26,7 @@ const Map: NextPage = () => {
     isBrowser && map && map.charAt(0).toUpperCase() + map.slice(1);
 
   const currentMap = mapOverlays.filter((map) => map.name === convertedMap);
-  const img = currentMap[0]?.img;
+  const img = currentMap[0]!.img;
 
   const isMobile = useViewport();
 
@@ -94,7 +66,39 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const mapOverlays = [
+    {
+      name: "Mirage",
+      img: Mirage,
+    },
+    {
+      name: "Overpass",
+      img: Overpass,
+    },
+    {
+      img: Nuke,
+      name: "Nuke",
+    },
+    {
+      img: Inferno,
+      name: "Inferno",
+    },
+    {
+      img: Tuscan,
+      name: "Tuscan",
+    },
+    {
+      img: Dust2,
+      name: "Dust 2",
+    },
+    {
+      img: Vertigo,
+      name: "Vertigo",
+    },
+  ];
   return {
-    props: {},
+    props: {
+      mapOverlays: mapOverlays,
+    },
   };
 };

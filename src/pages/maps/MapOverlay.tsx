@@ -23,8 +23,8 @@ const YellowMark: React.FC<{ y: number; x: number }> = ({ y, x }) => {
 };
 
 const MapOverlay: React.FC<{
-  img: StaticImageData | undefined;
-  map: string | undefined;
+  img: StaticImageData;
+  map: string;
   getNadePosition?: (pos: any) => void;
 }> = ({ img, map, getNadePosition }) => {
   const [nadePosition, setNadePosition] = useState({
@@ -62,11 +62,11 @@ const MapOverlay: React.FC<{
       }}
     >
       <ChakraNextImage
-        src={img!}
+        src={img}
         rounded="lg"
         priority
         objectFit="contain"
-        alt={`Imágen del rader del mapa ${map}`}
+        alt={`Imágen del radar del mapa ${map}`}
         draggable={false}
       />
       {userClicked ? (

@@ -54,7 +54,7 @@ const Map: NextPage = () => {
     isBrowser && map && map.charAt(0).toUpperCase() + map.slice(1);
 
   const currentMap = mapOverlays.filter((map) => map.name === convertedMap);
-  const img = currentMap[0]!.img;
+  const img = currentMap[0]?.img;
 
   const isMobile = useViewport();
 

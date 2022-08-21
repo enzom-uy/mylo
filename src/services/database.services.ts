@@ -62,19 +62,3 @@ export const getSingleNadeType = async (nadeType: string) => {
     },
   });
 };
-
-export const createNade = async (data: any) => {
-  const createNade = trpc.useMutation("createNade.create", {
-    async onSuccess() {
-      console.log("Success");
-    },
-  });
-  let nade;
-  try {
-    nade = await createNade.mutateAsync(data);
-  } catch (error) {
-    console.log(error);
-  }
-
-  return nade as Nade;
-};

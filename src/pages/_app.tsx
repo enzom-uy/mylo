@@ -1,10 +1,15 @@
 // src/pages/_app.tsx
 import useViewport from "@/hooks/useViewport";
-import { ChakraProvider, ScaleFade } from "@chakra-ui/react";
+import { ChakraProvider, Progress, ScaleFade } from "@chakra-ui/react";
 import { withTRPC } from "@trpc/next";
-import { SessionProvider } from "next-auth/react";
+import {
+  getSession,
+  SessionProvider,
+  signIn,
+  useSession,
+} from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import theme from "src/chakraTheme";
 import Layout from "src/components/Layout/Layout";
 import MobileMenu from "src/components/Layout/MobileMenu";
@@ -30,19 +35,33 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
-        {/* {isLoading ? <Loading /> : undefined} */}
-        <Navbar />
-        <Sidebar />
-        <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ScaleFade>
+        <Auth>
+          <Navbar />
+          <Sidebar />
+          <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ScaleFade>
+        </Auth>
         <MobileMenu />
       </ChakraProvider>
     </SessionProvider>
   );
 };
+
+function Auth({ children }: any): JSX.Element {
+  const { data: session, status } = useSession();
+  const isUser = !!session?.user;
+  if (status === "loading") {
+    return (
+      <>
+        <Progress size="xs" isIndeterminate />
+      </>
+    );
+  }
+  return <>{children}</>;
+}
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") {

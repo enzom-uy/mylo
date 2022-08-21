@@ -2,14 +2,14 @@ import CustomButton from "@/components/CustomButton";
 import SidebarContent from "@/components/Layout/sidebar/SidebarContent";
 import SignWithGoogle from "@/components/Layout/SignWithGoogle";
 import useViewport from "@/hooks/useViewport";
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { FiUser } from "react-icons/fi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 const Sidebar: React.FC = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession({ required: true });
   const isMobile = useViewport();
   return (
     <Flex
@@ -33,11 +33,16 @@ const Sidebar: React.FC = () => {
       >
         <SidebarContent />
       </Flex>
-      {!session ? (
-        <SignWithGoogle />
-      ) : (
-        <CustomButton href="/account" text="Mi perfil" icon={FiUser} />
-      )}
+      <Flex flexDir="column" alignItems="center">
+        {status === "loading" ? (
+          <Spinner mb={5} />
+        ) : !session ? (
+          <SignWithGoogle />
+        ) : (
+          <CustomButton href="/account" text="Mi perfil" icon={FiUser} />
+        )}
+      </Flex>
+
       <CustomButton
         href="/create-nade"
         text="Subir Nade"

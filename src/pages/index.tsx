@@ -18,12 +18,11 @@ const Home: NextPage<{ nades: any[] }> = ({ nades }) => {
 
 export default Home;
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const nades = await getAllNades();
   res.setHeader(
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   );
-  const nades = await getAllNades();
-  console.log(nades);
   return {
     props: {
       nades,

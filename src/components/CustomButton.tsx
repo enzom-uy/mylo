@@ -11,7 +11,7 @@ const CustomButton: React.FC<{
 }> = ({ href, text, icon }) => {
   return (
     <Link href={href}>
-      <StyledLink>
+      <StyledLink width="100%">
         {icon && <Icon fontSize="1.5rem" as={icon} />}
         {text}
       </StyledLink>

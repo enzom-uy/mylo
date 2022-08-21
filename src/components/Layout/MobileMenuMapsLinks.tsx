@@ -1,13 +1,14 @@
-import { mapsLinks } from "@/helpers/variables";
+import { navbarLinks } from "@/helpers/variables";
 import { Box, chakra, MenuItem } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 
 const MobileMenuMapsLinks = () => {
+  const maps = navbarLinks.filter((link) => link.type === "map");
   return (
     <>
-      {mapsLinks.map((map) => (
-        <MenuItem key={map.mapName} display="flex">
+      {maps.map((map) => (
+        <MenuItem key={map.title} display="flex">
           <Link href={map.href}>
             <chakra.a
               width="100%"
@@ -21,13 +22,13 @@ const MobileMenuMapsLinks = () => {
                   src={map.img}
                   height="24"
                   width="24"
-                  alt={`Icono de ${map.mapName}`}
+                  alt={`Icono de ${map.title}`}
                 />
               ) : (
                 <Box height="24px" width="24px"></Box>
               )}
 
-              {map.mapName}
+              {map.title}
             </chakra.a>
           </Link>
         </MenuItem>

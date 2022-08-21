@@ -1,4 +1,4 @@
-import { mapsLinks } from "@/helpers/variables";
+import { nadeTypes, navbarLinks } from "@/helpers/variables";
 import { CreateNadeFormInputs, formSchema } from "@/schemas/formSchema";
 import { trpc } from "@/utils/trpc";
 import {
@@ -30,30 +30,11 @@ interface Props {
   };
 }
 
-const nadeTypes = [
-  {
-    typeName: "Deto",
-  },
-  {
-    typeName: "Flash",
-  },
-  {
-    typeName: "Molo",
-  },
-  {
-    typeName: "Smoke",
-  },
-  {
-    typeName: "One way",
-  },
-];
-
 const CreateNadeForm: React.FC<Props> = ({ user }) => {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting, isValid },
-    watch,
   } = useForm<CreateNadeFormInputs>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
@@ -87,8 +68,8 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
     nadePosition !== undefined;
   const noErrors = Object.entries(errors).length === 0;
 
-  const activeMap = mapsLinks.filter((map) => {
-    return map.mapName === selectedMap;
+  const activeMap = navbarLinks.filter((map) => {
+    return map.title === selectedMap;
   })[0];
 
   const activeNadeType = nadeTypes.filter((type) => {
@@ -99,7 +80,7 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
     const newData = {
       ...data,
       user,
-      map: activeMap!.mapName,
+      map: activeMap!.title,
       nadeType: activeNadeType!.typeName,
       position: nadePosition,
     };
@@ -153,8 +134,8 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
             {...register("map")}
             onChange={(e) => setSelectedMap(e.target.value)}
           >
-            {mapsLinks.map((map) => (
-              <option key={map.mapName}>{map.mapName}</option>
+            {navbarLinks.map((map) => (
+              <option key={map.title}>{map.title}</option>
             ))}
           </Select>
           <FormErrorMessage>

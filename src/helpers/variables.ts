@@ -1,5 +1,6 @@
+import { StaticImageData } from "next/image";
+import { IconType } from "react-icons";
 import { FiSettings, FiUser } from "react-icons/fi";
-import { GiStunGrenade } from "react-icons/gi";
 import { IoIosAddCircleOutline, IoMdSettings } from "react-icons/io";
 import dust2 from "/public/dust2.webp";
 import inferno from "/public/inferno.webp";
@@ -8,82 +9,61 @@ import nuke from "/public/nuke.webp";
 import overpass from "/public/overpass.webp";
 import vertigo from "/public/vertigo.webp";
 
-export const mapsLinks = [
-  {
-    mapName: "Mirage",
-    img: mirage,
-    href: "/maps/mirage",
-  },
-  {
-    mapName: "Dust2",
-    img: dust2,
-    href: "/maps/dust2",
-  },
-  {
-    mapName: "Inferno",
-    img: inferno,
-    href: "/maps/inferno",
-  },
-  {
-    mapName: "Nuke",
-    img: nuke,
-    href: "/maps/nuke",
-  },
-  {
-    mapName: "Overpass",
-    img: overpass,
-    href: "/maps/overpass",
-  },
-  {
-    mapName: "Tuscan",
-    href: "/maps/tuscan",
-  },
-  {
-    mapName: "Vertigo",
-    img: vertigo,
-    href: "/maps/vertigo",
-  },
-];
+interface NavbarLinks {
+  title: string;
+  img?: StaticImageData;
+  icon?: IconType;
+  href: string;
+  type: "map" | "menuOption";
+}
 
-export const navbarLinks = [
+export const navbarLinks: NavbarLinks[] = [
   {
     title: "Mirage",
     img: mirage,
     href: "/maps/mirage",
+    type: "map",
   },
   {
     title: "Dust2",
     img: dust2,
     href: "/maps/dust2",
+    type: "map",
   },
   {
     title: "Inferno",
     img: inferno,
     href: "/maps/inferno",
+    type: "map",
   },
   {
     title: "Nuke",
     img: nuke,
     href: "/maps/nuke",
+    type: "map",
   },
   {
     title: "Overpass",
     img: overpass,
     href: "/maps/overpass",
+    type: "map",
   },
   {
     title: "Tuscan",
     href: "/maps/tuscan",
+    type: "map",
   },
   {
     title: "Vertigo",
     img: vertigo,
     href: "/maps/vertigo",
+    type: "map",
   },
   {
     title: "CFGs",
     href: "/cfgs",
     icon: IoMdSettings,
+    type: "menuOption",
   },
 ];
 
@@ -140,6 +120,24 @@ export const mapsPaths = [
     params: {
       map: "vertigo",
     },
+  },
+];
+
+export const nadeTypes = [
+  {
+    typeName: "Deto",
+  },
+  {
+    typeName: "Flash",
+  },
+  {
+    typeName: "Molo",
+  },
+  {
+    typeName: "Smoke",
+  },
+  {
+    typeName: "One way",
   },
 ];
 

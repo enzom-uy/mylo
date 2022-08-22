@@ -51,7 +51,7 @@ const MapOverlay: React.FC<{
   mapName: string | undefined;
   getNadePosition?: (pos: any) => void;
   allMapsInfo?: AllMapsInfo[];
-  currentType: "Smoke" | "Flash" | "Deto" | "Molo" | string;
+  currentType?: "Smoke" | "Flash" | "Deto" | "Molo" | string;
 }> = ({ img, mapName, getNadePosition, allMapsInfo, currentType }) => {
   const [nadePosition, setNadePosition] = useState({
     x: 0,

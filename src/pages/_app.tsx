@@ -39,36 +39,23 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
-        <Auth>
-          <Navbar />
-          <Sidebar />
-          {loading ? (
-            <Progress size="xs" isIndeterminate />
-          ) : (
-            <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ScaleFade>
-          )}
-        </Auth>
+        <Navbar />
+        <Sidebar />
+        {loading ? (
+          <Progress size="xs" isIndeterminate />
+        ) : (
+          <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ScaleFade>
+        )}
+
         <MobileMenu />
       </ChakraProvider>
     </SessionProvider>
   );
 };
-
-function Auth({ children }: any): JSX.Element {
-  const { data: session, status } = useSession();
-  if (status === "loading") {
-    return (
-      <>
-        <Progress size="xs" isIndeterminate />
-      </>
-    );
-  }
-  return <>{children}</>;
-}
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") {

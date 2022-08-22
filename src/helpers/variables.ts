@@ -67,6 +67,8 @@ export const navbarLinks: NavbarLinks[] = [
   },
 ];
 
+export const maps = navbarLinks.filter((link) => link.href !== "/cfgs");
+
 export const mobileMenuItems = [
   {
     title: "Subir Nade",

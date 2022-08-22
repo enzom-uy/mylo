@@ -15,11 +15,12 @@ export const createNadeRouter = createRouter().mutation("create", {
     ttOrCt: z.string({ required_error }),
     gfycatUrl: z
       .string({ required_error })
-      .regex(new RegExp("https://gfycat.com/[a-zA-Z]+")),
+      .regex(new RegExp("https://gfycat.com/ifr/[a-zA-Z]+")),
     description: z.string({ required_error }).optional(),
     movement: z.string({ required_error }),
     technique: z.string({ required_error }),
     position: z.string({ required_error }),
+    tickrate: z.string({ required_error }),
     user: z.object({
       id: z.string(),
       name: z.string(),
@@ -28,7 +29,7 @@ export const createNadeRouter = createRouter().mutation("create", {
       image: z.string(),
       role: z.string(),
     }),
-    nadeType: z.string(),
+    nadeType: z.string({ required_error }),
   }),
   async resolve({ input, ctx }) {
     const nadeAlreadyExists = await prisma.nade.findFirst({
@@ -48,7 +49,6 @@ export const createNadeRouter = createRouter().mutation("create", {
     const newNade = await ctx.prisma.nade.create({
       data: {
         ...input,
-        tickrate: "128",
         approved: false,
         user: {
           connect: {

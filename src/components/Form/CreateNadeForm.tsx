@@ -1,8 +1,9 @@
-import { nadeTypes, navbarLinks } from "@/helpers/variables";
+import { maps, nadeTypes, navbarLinks } from "@/helpers/variables";
 import { CreateNadeFormInputs, formSchema } from "@/schemas/formSchema";
 import { trpc } from "@/utils/trpc";
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -35,21 +36,19 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting, isValid },
+    reset,
   } = useForm<CreateNadeFormInputs>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
   });
   const [selectedMap, setSelectedMap] = useState("");
   const [nType, setNType] = useState("");
+  const [tickrate, setTickrate] = useState("");
   const [nadePosition, setNadePosition] = useState("");
   const toast = useToast();
   const toastIdRef = React.useRef<ToastId | undefined>();
 
-  const createNade = trpc.useMutation("createNade.create", {
-    async onSuccess() {
-      // Do something here in the future okay?
-    },
-  });
+  const createNade = trpc.useMutation("createNade.create");
 
   useEffect(() => {
     setNadePosition("");
@@ -77,12 +76,17 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
   })[0];
 
   const onSubmit = async (data: CreateNadeFormInputs) => {
+    const gfycatUrl = data.gfycatUrl;
+    const gfycatId = gfycatUrl.split("/").pop();
+    const newGfycatUrl = `https://gfycat.com/ifr/${gfycatId}`;
     const newData = {
       ...data,
       user,
       map: activeMap!.title,
       nadeType: activeNadeType!.typeName,
       position: nadePosition,
+      tickrate,
+      gfycatUrl: newGfycatUrl,
     };
     toastIdRef.current = toast({
       title: "Subiendo la nade...",
@@ -91,9 +95,7 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
       position: "top",
       isClosable: true,
     });
-    const { error, message, newNade, status } = await createNade.mutateAsync(
-      newData
-    );
+    const { error, message, newNade } = await createNade.mutateAsync(newData);
 
     if (error) {
       toast.close(toastIdRef.current);
@@ -107,6 +109,7 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
     }
     if (newNade) {
       toast.close(toastIdRef.current);
+      reset();
       toast({
         title: "Se ha subido la nade.",
         status: "success",
@@ -125,117 +128,144 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
         mb="6rem"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <FormControl isInvalid={!!errors?.map?.message} isRequired>
-          <FormLabel htmlFor="map">Mapa</FormLabel>
-          <Select
-            placeholder="..."
-            id="map"
-            {...register("map")}
-            onChange={(e) => setSelectedMap(e.target.value)}
-          >
-            {navbarLinks.map((map) => (
-              <option key={map.title}>{map.title}</option>
-            ))}
-          </Select>
-          <FormErrorMessage>
-            {errors?.map && errors?.map?.message}
-          </FormErrorMessage>
-        </FormControl>
+        <Flex justifyContent="space-between">
+          <Flex flexDir="column" gap={3}>
+            <FormControl isInvalid={!!errors?.map?.message} isRequired>
+              <FormLabel htmlFor="map">Mapa</FormLabel>
+              <Select
+                placeholder="Elige un mapa"
+                id="map"
+                {...register("map")}
+                onChange={(e) => setSelectedMap(e.target.value)}
+              >
+                {maps.map((map) => (
+                  <option key={map.title}>{map.title}</option>
+                ))}
+              </Select>
+              <FormErrorMessage>
+                {errors?.map && errors?.map?.message}
+              </FormErrorMessage>
+            </FormControl>
+            {activeMap && (
+              <SetNadePosition
+                selectedMap={selectedMap}
+                getNadePosition={getNadePosition}
+                disabled={!selectedMap ? true : false}
+                nadeHasPosition={nadeHasPosition}
+              />
+            )}
 
-        <SetNadePosition
-          selectedMap={selectedMap}
-          getNadePosition={getNadePosition}
-          disabled={!selectedMap ? true : false}
-          nadeHasPosition={nadeHasPosition}
-        />
+            <FormControl isInvalid={!!errors?.thrownFrom?.message} isRequired>
+              <FormLabel htmlFor="thrownFrom">Desde</FormLabel>
+              <Input
+                type="text"
+                id="thrownFrom"
+                placeholder="Base CT"
+                {...register("thrownFrom")}
+              />
+              <FormErrorMessage>
+                {errors?.thrownFrom && errors?.thrownFrom?.message}
+              </FormErrorMessage>
+            </FormControl>
 
-        <FormControl isInvalid={!!errors?.thrownFrom?.message} isRequired>
-          <FormLabel htmlFor="thrownFrom">Desde</FormLabel>
-          <Input
-            type="text"
-            id="thrownFrom"
-            placeholder="Base CT"
-            {...register("thrownFrom")}
-          />
-          <FormErrorMessage>
-            {errors?.thrownFrom && errors?.thrownFrom?.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormControl isInvalid={!!errors?.endLocation?.message} isRequired>
+              <FormLabel htmlFor="endLocation">Destino</FormLabel>
+              <Input
+                type="text"
+                id="endLocation"
+                placeholder="Tapete"
+                {...register("endLocation")}
+              />
+              <FormErrorMessage>
+                {errors?.endLocation && errors?.endLocation?.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={!!errors?.description?.message}>
+              <FormLabel htmlFor="description">Descripción</FormLabel>
+              <Input
+                type="text"
+                id="description"
+                placeholder="Tapete"
+                {...register("description")}
+              />
+              <FormErrorMessage>
+                {errors?.description && errors?.description?.message}
+              </FormErrorMessage>
+            </FormControl>
+          </Flex>
 
-        <FormControl isInvalid={!!errors?.endLocation?.message} isRequired>
-          <FormLabel htmlFor="endLocation">Destino</FormLabel>
-          <Input
-            type="text"
-            id="endLocation"
-            placeholder="Tapete"
-            {...register("endLocation")}
-          />
-          <FormErrorMessage>
-            {errors?.endLocation && errors?.endLocation?.message}
-          </FormErrorMessage>
-        </FormControl>
+          <Flex flexDir="column" gap={3}>
+            <FormControl isInvalid={!!errors?.tickrate?.message} isRequired>
+              <FormLabel htmlFor="tickrate">Tickrate</FormLabel>
+              <Select
+                placeholder="..."
+                id="tickrate"
+                {...register("tickrate")}
+                onChange={(e) => setTickrate(e.target.value)}
+              >
+                <option>128</option>
+                <option>64</option>
+                <option>Ambos</option>
+              </Select>
+              <FormErrorMessage>
+                {errors?.tickrate && errors?.tickrate?.message}
+              </FormErrorMessage>
+            </FormControl>
 
-        <FormControl isInvalid={!!errors?.description?.message}>
-          <FormLabel htmlFor="description">Descripción</FormLabel>
-          <Input
-            type="text"
-            id="description"
-            placeholder="Tapete"
-            {...register("description")}
-          />
-          <FormErrorMessage>
-            {errors?.description && errors?.description?.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormControl isInvalid={!!errors?.nadeType?.message} isRequired>
+              <FormLabel htmlFor="nadeType">Tipo</FormLabel>
+              <Select
+                placeholder="..."
+                id="nadeType"
+                {...register("nadeType")}
+                onChange={(e) => setNType(e.target.value)}
+              >
+                {nadeTypes?.map((nadeType) => (
+                  <option key={nadeType.typeName}>{nadeType.typeName}</option>
+                ))}
+              </Select>
+              <FormErrorMessage>
+                {errors?.nadeType && errors?.nadeType?.message}
+              </FormErrorMessage>
+            </FormControl>
 
-        <FormControl isInvalid={!!errors?.nadeType?.message} isRequired>
-          <FormLabel htmlFor="nadeType">Tipo</FormLabel>
-          <Select
-            placeholder="..."
-            id="nadeType"
-            {...register("nadeType")}
-            onChange={(e) => setNType(e.target.value)}
-          >
-            {nadeTypes?.map((nadeType) => (
-              <option key={nadeType.typeName}>{nadeType.typeName}</option>
-            ))}
-          </Select>
-          <FormErrorMessage>
-            {errors?.nadeType && errors?.nadeType?.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormControl isInvalid={!!errors?.ttOrCt?.message} isRequired>
+              <FormLabel htmlFor="ttOrCt">TT o CT</FormLabel>
+              <Select placeholder="..." id="ttOrCt" {...register("ttOrCt")}>
+                <option>TT</option>
+                <option>CT</option>
+                <option>Ambos</option>
+              </Select>
+              <FormErrorMessage>
+                {errors?.ttOrCt && errors?.ttOrCt?.message}
+              </FormErrorMessage>
+            </FormControl>
 
-        <FormControl isInvalid={!!errors?.ttOrCt?.message} isRequired>
-          <FormLabel htmlFor="ttOrCt">TT o CT</FormLabel>
-          <Select placeholder="..." id="ttOrCt" {...register("ttOrCt")}>
-            <option>TT</option>
-            <option>CT</option>
-            <option>Ambos</option>
-          </Select>
-          <FormErrorMessage>
-            {errors?.ttOrCt && errors?.ttOrCt?.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormControl isInvalid={!!errors?.movement?.message} isRequired>
+              <FormLabel htmlFor="movement">Movimiento</FormLabel>
+              <Select placeholder="..." id="movement" {...register("movement")}>
+                <MovementOptions />
+              </Select>
+              <FormErrorMessage>
+                {errors?.movement && errors?.movement?.message}
+              </FormErrorMessage>
+            </FormControl>
 
-        <FormControl isInvalid={!!errors?.movement?.message} isRequired>
-          <FormLabel htmlFor="movement">Movimiento</FormLabel>
-          <Select placeholder="..." id="movement" {...register("movement")}>
-            <MovementOptions />
-          </Select>
-          <FormErrorMessage>
-            {errors?.movement && errors?.movement?.message}
-          </FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors?.technique?.message} isRequired>
-          <FormLabel htmlFor="technique">Técnica</FormLabel>
-          <Select placeholder="..." id="technique" {...register("technique")}>
-            <TechniquesOptions />
-          </Select>
-          <FormErrorMessage>
-            {errors?.technique && errors?.technique?.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormControl isInvalid={!!errors?.technique?.message} isRequired>
+              <FormLabel htmlFor="technique">Técnica</FormLabel>
+              <Select
+                placeholder="..."
+                id="technique"
+                {...register("technique")}
+              >
+                <TechniquesOptions />
+              </Select>
+              <FormErrorMessage>
+                {errors?.technique && errors?.technique?.message}
+              </FormErrorMessage>
+            </FormControl>
+          </Flex>
+        </Flex>
         <FormControl isInvalid={!!errors?.gfycatUrl?.message} isRequired>
           <FormLabel htmlFor="gfycatUrl">Link de Gfycat</FormLabel>
           <Input
@@ -253,24 +283,9 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
           bgColor="primary"
           _hover={{ bgColor: "primary-light" }}
           isLoading={isSubmitting}
-          isDisabled={
-            nadeHasPosition && isValid && selectedMap !== "" && noErrors
-              ? false
-              : true
-          }
           color="white"
         >
-          {!isValid && "El formulario está incompleto o tiene errores."}
-          {!nadeHasPosition &&
-            isValid &&
-            noErrors &&
-            "Elige una posición para la nade."}
-          {nadeHasPosition && selectedMap === "" && "Vuelve a elegir un mapa"}
-          {isValid &&
-            nadeHasPosition &&
-            selectedMap !== "" &&
-            noErrors &&
-            "Subir nade"}
+          Subir nade
         </Button>
       </ChakraForm>
     </>

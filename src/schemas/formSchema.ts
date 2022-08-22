@@ -6,8 +6,8 @@ const required_error = "Campo obligatorio.";
 export interface CreateNadeFormInputs {
   thrownFrom: string;
   endLocation: string;
-  nadeType: { typeName: string; nadeId: any };
-  map: { id: string; mapName: string };
+  nadeType: string;
+  map: string;
   isOneWay: boolean;
   tickrate: "64" | "128";
   ttOrCt: "TT" | "CT";

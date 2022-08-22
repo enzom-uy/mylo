@@ -60,7 +60,7 @@ const MapOverlay: React.FC<{
   const [fakeNadePosition, setFakeNadePosition] = useState({ x: 0, y: 0 });
   const [userClicked, setUserClicked] = useState(false);
   const [showNades, setShowNades] = useState(false);
-  const [nades, setNades] = useState<NadeInfo[]>();
+  const [nades, setNades] = useState<NadeInfo[] | null>();
   console.log(currentType);
 
   useEffect(() => {
@@ -81,6 +81,10 @@ const MapOverlay: React.FC<{
           )
         );
         setShowNades(true);
+      }
+      if (infoAboutCurrentMap!.NadesInMap.length <= 0) {
+        setNades(null);
+        setShowNades(false);
       }
     }
   }, [currentType]);

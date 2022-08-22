@@ -3,7 +3,12 @@ import { mapsPaths as paths, nadeTypes } from "@/helpers/variables";
 import useViewport from "@/hooks/useViewport";
 import { getAllMaps } from "@/services/database.services";
 import { Button, Flex } from "@chakra-ui/react";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  NextPage,
+} from "next";
 import Head from "next/head";
 import { StaticImageData } from "next/image";
 import { useRouter } from "next/router";
@@ -77,7 +82,7 @@ export interface AllMapsInfo {
 const Map: NextPage<{
   mapOverlays: { img: StaticImageData; name: string }[];
   allMapsInfo: AllMapsInfo[];
-}> = ({ mapOverlays, allMapsInfo }) => {
+}> = ({ allMapsInfo }) => {
   const [selectedType, setSelectedType] = useState<
     "Deto" | "Flash" | "Molo" | "Smoke" | string
   >("Smoke");
@@ -94,6 +99,7 @@ const Map: NextPage<{
 
   const isMobile = useViewport();
   const sideMenuTypeOptions = nadeTypes.filter((type) => type.svg);
+  console.log(allMapsInfo);
 
   return (
     <>
@@ -169,51 +175,12 @@ const Map: NextPage<{
 
 export default Map;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const mapOverlays = [
-    {
-      name: "Mirage",
-      img: Mirage,
-    },
-    {
-      name: "Overpass",
-      img: Overpass,
-    },
-    {
-      img: Nuke,
-      name: "Nuke",
-    },
-    {
-      img: Inferno,
-      name: "Inferno",
-    },
-    {
-      img: Tuscan,
-      name: "Tuscan",
-    },
-    {
-      img: Dust2,
-      name: "Dust2",
-    },
-    {
-      img: Vertigo,
-      name: "Vertigo",
-    },
-  ];
+export const getServerSideProps: GetServerSideProps = async () => {
   const allMapsInfo = await getAllMaps();
 
   return {
     props: {
-      mapOverlays: mapOverlays,
       allMapsInfo: allMapsInfo,
     },
-    revalidate: 10,
   };
 };

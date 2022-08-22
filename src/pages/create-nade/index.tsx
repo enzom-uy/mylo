@@ -1,9 +1,8 @@
 import CreateNadeForm from "@/components/Form/CreateNadeForm";
-import { getAllmaps, getUser } from "@/services/database.services";
+import { getUser } from "@/services/database.services";
 import { GetServerSideProps, NextPage } from "next";
 import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
-import React from "react";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 interface Props {

@@ -1,13 +1,14 @@
-import { ChakraNextImage } from "@/components/ChakraNextImage";
-import SectionTitle from "@/components/SectionTitle";
-import { mapsPaths as paths } from "@/helpers/variables";
+import SideMenu from "@/components/MapOverlay/SideMenu";
+import MySvg from "@/components/MapOverlay/SideMenu/MySvg";
+import { mapsPaths as paths, nadeTypes } from "@/helpers/variables";
 import useViewport from "@/hooks/useViewport";
-import { Flex } from "@chakra-ui/react";
+import { getAllMaps } from "@/services/database.services";
+import { Button, Flex } from "@chakra-ui/react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { StaticImageData } from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
 import MapOverlay from "./MapOverlay";
 import Dust2 from "/public/mapsoverlays/dust2-overlay.jpg";
 import Inferno from "/public/mapsoverlays/inferno-overlay.jpg";
@@ -48,9 +49,39 @@ export const mapOverlays = [
   },
 ];
 
+export interface AllMapsInfo {
+  NadesInMap: {
+    map: {
+      mapName: string;
+    };
+    user: {
+      id: string;
+      name: string | null;
+    };
+    description: string | null;
+    thrownFrom: string;
+    endLocation: string;
+    movement: string;
+    technique: string;
+    tickrate: string;
+    ttOrCt: string;
+    votes: number;
+    position: string;
+    gfycatUrl: string;
+    nadeType: string;
+  }[];
+  mapName: string;
+  id: string;
+}
+[];
+
 const Map: NextPage<{
   mapOverlays: { img: StaticImageData; name: string }[];
-}> = ({ mapOverlays }) => {
+  allMapsInfo: AllMapsInfo[];
+}> = ({ mapOverlays, allMapsInfo }) => {
+  const [selectedType, setSelectedType] = useState<
+    "Deto" | "Flash" | "Molo" | "Smoke" | string
+  >("Smoke");
   const router = useRouter();
   const isBrowser = typeof window !== undefined;
   const mapRouter = isBrowser && (router.query.map as string);
@@ -63,6 +94,7 @@ const Map: NextPage<{
   const img = currentMap[0]!.img;
 
   const isMobile = useViewport();
+  const sideMenuTypeOptions = nadeTypes.filter((type) => type.svg);
 
   return (
     <>
@@ -84,10 +116,53 @@ const Map: NextPage<{
           minHeight={isMobile ? "45px" : "600px"}
           maxHeight="600px"
           minWidth={isMobile ? "100%" : "50px"}
-          bgColor="red.500"
+          //   bgColor="red.500"
           rounded="lg"
-        ></Flex>
-        <MapOverlay img={img} map={convertedMap as string} />
+        >
+          <Flex
+            flexDir="column"
+            alignItems="center"
+            fontSize=".8rem"
+            fontWeight="semibold"
+            letterSpacing="wider"
+            gap={2}
+          >
+            TIPO
+            <Flex
+              flexDir={isMobile ? "row" : "column"}
+              boxShadow="0 1px 3px 0px #484149"
+              rounded="lg"
+            >
+              {sideMenuTypeOptions.map((option) => {
+                const nadeType = option.typeName;
+                return (
+                  <Button
+                    key={option.typeName}
+                    bgColor="transparent"
+                    rounded="none"
+                    isActive={selectedType === option.typeName}
+                    onClick={() => {
+                      setSelectedType(option.typeName);
+                    }}
+                    _first={{ roundedTop: "lg" }}
+                    _last={{ roundedBottom: "lg", borderBottom: "none" }}
+                    borderBottom="1px"
+                    maxWidth="40px"
+                    px={0}
+                  >
+                    <MySvg type={option.typeName} />
+                  </Button>
+                );
+              })}
+            </Flex>
+          </Flex>
+        </Flex>
+        <MapOverlay
+          img={img}
+          mapName={convertedMap as string}
+          allMapsInfo={allMapsInfo}
+          currentType={selectedType}
+        />
       </Flex>
     </>
   );
@@ -133,9 +208,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       name: "Vertigo",
     },
   ];
+  const allMapsInfo = await getAllMaps();
+
   return {
     props: {
       mapOverlays: mapOverlays,
+      allMapsInfo: allMapsInfo,
     },
+    revalidate: 10,
   };
 };

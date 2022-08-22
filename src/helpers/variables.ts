@@ -9,6 +9,12 @@ import nuke from "/public/nuke.webp";
 import overpass from "/public/overpass.webp";
 import vertigo from "/public/vertigo.webp";
 
+import DetoSvg from "@/components/MapOverlay/SideMenu/DetoSvg";
+import FlashSvg from "@/components/MapOverlay/SideMenu/FlashSvg";
+import MoloSvg from "@/components/MapOverlay/SideMenu/MoloSvg";
+import SmokeSvg from "@/components/MapOverlay/SideMenu/SmokeSvg";
+import React, { ReactNode } from "react";
+
 interface NavbarLinks {
   title: string;
   img?: StaticImageData;
@@ -125,18 +131,22 @@ export const mapsPaths = [
   },
 ];
 
-export const nadeTypes = [
+export const nadeTypes: { typeName: string; svg?: React.FC }[] = [
   {
     typeName: "Deto",
+    svg: DetoSvg,
   },
   {
     typeName: "Flash",
+    svg: FlashSvg,
   },
   {
     typeName: "Molo",
+    svg: MoloSvg,
   },
   {
     typeName: "Smoke",
+    svg: SmokeSvg,
   },
   {
     typeName: "One way",

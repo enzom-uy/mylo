@@ -56,7 +56,11 @@ const SetNadePosition: React.FC<{
           <ModalCloseButton />
           <ModalBody>
             {map !== undefined && (
-              <MapOverlay getNadePosition={getPos} img={mapImg} map={mapName} />
+              <MapOverlay
+                getNadePosition={getPos}
+                img={mapImg}
+                mapName={mapName}
+              />
             )}
           </ModalBody>
 

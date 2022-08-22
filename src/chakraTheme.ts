@@ -40,6 +40,7 @@ const config: ThemeConfig = {
 const shadows = {
   "light-shadow": "0 8px 8px 0 rgba(0, 0, 0, 0.20)",
   baseline: "0 0 10px 0 rgba(0, 0, 0, 0.25)",
+  borderlike: "0 0 10px 0 rgba(0, 0, 0, 0.25)",
 };
 
 const breakpoints = {

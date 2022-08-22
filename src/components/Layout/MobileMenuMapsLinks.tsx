@@ -1,10 +1,9 @@
-import { navbarLinks } from "@/helpers/variables";
+import { maps } from "@/helpers/variables";
 import { Box, chakra, MenuItem } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 
 const MobileMenuMapsLinks = () => {
-  const maps = navbarLinks.filter((link) => link.type === "map");
   return (
     <>
       {maps.map((map) => (

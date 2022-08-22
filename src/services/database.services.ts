@@ -4,8 +4,35 @@ import { trpc } from "@/utils/trpc";
 import { Nade } from "@prisma/client";
 import { prisma } from "src/server/db/client";
 
-export const getAllmaps = async () => {
-  return await prisma.map.findMany();
+export const getAllMaps = async () => {
+  return await prisma.map.findMany({
+    select: {
+      NadesInMap: {
+        select: {
+          description: true,
+          thrownFrom: true,
+          endLocation: true,
+          map: { select: { mapName: true } },
+          movement: true,
+          technique: true,
+          tickrate: true,
+          ttOrCt: true,
+          nadeType: true,
+          user: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          votes: true,
+          position: true,
+          gfycatUrl: true,
+        },
+      },
+      mapName: true,
+      id: true,
+    },
+  });
 };
 
 export const getAllNades = async () => {

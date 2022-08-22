@@ -82,7 +82,7 @@ export interface AllMapsInfo {
 const Map: NextPage<{
   mapOverlays: { img: StaticImageData; name: string }[];
   allMapsInfo: AllMapsInfo[];
-}> = ({ allMapsInfo }) => {
+}> = ({ mapOverlays, allMapsInfo }) => {
   const [selectedType, setSelectedType] = useState<
     "Deto" | "Flash" | "Molo" | "Smoke" | string
   >("Smoke");
@@ -99,7 +99,6 @@ const Map: NextPage<{
 
   const isMobile = useViewport();
   const sideMenuTypeOptions = nadeTypes.filter((type) => type.svg);
-  console.log(allMapsInfo);
 
   return (
     <>
@@ -176,10 +175,42 @@ const Map: NextPage<{
 export default Map;
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const mapOverlays = [
+    {
+      name: "Mirage",
+      img: Mirage,
+    },
+    {
+      name: "Overpass",
+      img: Overpass,
+    },
+    {
+      img: Nuke,
+      name: "Nuke",
+    },
+    {
+      img: Inferno,
+      name: "Inferno",
+    },
+    {
+      img: Tuscan,
+      name: "Tuscan",
+    },
+    {
+      img: Dust2,
+      name: "Dust2",
+    },
+    {
+      img: Vertigo,
+      name: "Vertigo",
+    },
+  ];
   const allMapsInfo = await getAllMaps();
+  console.log(allMapsInfo);
 
   return {
     props: {
+      mapOverlays: mapOverlays,
       allMapsInfo: allMapsInfo,
     },
   };

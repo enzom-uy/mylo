@@ -1,4 +1,3 @@
-import SideMenu from "@/components/MapOverlay/SideMenu";
 import MySvg from "@/components/MapOverlay/SideMenu/MySvg";
 import { mapsPaths as paths, nadeTypes } from "@/helpers/variables";
 import useViewport from "@/hooks/useViewport";

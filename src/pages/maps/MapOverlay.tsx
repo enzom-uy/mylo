@@ -61,7 +61,6 @@ const MapOverlay: React.FC<{
   const [userClicked, setUserClicked] = useState(false);
   const [showNades, setShowNades] = useState(false);
   const [nades, setNades] = useState<NadeInfo[] | null>();
-  console.log(currentType);
 
   useEffect(() => {
     if (getNadePosition) {
@@ -89,8 +88,6 @@ const MapOverlay: React.FC<{
     }
   }, [currentType]);
 
-  console.log(nades);
-
   return (
     <Flex
       bgColor="#151515"
@@ -105,7 +102,6 @@ const MapOverlay: React.FC<{
         const target = e.target as HTMLElement;
         const rect = target.getBoundingClientRect();
 
-        console.log(e.pageX - rect.x, e.pageY - rect.y);
         if (getNadePosition) {
           const stateCopy = nadePosition;
           const target = e.target as HTMLElement;

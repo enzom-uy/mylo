@@ -4,29 +4,12 @@ import { trpc } from "@/utils/trpc";
 import { Nade } from "@prisma/client";
 import { prisma } from "src/server/db/client";
 
-export const getAllMaps = async () => {
+export const getMapsWithNades = async () => {
   return await prisma.map.findMany({
     select: {
       NadesInMap: {
-        select: {
-          description: true,
-          thrownFrom: true,
-          endLocation: true,
-          map: { select: { mapName: true } },
-          movement: true,
-          technique: true,
-          tickrate: true,
-          ttOrCt: true,
-          nadeType: true,
-          user: {
-            select: {
-              name: true,
-              id: true,
-            },
-          },
-          votes: true,
-          position: true,
-          gfycatUrl: true,
+        where: {
+          approved: true,
         },
       },
       mapName: true,
@@ -35,13 +18,17 @@ export const getAllMaps = async () => {
   });
 };
 
-export const getAllNades = async () => {
+export const getUnapprovedNades = async () => {
   return await prisma.nade.findMany({
-    select: {
-      id: true,
-      thrownFrom: true,
-      endLocation: true,
-      gfycatUrl: true,
+    where: {
+      approved: false,
+    },
+    include: {
+      map: {
+        select: {
+          mapName: true,
+        },
+      },
     },
   });
 };
@@ -54,10 +41,16 @@ export const getNewerNades = async () => {
   });
 };
 
-export const getUser = async (email: string) => {
+export const getUser = async (email: string | undefined | null) => {
   return await prisma.user.findMany({
     where: {
       email: email,
+    },
+    select: {
+      email: true,
+      id: true,
+      role: true,
+      name: true,
     },
   });
 };

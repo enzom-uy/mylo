@@ -1,7 +1,7 @@
 import MySvg from "@/components/MapOverlay/SideMenu/MySvg";
 import { mapsPaths as paths, nadeTypes } from "@/helpers/variables";
 import useViewport from "@/hooks/useViewport";
-import { getAllMaps } from "@/services/database.services";
+import { getMapsWithNades } from "@/services/database.services";
 import { Button, Flex } from "@chakra-ui/react";
 import {
   GetServerSideProps,
@@ -99,6 +99,8 @@ const Map: NextPage<{
 
   const isMobile = useViewport();
   const sideMenuTypeOptions = nadeTypes.filter((type) => type.svg);
+
+  console.log(allMapsInfo.map((map) => map.NadesInMap));
 
   return (
     <>
@@ -205,13 +207,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
       name: "Vertigo",
     },
   ];
-  const allMapsInfo = await getAllMaps();
-  console.log(allMapsInfo);
+  const allMapsInfo = await getMapsWithNades();
 
   return {
     props: {
       mapOverlays: mapOverlays,
-      allMapsInfo: allMapsInfo,
+      allMapsInfo: JSON.parse(JSON.stringify(allMapsInfo)),
     },
   };
 };

@@ -5,6 +5,8 @@ const SimpleContainer = chakra(Flex, {
     bgColor: "#fff",
     fontFamily: "inherit",
     width: "fit-content",
+    rounded: "lg",
+    p: 2,
   },
 });
 

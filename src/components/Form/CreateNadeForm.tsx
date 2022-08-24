@@ -9,6 +9,7 @@ import {
   FormLabel,
   Input,
   Select,
+  Textarea,
   ToastId,
   useToast,
 } from "@chakra-ui/react";
@@ -35,7 +36,7 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<CreateNadeFormInputs>({
     mode: "onTouched",
@@ -47,7 +48,6 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
   const [nadePosition, setNadePosition] = useState("");
   const toast = useToast();
   const toastIdRef = React.useRef<ToastId | undefined>();
-  console.log(nadePosition);
 
   const createNade = trpc.useMutation("createNade.create");
 
@@ -183,10 +183,9 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
             </FormControl>
             <FormControl isInvalid={!!errors?.description?.message}>
               <FormLabel htmlFor="description">Descripción</FormLabel>
-              <Input
-                type="text"
+              <Textarea
                 id="description"
-                placeholder="Tapete"
+                placeholder="..."
                 {...register("description")}
               />
               <FormErrorMessage>

@@ -7,6 +7,19 @@ export const getMapsWithNades = async () => {
         where: {
           approved: true,
         },
+        include: {
+          user: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          map: {
+            select: {
+              mapName: true,
+            },
+          },
+        },
       },
       mapName: true,
       id: true,

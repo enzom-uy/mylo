@@ -11,15 +11,8 @@ interface CustomNade extends Nade {
 }
 
 const Admin: NextPage<{
-  user: {
-    email: string;
-    id: string;
-    role: string;
-    name: string;
-    map: { mapName: string };
-  };
   unapprovedNades: CustomNade[];
-}> = ({ user, unapprovedNades }) => {
+}> = ({ unapprovedNades }) => {
   return (
     <>
       <Head>

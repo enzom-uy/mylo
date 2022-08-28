@@ -1,5 +1,6 @@
 import { ChakraNextImage } from "@/components/ChakraNextImage";
 import MySvg from "@/components/MapOverlay/SideMenu/MySvg";
+import NadeComponent from "@/components/nade/Nade";
 import { Flex, Text } from "@chakra-ui/react";
 import { Nade } from "@prisma/client";
 import { StaticImageData } from "next/image";
@@ -25,7 +26,7 @@ const YellowMark: React.FC<{ y: number; x: number }> = ({ y, x }) => {
   );
 };
 
-interface NadeInfo {
+export interface NadeInfo {
   map: {
     mapName: string;
   };
@@ -96,6 +97,7 @@ const MapOverlay: React.FC<{
       const infoAboutCurrentMap = allMapsInfo.filter(
         (map) => map.mapName === mapName
       )[0];
+      console.log(allMapsInfo);
       if (infoAboutCurrentMap!.NadesInMap.length > 0) {
         setNades(
           infoAboutCurrentMap!.NadesInMap.filter(
@@ -170,17 +172,7 @@ const MapOverlay: React.FC<{
       {showNades &&
         nades?.map((nade) => {
           if (nade.position !== "") {
-            const coordinates = JSON.parse(nade?.position);
-            return (
-              <Flex
-                key={nade.gfycatUrl}
-                position="absolute"
-                top={coordinates.y}
-                left={coordinates.x}
-              >
-                <MySvg type={nade.nadeType} />
-              </Flex>
-            );
+            return <NadeComponent nade={nade} />;
           }
         })}
     </Flex>

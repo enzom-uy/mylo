@@ -9,7 +9,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -19,12 +18,21 @@ const SetNadePosition: React.FC<{
   getNadePosition: (pos: any) => void;
   disabled?: boolean;
   nadeHasPosition: boolean;
-}> = ({ selectedMap, getNadePosition, disabled, nadeHasPosition }) => {
+  position?: string;
+}> = ({
+  selectedMap,
+  getNadePosition,
+  disabled,
+  nadeHasPosition,
+  position,
+}) => {
   const [map] = mapOverlays.filter((map) => map.name === selectedMap);
   const mapImg = map?.img;
   const mapName = map?.name;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [pos, setPos] = useState<{ x: number; y: number }>();
+  const [pos, setPos] = useState<{ x: number; y: number }>(
+    (position && JSON.parse(position)) || { x: 0, y: 0 }
+  );
 
   const getPos = (position: { x: number; y: number }) => {
     setPos(position);
@@ -32,7 +40,6 @@ const SetNadePosition: React.FC<{
   useEffect(() => {
     getNadePosition(pos);
   }, [pos]);
-
   return (
     <>
       <Button
@@ -60,6 +67,7 @@ const SetNadePosition: React.FC<{
                 getNadePosition={getPos}
                 img={mapImg}
                 mapName={mapName}
+                position={position}
               />
             )}
           </ModalBody>

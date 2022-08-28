@@ -208,6 +208,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   ];
   const allMapsInfo = await getMapsWithNades();
+  console.log(allMapsInfo);
 
   return {
     props: {

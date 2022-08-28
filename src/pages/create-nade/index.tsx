@@ -1,4 +1,4 @@
-import CreateNadeForm from "@/components/Form/CreateNadeForm";
+import NadeForm from "@/components/Form/NadeForm";
 import { getUser } from "@/services/database.services";
 import { GetServerSideProps, NextPage } from "next";
 import { unstable_getServerSession } from "next-auth";
@@ -6,8 +6,6 @@ import Head from "next/head";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 interface Props {
-  maps: { id: string; mapName: string; nadesInMap?: [{}] }[];
-  nadeTypes: { typeName: string; nadesOfThisType?: {}[] | undefined }[];
   user: {
     id: string;
     name: string;
@@ -18,7 +16,7 @@ interface Props {
   };
 }
 
-const Create: NextPage<Props> = ({ maps, nadeTypes, user }) => {
+const Create: NextPage<Props> = ({ user }) => {
   return (
     <>
       <Head>
@@ -29,7 +27,7 @@ const Create: NextPage<Props> = ({ maps, nadeTypes, user }) => {
         />
       </Head>
 
-      <CreateNadeForm user={user} />
+      <NadeForm user={user} />
     </>
   );
 };

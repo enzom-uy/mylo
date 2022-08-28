@@ -1,7 +1,3 @@
-import { CreateNadeResponse } from "@/interfaces/nades";
-import { CreateNadeFormInputs } from "@/schemas/formSchema";
-import { trpc } from "@/utils/trpc";
-import { Nade } from "@prisma/client";
 import { prisma } from "src/server/db/client";
 
 export const getMapsWithNades = async () => {

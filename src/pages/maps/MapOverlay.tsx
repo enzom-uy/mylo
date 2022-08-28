@@ -4,6 +4,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { Nade } from "@prisma/client";
 import { StaticImageData } from "next/image";
 import React, { useEffect, useState } from "react";
+import { json } from "stream/consumers";
 import { AllMapsInfo } from "./[map]";
 
 const YellowMark: React.FC<{ y: number; x: number }> = ({ y, x }) => {
@@ -52,13 +53,35 @@ const MapOverlay: React.FC<{
   getNadePosition?: (pos: any) => void;
   allMapsInfo?: AllMapsInfo[];
   currentType?: "Smoke" | "Flash" | "Deto" | "Molo" | string;
-}> = ({ img, mapName, getNadePosition, allMapsInfo, currentType }) => {
-  const [nadePosition, setNadePosition] = useState({
-    x: 0,
-    y: 0,
-  });
-  const [fakeNadePosition, setFakeNadePosition] = useState({ x: 0, y: 0 });
+  position?: string;
+}> = ({
+  img,
+  mapName,
+  getNadePosition,
+  allMapsInfo,
+  currentType,
+  position,
+}) => {
+  const [nadePosition, setNadePosition] = useState(
+    position
+      ? JSON.parse(position)
+      : {
+          x: 0,
+          y: 0,
+        }
+  );
+  let parsedPosition;
+  if (position) {
+    parsedPosition = JSON.parse(position);
+  }
+  const [fakeNadePosition, setFakeNadePosition] = useState(
+    parsedPosition ? parsedPosition : undefined
+  );
+
   const [userClicked, setUserClicked] = useState(false);
+  const [initialPosition, setInitialPosition] = useState(
+    position ? JSON.parse(position) : {}
+  );
   const [showNades, setShowNades] = useState(false);
   const [nades, setNades] = useState<NadeInfo[] | null>();
 
@@ -104,15 +127,28 @@ const MapOverlay: React.FC<{
 
         if (getNadePosition) {
           const stateCopy = nadePosition;
+          const prevPosition = position;
           const target = e.target as HTMLElement;
           const rect = target.getBoundingClientRect();
           const x = e.pageX - rect.x;
           const y = e.pageY - rect.y;
           setNadePosition({ ...stateCopy, x: x - 13, y: y - 15 });
-          setFakeNadePosition({ ...stateCopy, x: x, y: y });
+          setFakeNadePosition({ prevPosition, x: x, y: y });
           getNadePosition(nadePosition);
           setUserClicked(true);
-        } else return;
+        }
+        if (getNadePosition && position) {
+          const stateCopy = nadePosition;
+          const prevPosition = JSON.parse(position);
+          const target = e.target as HTMLElement;
+          const rect = target.getBoundingClientRect();
+          const x = e.pageX - rect.x;
+          const y = e.pageY - rect.y;
+          setNadePosition({ ...stateCopy, x: x - 13.5, y: y - 130 });
+          setFakeNadePosition({ ...prevPosition, x: x, y: y - 120 });
+          getNadePosition(nadePosition);
+          setUserClicked(true);
+        }
       }}
     >
       <ChakraNextImage
@@ -123,24 +159,29 @@ const MapOverlay: React.FC<{
         alt={`Imágen del rader del mapa ${mapName}`}
         draggable={false}
       />
-      {userClicked ? (
+      {userClicked && !position ? (
+        <YellowMark y={fakeNadePosition.y} x={fakeNadePosition.x} />
+      ) : undefined}
+      {position && !userClicked ? (
+        <YellowMark y={initialPosition.y + 14} x={initialPosition.x + 12} />
+      ) : position && userClicked ? (
         <YellowMark y={fakeNadePosition.y} x={fakeNadePosition.x} />
       ) : undefined}
       {showNades &&
         nades?.map((nade) => {
-          const coordinates: { x: number; y: number } = JSON.parse(
-            nade.position
-          );
-          return (
-            <Flex
-              key={nade.gfycatUrl}
-              position="absolute"
-              top={coordinates.y}
-              left={coordinates.x}
-            >
-              <MySvg type={nade.nadeType} />
-            </Flex>
-          );
+          if (nade.position !== "") {
+            const coordinates = JSON.parse(nade?.position);
+            return (
+              <Flex
+                key={nade.gfycatUrl}
+                position="absolute"
+                top={coordinates.y}
+                left={coordinates.x}
+              >
+                <MySvg type={nade.nadeType} />
+              </Flex>
+            );
+          }
         })}
     </Flex>
   );

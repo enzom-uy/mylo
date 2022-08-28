@@ -25,8 +25,6 @@ export const createNadeRouter = createRouter().mutation("create", {
       id: z.string(),
       name: z.string(),
       email: z.string(),
-      emailVerified: z.null(),
-      image: z.string(),
       role: z.string(),
     }),
     nadeType: z.string({ required_error }),

@@ -32,7 +32,7 @@ interface Props {
   };
 }
 
-const CreateNadeForm: React.FC<Props> = ({ user }) => {
+const NadeForm: React.FC<Props> = ({ user }) => {
   const {
     handleSubmit,
     register,
@@ -66,7 +66,6 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
     nadePosition !== '{"x":0,"y":0}' &&
     nadePosition !== "" &&
     nadePosition !== undefined;
-  const noErrors = Object.entries(errors).length === 0;
 
   const activeMap = navbarLinks.filter((map) => {
     return map.title === selectedMap;
@@ -96,8 +95,8 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
       position: "top",
       isClosable: true,
     });
-    const { error, message, newNade } = await createNade.mutateAsync(newData);
 
+    const { error, message, newNade } = await createNade.mutateAsync(newData);
     if (error) {
       toast.close(toastIdRef.current);
       toast({
@@ -119,6 +118,7 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
       });
     }
   };
+
   return (
     <>
       <ChakraForm
@@ -292,4 +292,4 @@ const CreateNadeForm: React.FC<Props> = ({ user }) => {
   );
 };
 
-export default CreateNadeForm;
+export default NadeForm;

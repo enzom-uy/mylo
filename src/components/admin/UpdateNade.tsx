@@ -26,6 +26,7 @@ interface Props {
   technique: string;
   nadeType: string;
   position: string;
+  removeNadeFromList: (nadeId: string) => void;
 }
 
 const UpdateNade: React.FC<Props> = ({
@@ -41,6 +42,7 @@ const UpdateNade: React.FC<Props> = ({
   technique,
   nadeType,
   position,
+  removeNadeFromList,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -74,6 +76,7 @@ const UpdateNade: React.FC<Props> = ({
               nadeType={nadeType}
               mapName={mapName}
               position={position}
+              removeNadeFromList={removeNadeFromList}
             />
           </ModalBody>
         </ModalContent>

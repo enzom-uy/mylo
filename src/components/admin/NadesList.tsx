@@ -23,13 +23,17 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
 
   const trpcGetNades = trpc.useMutation("getNades.getAllUnapprovedNades");
 
+  const removeNadeFromList = (nadeId: string) => {
+    const updatedNades = currentNades.filter((nade) => nade.id !== nadeId);
+    setLoadedNades(updatedNades);
+  };
+
   const getAllNades = async () => {
     setLoading(true);
     const nades = await trpcGetNades.mutateAsync();
     setLoadedNades(nades);
     setLoading(false);
   };
-  console.log(loadedNades);
 
   return (
     <>
@@ -78,6 +82,7 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
                 mapName={mapName}
                 position={position}
                 key={id}
+                removeNadeFromList={removeNadeFromList}
               />
             );
           })

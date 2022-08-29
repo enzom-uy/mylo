@@ -1,14 +1,18 @@
 import {
+  Button,
   chakra,
   Flex,
   Link,
   ListItem,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import SimpleContainer from "../SimpleContainer";
 import UpdateNade from "./UpdateNade";
+import { AiOutlineCheck } from "react-icons/ai";
+import { trpc } from "@/utils/trpc";
 
 const Span = chakra("span");
 
@@ -25,6 +29,7 @@ const NadeItem: React.FC<{
   technique: string;
   nadeType: string;
   position: string;
+  removeNadeFromList: (nadeId: string) => void;
 }> = ({
   id,
   thrownFrom,
@@ -38,8 +43,25 @@ const NadeItem: React.FC<{
   technique,
   nadeType,
   position,
+  removeNadeFromList,
 }) => {
+  const toast = useToast();
   const bgColor = useColorModeValue("#fff", "blue-gray-transparent");
+
+  const editNade = trpc.useMutation("editNade.edit");
+  const approveNade = async () => {
+    const { newNade } = await editNade.mutateAsync({ id: id, map: mapName });
+    if (newNade) {
+      toast({
+        title: "Se ha aprobado la nade.",
+        status: "success",
+        position: "top",
+        isClosable: true,
+      });
+      removeNadeFromList(id);
+    }
+    return newNade;
+  };
 
   return (
     <SimpleContainer
@@ -83,20 +105,36 @@ const NadeItem: React.FC<{
           NadeType: <Span fontWeight="bold">{nadeType}</Span>
         </Text>
       </Flex>
-      <UpdateNade
-        thrownFrom={thrownFrom}
-        endLocation={endLocation}
-        description={description}
-        tickrate={tickrate}
-        ttOrCt={ttOrCt}
-        movement={movement}
-        technique={technique}
-        gfycatUrl={gfycatUrl}
-        id={id}
-        nadeType={nadeType}
-        mapName={mapName}
-        position={position}
-      />
+      <Flex
+        flexDir="column"
+        justifyContent="center"
+        alignItems="center"
+        gap={4}
+      >
+        <Button
+          width="fit-content"
+          leftIcon={<AiOutlineCheck fontSize="1.6rem" />}
+          colorScheme="green"
+          onClick={approveNade}
+        >
+          Aprobar
+        </Button>
+        <UpdateNade
+          thrownFrom={thrownFrom}
+          endLocation={endLocation}
+          description={description}
+          tickrate={tickrate}
+          ttOrCt={ttOrCt}
+          movement={movement}
+          technique={technique}
+          gfycatUrl={gfycatUrl}
+          id={id}
+          nadeType={nadeType}
+          mapName={mapName}
+          position={position}
+          removeNadeFromList={removeNadeFromList}
+        />
+      </Flex>
     </SimpleContainer>
   );
 };

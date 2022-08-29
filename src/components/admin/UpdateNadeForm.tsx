@@ -34,6 +34,7 @@ interface Props {
   technique: string;
   nadeType: string;
   position: string;
+  removeNadeFromList: (nadeId: string) => void;
 }
 
 const NadeForm: React.FC<Props> = ({
@@ -49,6 +50,7 @@ const NadeForm: React.FC<Props> = ({
   technique,
   nadeType,
   position,
+  removeNadeFromList,
 }) => {
   const {
     handleSubmit,
@@ -74,7 +76,6 @@ const NadeForm: React.FC<Props> = ({
   const toastIdRef = React.useRef<ToastId | undefined>();
 
   const editNade = trpc.useMutation("editNade.edit");
-  console.log(newNadePosition);
 
   useEffect(() => {
     setNadePosition("");
@@ -131,6 +132,7 @@ const NadeForm: React.FC<Props> = ({
         position: "top",
         isClosable: true,
       });
+      removeNadeFromList(id);
     }
   };
 

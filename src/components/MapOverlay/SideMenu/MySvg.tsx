@@ -16,6 +16,8 @@ const MySvg: React.FC<{
       return <MoloSvg />;
     case "Flash":
       return <FlashSvg />;
+    case "One-way":
+      return <SmokeSvg />
     default:
       return <></>;
   }

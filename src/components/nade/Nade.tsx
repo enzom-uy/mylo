@@ -35,7 +35,6 @@ const NadeComponent: React.FC<{ nade: NadeInfo }> = ({ nade }) => {
       >
         <MySvg type={nade.nadeType} />
       </Flex>
-      {console.log(nade)}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent minW="300px" width="60vw" maxW="none" height="80%">

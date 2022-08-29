@@ -23,11 +23,6 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
 
   const trpcGetNades = trpc.useMutation("getNades.getAllUnapprovedNades");
 
-  const removeNadeFromList = (nadeId: string) => {
-    const updatedNades = currentNades.filter((nade) => nade.id !== nadeId);
-    setLoadedNades(updatedNades);
-  };
-
   const getAllNades = async () => {
     setLoading(true);
     const nades = await trpcGetNades.mutateAsync();
@@ -35,14 +30,26 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
     setLoading(false);
   };
 
+  const removeNadeFromList = (nadeId: string) => {
+    const updatedNades = nades.filter((nade) => nade.id !== nadeId);
+    getAllNades();
+    setLoadedNades(updatedNades);
+  };
+
+  console.log(loadedNades.length);
   return (
     <>
-      <Pagination
-        elementsPerPage={nadesPerPage}
-        totalElements={nades.length}
-        paginate={paginate}
-        currentPage={currentPage}
-      />
+      {loading ? (
+        <div>Cargando...</div>
+      ) : (
+        <Pagination
+          elementsPerPage={nadesPerPage}
+          totalElements={loadedNades.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+      )}
+
       <Button width="min-content" onClick={getAllNades}>
         Reload
       </Button>
@@ -86,7 +93,9 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
               />
             );
           })
-        ) : undefined}
+        ) : (
+          <div>Ya no quedan más nades 😃.</div>
+        )}
       </Flex>
     </>
   );

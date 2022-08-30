@@ -94,7 +94,6 @@ const MapOverlay: React.FC<{
         const infoAboutCurrentMap = allMapsInfo.filter(
           (map) => map.mapName === mapName
         )[0];
-        console.log(allMapsInfo);
         if (infoAboutCurrentMap!.NadesInMap.length > 0) {
           setNades(
             infoAboutCurrentMap!.NadesInMap.filter(

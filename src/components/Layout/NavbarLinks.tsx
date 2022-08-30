@@ -48,6 +48,7 @@ const NavbarLinks: React.FC = () => {
                     width={24}
                     alt={`${link.title} logo`}
                     layout="fixed"
+                    style={{ borderRadius: '100%' }}
                   />
                 ) : link.icon ? (
                   <Icon as={link.icon} fontSize="24px" />

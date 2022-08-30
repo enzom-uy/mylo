@@ -29,7 +29,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await unstable_getServerSession(req, res, authOptions);
   const user = await getUser(session?.user?.email);
   const userIsAdmin = user[0]?.role === "ADMIN";
-  console.log(session);
   if (!session || !user || !userIsAdmin) {
     return {
       redirect: {

@@ -8,6 +8,7 @@ import mirage from "/public/mirage.webp";
 import nuke from "/public/nuke.webp";
 import overpass from "/public/overpass.webp";
 import vertigo from "/public/vertigo.webp";
+import tuscan from "/public/tuscan.webp";
 
 import DetoSvg from "@/components/MapOverlay/SideMenu/DetoSvg";
 import FlashSvg from "@/components/MapOverlay/SideMenu/FlashSvg";
@@ -57,6 +58,7 @@ export const navbarLinks: NavbarLinks[] = [
   {
     title: "Tuscan",
     href: "/maps/tuscan",
+    img: tuscan,
     type: "map",
   },
   {

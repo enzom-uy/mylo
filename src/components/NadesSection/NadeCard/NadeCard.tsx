@@ -6,7 +6,6 @@ import React from "react";
 export const ChakraIframe = chakra("iframe");
 
 const NadeCard: React.FC<{ nade: NadeInfo }> = ({ nade }) => {
-  console.log(nade.gfycatUrl);
   return (
     <SimpleContainer bgColor={useColorModeValue("#fff", "blue-gray")}>
       <VStack>

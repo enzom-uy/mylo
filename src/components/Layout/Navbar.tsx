@@ -2,15 +2,14 @@ import ColorToggler from "@/components/Layout/ColorToggler";
 import SignWithGoogle from "@/components/Layout/SignWithGoogle";
 import useViewport from "@/hooks/useViewport";
 import { Flex } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import myloLogo from "/public/navbar-logo.svg";
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ session: Session | null | undefined }> = ({ session }) => {
   const isMobile = useViewport();
-  const { data: session } = useSession();
   return (
     <Flex
       as="header"

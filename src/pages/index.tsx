@@ -1,9 +1,6 @@
-import NadesSection from "@/components/NadesSection/NadesSection";
-
-import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-
-const Home: NextPage<{ nades: any[] }> = ({}) => {
+import type { NextPage } from "next";
+const Home: NextPage = ({ }) => {
   return (
     <>
       <Head>
@@ -15,12 +12,3 @@ const Home: NextPage<{ nades: any[] }> = ({}) => {
 };
 
 export default Home;
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
-  return {
-    props: {},
-  };
-};

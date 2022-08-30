@@ -2,7 +2,7 @@ import useViewport from "@/hooks/useViewport";
 import { Flex } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 
-const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
+const Main: React.FC<{ children: ReactNode }> = ({ children }) => {
   const isMobile = useViewport();
   return (
     <>
@@ -24,4 +24,4 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default Main;

@@ -100,7 +100,6 @@ const Map: NextPage<{
   const isMobile = useViewport();
   const sideMenuTypeOptions = nadeTypes.filter((type) => type.svg);
 
-  console.log(allMapsInfo.map((map) => map.NadesInMap));
 
   return (
     <>
@@ -208,7 +207,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   ];
   const allMapsInfo = await getMapsWithNades();
-  console.log(allMapsInfo);
 
   return {
     props: {

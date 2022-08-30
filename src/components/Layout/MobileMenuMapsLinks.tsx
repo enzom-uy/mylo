@@ -22,6 +22,7 @@ const MobileMenuMapsLinks = () => {
                   height="24"
                   width="24"
                   alt={`Icono de ${map.title}`}
+                  style={{ borderRadius: '100%' }}
                 />
               ) : (
                 <Box height="24px" width="24px"></Box>

@@ -1,14 +1,13 @@
+import Layout from "@/components/Layout/layout";
 import { ChakraProvider, Progress, ScaleFade } from "@chakra-ui/react";
 import { withTRPC } from "@trpc/next";
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
 import { Router } from "next/router";
 import { useEffect, useState } from "react";
 import theme from "src/chakraTheme";
-import Layout from "src/components/Layout/Layout";
+import Main from "src/components/Layout/Main";
 import MobileMenu from "src/components/Layout/MobileMenu";
-import Navbar from "src/components/Layout/Navbar";
-import Sidebar from "src/components/Layout/sidebar/Sidebar";
 import superjson from "superjson";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
@@ -39,16 +38,17 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
-        <Navbar />
-        <Sidebar />
+        <Layout />
         {loading ? (
           <Progress size="xs" isIndeterminate />
         ) : (
-          <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ScaleFade>
+          <>
+            <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
+              <Main>
+                <Component {...pageProps} />
+              </Main>
+            </ScaleFade>
+          </>
         )}
 
         <MobileMenu />

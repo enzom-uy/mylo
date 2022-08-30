@@ -36,7 +36,6 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
     setLoadedNades(updatedNades);
   };
 
-  console.log(loadedNades.length);
   return (
     <>
       {loading ? (

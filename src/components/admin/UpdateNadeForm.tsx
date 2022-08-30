@@ -75,7 +75,7 @@ const NadeForm: React.FC<Props> = ({
   const toast = useToast();
   const toastIdRef = React.useRef<ToastId | undefined>();
 
-  const editNade = trpc.useMutation("editNade.edit");
+  const trpcEditNade = trpc.useMutation("nade.edit");
 
   useEffect(() => {
     setNadePosition("");
@@ -122,7 +122,7 @@ const NadeForm: React.FC<Props> = ({
       isClosable: true,
     });
 
-    const { newNade } = await editNade.mutateAsync(newData);
+    const { newNade } = await trpcEditNade.mutateAsync(newData);
     if (newNade) {
       toast.close(toastIdRef.current);
       reset();

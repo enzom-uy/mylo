@@ -1,7 +1,7 @@
 import { trpc } from "@/utils/trpc";
 import { Button, Flex, List } from "@chakra-ui/react";
-import { Nade } from "@prisma/client";
-import React, { useState } from "react";
+import { Nade, User } from "@prisma/client";
+import React, { useEffect, useState } from "react";
 import NadeItem from "./NadeItem";
 import Pagination from "./Pagination";
 
@@ -9,7 +9,10 @@ interface CustomNade extends Nade {
   map: { mapName: string };
 }
 
-const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
+const NadesList: React.FC<{ nades: CustomNade[]; user?: User }> = ({
+  nades,
+  user,
+}) => {
   const [loadedNades, setLoadedNades] = useState<CustomNade[]>(nades);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +24,8 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const trpcGetNades = trpc.useMutation("getNades.getAllUnapprovedNades");
+  const trpcGetNades = trpc.useMutation("nade.getAllUnapprovedNades");
+  const trpcGetNadesFromUser = trpc.useMutation("nade.getNadesFromUser");
 
   const getAllNades = async () => {
     setLoading(true);
@@ -36,11 +40,24 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
     setLoadedNades(updatedNades);
   };
 
+  useEffect(() => {
+    if (user) {
+      const getNadesFromUser = async () => {
+        setLoading(true);
+        const nades = await trpcGetNadesFromUser.mutateAsync({
+          email: user.email!,
+        });
+        setLoadedNades(nades);
+        setLoading(false);
+        console.log("check");
+      };
+      getNadesFromUser();
+    }
+  }, []);
+
   return (
     <>
-      {loading ? (
-        <div>Cargando...</div>
-      ) : (
+      {loading ? undefined : (
         <Pagination
           elementsPerPage={nadesPerPage}
           totalElements={loadedNades.length}
@@ -49,9 +66,11 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
         />
       )}
 
-      <Button width="min-content" onClick={getAllNades}>
-        Reload
-      </Button>
+      {!user && (
+        <Button width="min-content" onClick={getAllNades}>
+          Reload
+        </Button>
+      )}
       <Flex as={List} flexDir="column" gap={3} mb={10}>
         {loading ? (
           <div>Cargando...</div>
@@ -89,11 +108,16 @@ const NadesList: React.FC<{ nades: CustomNade[] }> = ({ nades }) => {
                 position={position}
                 key={id}
                 removeNadeFromList={removeNadeFromList}
+                user={user}
               />
             );
           })
         ) : (
-          <div>Ya no quedan más nades 😃.</div>
+          <div>
+            {user
+              ? "Este usuario no ha subido ninguna nade aún 🥹."
+              : "Ya no quedan más nades 😃."}
+          </div>
         )}
       </Flex>
     </>

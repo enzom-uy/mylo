@@ -9,7 +9,7 @@ import { RiAdminLine } from "react-icons/ri";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { Session } from "next-auth";
 
-const Sidebar: React.FC<{ session: Session | null | undefined; status: string }> = ({ session, status }) => {
+const Sidebar: React.FC<{ session: Session | null | undefined; status: string; isAdmin: boolean }> = ({ session, status, isAdmin }) => {
   const isMobile = useViewport();
   return (
     <Flex
@@ -41,7 +41,7 @@ const Sidebar: React.FC<{ session: Session | null | undefined; status: string }>
         ) : (
           <>
             <CustomButton href="/account" text="Mi perfil" icon={FiUser} />
-            <CustomButton href="/admin" text="Admin" icon={RiAdminLine} />
+            {isAdmin && <CustomButton href="/admin" text="Admin" icon={RiAdminLine} />}
             <CustomButton
               href="/create-nade"
               text="Subir Nade"

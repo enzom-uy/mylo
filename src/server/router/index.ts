@@ -1,18 +1,13 @@
 // src/server/router/index.ts
 import superjson from "superjson";
 import { createRouter } from "./context";
-
-import { createNadeRouter } from "./createNade";
-import { editNadeRouter } from "./editNade";
-import { getNadesRouter } from "./getNades";
-import { getUserRouter } from "./getUser";
+import { nadeRouter } from "./nade";
+import { userRouter } from "./user";
 
 export const appRouter = createRouter()
   .transformer(superjson)
-  .merge("createNade.", createNadeRouter)
-  .merge("getNades.", getNadesRouter)
-  .merge("editNade.", editNadeRouter)
-  .merge("getUser.", getUserRouter)
+  .merge("nade.", nadeRouter)
+  .merge("user.", userRouter);
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

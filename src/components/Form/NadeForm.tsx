@@ -49,7 +49,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
   const toast = useToast();
   const toastIdRef = React.useRef<ToastId | undefined>();
 
-  const createNade = trpc.useMutation("createNade.create");
+  const createNade = trpc.useMutation("nade.create");
 
   useEffect(() => {
     setNadePosition("");

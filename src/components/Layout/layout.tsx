@@ -1,13 +1,13 @@
 import Sidebar from "./sidebar/Sidebar";
 import Navbar from "./Navbar";
-import { useSession } from "next-auth/react";
+import useUserIsAdmin from "@/hooks/useUserIsAdmin";
 
 const Layout: React.FC = () => {
-  const { data: session, status } = useSession();
+  const { userIsAdmin, session, status } = useUserIsAdmin()
   return (
     <>
       <Navbar session={session} />
-      <Sidebar session={session} status={status} />
+      <Sidebar session={session} status={status} isAdmin={userIsAdmin} />
     </>
   )
 }

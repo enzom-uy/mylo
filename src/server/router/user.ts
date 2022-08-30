@@ -2,7 +2,7 @@ import { prisma } from "@/server/db/client"
 import { z } from "zod"
 import { createRouter } from './context'
 
-export const getUserRouter = createRouter().mutation("getUser", {
+export const userRouter = createRouter().mutation("getUser", {
   input: z.object({
     email: z.string()
   }),
@@ -12,6 +12,9 @@ export const getUserRouter = createRouter().mutation("getUser", {
     const user = await prisma.user.findFirst({
       where: {
         email
+      },
+      include: {
+        Nade: true
       }
     })
     return user

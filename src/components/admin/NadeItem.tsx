@@ -1,3 +1,4 @@
+import { trpc } from "@/utils/trpc";
 import {
   Button,
   chakra,
@@ -8,11 +9,11 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { User } from "@prisma/client";
 import React from "react";
+import { AiOutlineCheck } from "react-icons/ai";
 import SimpleContainer from "../SimpleContainer";
 import UpdateNade from "./UpdateNade";
-import { AiOutlineCheck } from "react-icons/ai";
-import { trpc } from "@/utils/trpc";
 
 const Span = chakra("span");
 
@@ -30,6 +31,7 @@ const NadeItem: React.FC<{
   nadeType: string;
   position: string;
   removeNadeFromList: (nadeId: string) => void;
+  user: User | undefined;
 }> = ({
   id,
   thrownFrom,
@@ -44,13 +46,17 @@ const NadeItem: React.FC<{
   nadeType,
   position,
   removeNadeFromList,
+  user,
 }) => {
   const toast = useToast();
   const bgColor = useColorModeValue("#fff", "blue-gray-transparent");
 
-  const editNade = trpc.useMutation("editNade.edit");
+  const trpcEditNade = trpc.useMutation("nade.edit");
   const approveNade = async () => {
-    const { newNade } = await editNade.mutateAsync({ id: id, map: mapName });
+    const { newNade } = await trpcEditNade.mutateAsync({
+      id: id,
+      map: mapName,
+    });
     if (newNade) {
       toast({
         title: "Se ha aprobado la nade.",
@@ -71,7 +77,7 @@ const NadeItem: React.FC<{
       key={id}
       width="800px"
       boxShadow="baseline"
-      gridTemplateColumns="1fr 1fr .4fr"
+      gridTemplateColumns={user ? "1fr 1fr" : "1fr 1fr .4fr"}
       padding=".8rem"
     >
       <Flex flexDir="column" justifyContent="space-between" maxW="250px">
@@ -91,7 +97,11 @@ const NadeItem: React.FC<{
           {gfycatUrl}
         </Link>
       </Flex>
-      <Flex flexDir="column" justifyContent="center">
+      <Flex
+        flexDir="column"
+        justifyContent="center"
+        width={user ? "fit-content" : undefined}
+      >
         <Text>
           Tickrate: <Span fontWeight="bold">{tickrate}</Span>
         </Text>
@@ -111,29 +121,33 @@ const NadeItem: React.FC<{
         alignItems="center"
         gap={4}
       >
-        <Button
-          width="fit-content"
-          leftIcon={<AiOutlineCheck fontSize="1.6rem" />}
-          colorScheme="green"
-          onClick={approveNade}
-        >
-          Aprobar
-        </Button>
-        <UpdateNade
-          thrownFrom={thrownFrom}
-          endLocation={endLocation}
-          description={description}
-          tickrate={tickrate}
-          ttOrCt={ttOrCt}
-          movement={movement}
-          technique={technique}
-          gfycatUrl={gfycatUrl}
-          id={id}
-          nadeType={nadeType}
-          mapName={mapName}
-          position={position}
-          removeNadeFromList={removeNadeFromList}
-        />
+        {!user && (
+          <>
+            <Button
+              width="fit-content"
+              leftIcon={<AiOutlineCheck fontSize="1.6rem" />}
+              colorScheme="green"
+              onClick={approveNade}
+            >
+              Aprobar
+            </Button>
+            <UpdateNade
+              thrownFrom={thrownFrom}
+              endLocation={endLocation}
+              description={description}
+              tickrate={tickrate}
+              ttOrCt={ttOrCt}
+              movement={movement}
+              technique={technique}
+              gfycatUrl={gfycatUrl}
+              id={id}
+              nadeType={nadeType}
+              mapName={mapName}
+              position={position}
+              removeNadeFromList={removeNadeFromList}
+            />
+          </>
+        )}
       </Flex>
     </SimpleContainer>
   );

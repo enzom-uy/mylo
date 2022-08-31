@@ -1,157 +1,157 @@
-import { StaticImageData } from "next/image";
-import { IconType } from "react-icons";
-import { FiSettings, FiUser } from "react-icons/fi";
-import { IoIosAddCircleOutline, IoMdSettings } from "react-icons/io";
-import dust2 from "/public/dust2.webp";
-import inferno from "/public/inferno.webp";
-import mirage from "/public/mirage.webp";
-import nuke from "/public/nuke.webp";
-import overpass from "/public/overpass.webp";
-import vertigo from "/public/vertigo.webp";
-import tuscan from "/public/tuscan.webp";
+import React from 'react';
+import { StaticImageData } from 'next/image';
+import { IconType } from 'react-icons';
+import { FiSettings, FiUser } from 'react-icons/fi';
+import { IoIosAddCircleOutline, IoMdSettings } from 'react-icons/io';
+import dust2 from '/public/dust2.webp';
+import inferno from '/public/inferno.webp';
+import mirage from '/public/mirage.webp';
+import nuke from '/public/nuke.webp';
+import overpass from '/public/overpass.webp';
+import vertigo from '/public/vertigo.webp';
+import tuscan from '/public/tuscan.webp';
 
-import DetoSvg from "@/components/MapOverlay/SideMenu/DetoSvg";
-import FlashSvg from "@/components/MapOverlay/SideMenu/FlashSvg";
-import MoloSvg from "@/components/MapOverlay/SideMenu/MoloSvg";
-import SmokeSvg from "@/components/MapOverlay/SideMenu/SmokeSvg";
-import React, { ReactNode } from "react";
+import DetoSvg from '@/components/MapOverlay/SideMenu/DetoSvg';
+import FlashSvg from '@/components/MapOverlay/SideMenu/FlashSvg';
+import MoloSvg from '@/components/MapOverlay/SideMenu/MoloSvg';
+import SmokeSvg from '@/components/MapOverlay/SideMenu/SmokeSvg';
 
 interface NavbarLinks {
   title: string;
   img?: StaticImageData;
   icon?: IconType;
   href: string;
-  type: "map" | "menuOption";
+  type: 'map' | 'menuOption';
 }
 
 export const navbarLinks: NavbarLinks[] = [
   {
-    title: "Mirage",
+    title: 'Mirage',
     img: mirage,
-    href: "/maps/mirage",
-    type: "map",
+    href: '/maps/mirage',
+    type: 'map',
   },
   {
-    title: "Dust2",
+    title: 'Dust2',
     img: dust2,
-    href: "/maps/dust2",
-    type: "map",
+    href: '/maps/dust2',
+    type: 'map',
   },
   {
-    title: "Inferno",
+    title: 'Inferno',
     img: inferno,
-    href: "/maps/inferno",
-    type: "map",
+    href: '/maps/inferno',
+    type: 'map',
   },
   {
-    title: "Nuke",
+    title: 'Nuke',
     img: nuke,
-    href: "/maps/nuke",
-    type: "map",
+    href: '/maps/nuke',
+    type: 'map',
   },
   {
-    title: "Overpass",
+    title: 'Overpass',
     img: overpass,
-    href: "/maps/overpass",
-    type: "map",
+    href: '/maps/overpass',
+    type: 'map',
   },
   {
-    title: "Tuscan",
-    href: "/maps/tuscan",
+    title: 'Tuscan',
+    href: '/maps/tuscan',
     img: tuscan,
-    type: "map",
+    type: 'map',
   },
   {
-    title: "Vertigo",
+    title: 'Vertigo',
     img: vertigo,
-    href: "/maps/vertigo",
-    type: "map",
+    href: '/maps/vertigo',
+    type: 'map',
   },
   {
-    title: "CFGs",
-    href: "/cfgs",
+    title: 'CFGs',
+    href: '/cfgs',
     icon: IoMdSettings,
-    type: "menuOption",
+    type: 'menuOption',
   },
 ];
 
-export const maps = navbarLinks.filter((link) => link.href !== "/cfgs");
+export const maps = navbarLinks.filter((link) => link.href !== '/cfgs');
 
 export const mobileMenuItems = [
   {
-    title: "Subir Nade",
+    title: 'Subir Nade',
     icon: IoIosAddCircleOutline,
-    href: "/create-nade",
+    href: '/create-nade',
   },
   {
-    title: "CFGs",
+    title: 'CFGs',
     icon: FiSettings,
-    href: "/cfgs",
+    href: '/cfgs',
   },
   {
-    title: "Mi perfil",
+    title: 'Mi perfil',
     icon: FiUser,
-    href: "/account",
+    href: '/account',
   },
 ];
 
 export const mapsPaths = [
   {
     params: {
-      map: "mirage",
+      map: 'mirage',
     },
   },
   {
     params: {
-      map: "inferno",
+      map: 'inferno',
     },
   },
   {
     params: {
-      map: "nuke",
+      map: 'nuke',
     },
   },
   {
     params: {
-      map: "dust2",
+      map: 'dust2',
     },
   },
   {
     params: {
-      map: "overpass",
+      map: 'overpass',
     },
   },
   {
     params: {
-      map: "tuscan",
+      map: 'tuscan',
     },
   },
   {
     params: {
-      map: "vertigo",
+      map: 'vertigo',
     },
   },
 ];
 
 export const nadeTypes: { typeName: string; svg?: React.FC }[] = [
   {
-    typeName: "Deto",
+    typeName: 'Deto',
     svg: DetoSvg,
   },
   {
-    typeName: "Flash",
+    typeName: 'Flash',
     svg: FlashSvg,
   },
   {
-    typeName: "Molo",
+    typeName: 'Molo',
     svg: MoloSvg,
   },
   {
-    typeName: "Smoke",
+    typeName: 'Smoke',
     svg: SmokeSvg,
   },
   {
-    typeName: "One way",
+    typeName: 'One way',
   },
 ];
 
@@ -161,5 +161,5 @@ export const breakpoints = {
   md: 768,
   lg: 992,
   xl: 1200,
-  "2xl": 1400,
+  '2xl': 1400,
 };

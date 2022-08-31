@@ -1,55 +1,49 @@
-import MySvg from "@/components/MapOverlay/SideMenu/MySvg";
-import { mapsPaths as paths, nadeTypes } from "@/helpers/variables";
-import useViewport from "@/hooks/useViewport";
-import { getMapsWithNades } from "@/services/database.services";
-import { Button, Flex } from "@chakra-ui/react";
-import {
-  GetServerSideProps,
-  GetStaticPaths,
-  GetStaticProps,
-  NextPage,
-} from "next";
-import Head from "next/head";
-import { StaticImageData } from "next/image";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import MapOverlay from "./MapOverlay";
-import Dust2 from "/public/mapsoverlays/dust2-overlay.jpg";
-import Inferno from "/public/mapsoverlays/inferno-overlay.jpg";
-import Mirage from "/public/mapsoverlays/mirage-overlay.jpg";
-import Nuke from "/public/mapsoverlays/nuke-overlay.jpg";
-import Overpass from "/public/mapsoverlays/overpass-overlay.jpg";
-import Tuscan from "/public/mapsoverlays/tuscan-overlay.jpg";
-import Vertigo from "/public/mapsoverlays/vertigo-overlay.jpg";
+import MySvg from '@/components/MapOverlay/SideMenu/MySvg';
+import { mapsPaths as paths, nadeTypes } from '@/helpers/variables';
+import useViewport from '@/hooks/useViewport';
+import { getMapsWithNades } from '@/services/database.services';
+import { Button, Flex } from '@chakra-ui/react';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import MapOverlay from './MapOverlay';
+import Dust2 from '/public/mapsoverlays/dust2-overlay.jpg';
+import Inferno from '/public/mapsoverlays/inferno-overlay.jpg';
+import Mirage from '/public/mapsoverlays/mirage-overlay.jpg';
+import Nuke from '/public/mapsoverlays/nuke-overlay.jpg';
+import Overpass from '/public/mapsoverlays/overpass-overlay.jpg';
+import Tuscan from '/public/mapsoverlays/tuscan-overlay.jpg';
+import Vertigo from '/public/mapsoverlays/vertigo-overlay.jpg';
 
 export const mapOverlays = [
   {
-    name: "Mirage",
+    name: 'Mirage',
     img: Mirage,
   },
   {
-    name: "Overpass",
+    name: 'Overpass',
     img: Overpass,
   },
   {
     img: Nuke,
-    name: "Nuke",
+    name: 'Nuke',
   },
   {
     img: Inferno,
-    name: "Inferno",
+    name: 'Inferno',
   },
   {
     img: Tuscan,
-    name: "Tuscan",
+    name: 'Tuscan',
   },
   {
     img: Dust2,
-    name: "Dust2",
+    name: 'Dust2',
   },
   {
     img: Vertigo,
-    name: "Vertigo",
+    name: 'Vertigo',
   },
 ];
 
@@ -80,12 +74,12 @@ export interface AllMapsInfo {
 [];
 
 const Map: NextPage<{
-  mapOverlays: { img: StaticImageData; name: string }[];
+  /* mapOverlays: { img: StaticImageData; name: string }[]; */
   allMapsInfo: AllMapsInfo[];
-}> = ({ mapOverlays, allMapsInfo }) => {
+}> = ({ allMapsInfo }) => {
   const [selectedType, setSelectedType] = useState<
-    "Deto" | "Flash" | "Molo" | "Smoke" | string
-  >("Smoke");
+    'Deto' | 'Flash' | 'Molo' | 'Smoke' | string
+  >('Smoke');
   const router = useRouter();
   const isBrowser = typeof window !== undefined;
   const mapRouter = isBrowser && (router.query.map as string);
@@ -100,7 +94,6 @@ const Map: NextPage<{
   const isMobile = useViewport();
   const sideMenuTypeOptions = nadeTypes.filter((type) => type.svg);
 
-
   return (
     <>
       <Head>
@@ -112,15 +105,15 @@ const Map: NextPage<{
       </Head>
       <Flex
         gap={5}
-        flexDir={isMobile ? "column" : "row"}
+        flexDir={isMobile ? 'column' : 'row'}
         height="800px"
         width="100%"
-        alignItems={isMobile ? "center" : ""}
+        alignItems={isMobile ? 'center' : ''}
       >
         <Flex
-          minHeight={isMobile ? "45px" : "600px"}
+          minHeight={isMobile ? '45px' : '600px'}
           maxHeight="600px"
-          minWidth={isMobile ? "100%" : "50px"}
+          minWidth={isMobile ? '100%' : '50px'}
           //   bgColor="red.500"
           rounded="lg"
         >
@@ -134,7 +127,7 @@ const Map: NextPage<{
           >
             TIPO
             <Flex
-              flexDir={isMobile ? "row" : "column"}
+              flexDir={isMobile ? 'row' : 'column'}
               boxShadow="0 1px 3px 0px #484149"
               rounded="lg"
             >
@@ -149,8 +142,8 @@ const Map: NextPage<{
                     onClick={() => {
                       setSelectedType(option.typeName);
                     }}
-                    _first={{ roundedTop: "lg" }}
-                    _last={{ roundedBottom: "lg", borderBottom: "none" }}
+                    _first={{ roundedTop: 'lg' }}
+                    _last={{ roundedBottom: 'lg', borderBottom: 'none' }}
                     borderBottom="1px"
                     maxWidth="40px"
                     px={0}
@@ -175,43 +168,51 @@ const Map: NextPage<{
 
 export default Map;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const mapOverlays = [
-    {
-      name: "Mirage",
-      img: Mirage,
-    },
-    {
-      name: "Overpass",
-      img: Overpass,
-    },
-    {
-      img: Nuke,
-      name: "Nuke",
-    },
-    {
-      img: Inferno,
-      name: "Inferno",
-    },
-    {
-      img: Tuscan,
-      name: "Tuscan",
-    },
-    {
-      img: Dust2,
-      name: "Dust2",
-    },
-    {
-      img: Vertigo,
-      name: "Vertigo",
-    },
-  ];
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  /* const mapOverlays = [ */
+  /*   { */
+  /*     name: 'Mirage', */
+  /*     img: Mirage, */
+  /*   }, */
+  /*   { */
+  /*     name: 'Overpass', */
+  /*     img: Overpass, */
+  /*   }, */
+  /*   { */
+  /*     img: Nuke, */
+  /*     name: 'Nuke', */
+  /*   }, */
+  /*   { */
+  /*     img: Inferno, */
+  /*     name: 'Inferno', */
+  /*   }, */
+  /*   { */
+  /*     img: Tuscan, */
+  /*     name: 'Tuscan', */
+  /*   }, */
+  /*   { */
+  /*     img: Dust2, */
+  /*     name: 'Dust2', */
+  /*   }, */
+  /*   { */
+  /*     img: Vertigo, */
+  /*     name: 'Vertigo', */
+  /*   }, */
+  /* ]; */
   const allMapsInfo = await getMapsWithNades();
 
   return {
     props: {
-      mapOverlays: mapOverlays,
+      /* mapOverlays: mapOverlays, */
       allMapsInfo: JSON.parse(JSON.stringify(allMapsInfo)),
     },
+    revalidate: 15,
   };
 };

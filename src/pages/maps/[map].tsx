@@ -1,6 +1,7 @@
 import MySvg from '@/components/MapOverlay/SideMenu/MySvg';
 import { mapsPaths as paths, nadeTypes } from '@/helpers/variables';
 import useViewport from '@/hooks/useViewport';
+import { AllMapsInfo } from '@/interfaces/maps';
 import { getMapsWithNades } from '@/services/database.services';
 import { Button, Flex } from '@chakra-ui/react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
@@ -47,34 +48,7 @@ export const mapOverlays = [
   },
 ];
 
-export interface AllMapsInfo {
-  NadesInMap: {
-    map: {
-      mapName: string;
-    };
-    user: {
-      id: string;
-      name: string | null;
-    };
-    description: string | null;
-    thrownFrom: string;
-    endLocation: string;
-    movement: string;
-    technique: string;
-    tickrate: string;
-    ttOrCt: string;
-    votes: number;
-    position: string;
-    gfycatUrl: string;
-    nadeType: string;
-  }[];
-  mapName: string;
-  id: string;
-}
-[];
-
 const Map: NextPage<{
-  /* mapOverlays: { img: StaticImageData; name: string }[]; */
   allMapsInfo: AllMapsInfo[];
 }> = ({ allMapsInfo }) => {
   const [selectedType, setSelectedType] = useState<
@@ -114,7 +88,6 @@ const Map: NextPage<{
           minHeight={isMobile ? '45px' : '600px'}
           maxHeight="600px"
           minWidth={isMobile ? '100%' : '50px'}
-          //   bgColor="red.500"
           rounded="lg"
         >
           <Flex
@@ -138,9 +111,9 @@ const Map: NextPage<{
                     key={nadeType}
                     bgColor="transparent"
                     rounded="none"
-                    isActive={selectedType === option.typeName}
+                    isActive={selectedType === nadeType}
                     onClick={() => {
-                      setSelectedType(option.typeName);
+                      setSelectedType(nadeType);
                     }}
                     _first={{ roundedTop: 'lg' }}
                     _last={{ roundedBottom: 'lg', borderBottom: 'none' }}
@@ -176,43 +149,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  /* const mapOverlays = [ */
-  /*   { */
-  /*     name: 'Mirage', */
-  /*     img: Mirage, */
-  /*   }, */
-  /*   { */
-  /*     name: 'Overpass', */
-  /*     img: Overpass, */
-  /*   }, */
-  /*   { */
-  /*     img: Nuke, */
-  /*     name: 'Nuke', */
-  /*   }, */
-  /*   { */
-  /*     img: Inferno, */
-  /*     name: 'Inferno', */
-  /*   }, */
-  /*   { */
-  /*     img: Tuscan, */
-  /*     name: 'Tuscan', */
-  /*   }, */
-  /*   { */
-  /*     img: Dust2, */
-  /*     name: 'Dust2', */
-  /*   }, */
-  /*   { */
-  /*     img: Vertigo, */
-  /*     name: 'Vertigo', */
-  /*   }, */
-  /* ]; */
   const allMapsInfo = await getMapsWithNades();
-
   return {
     props: {
-      /* mapOverlays: mapOverlays, */
       allMapsInfo: JSON.parse(JSON.stringify(allMapsInfo)),
     },
-    revalidate: 15,
+    revalidate: 10,
   };
 };

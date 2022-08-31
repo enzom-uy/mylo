@@ -1,6 +1,5 @@
-import { getRedirectStatus } from "next/dist/lib/load-custom-routes.js";
-import { env } from "./src/env/server.mjs";
-import analyzer from '@next/bundle-analyzer'
+import { getRedirectStatus } from 'next/dist/lib/load-custom-routes.js';
+import { env } from './src/env/server.mjs';
 
 /**
  * Don't be scared of the generics here.
@@ -18,7 +17,6 @@ export default defineNextConfig({
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["unsplash.com", "lh3.googleusercontent.com"],
+    domains: ['unsplash.com', 'lh3.googleusercontent.com'],
   },
 });
-

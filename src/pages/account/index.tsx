@@ -10,41 +10,13 @@ import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import SimpleContainer from 'src/components/SimpleContainer';
 import { authOptions } from '../api/auth/[...nextauth]';
-import { Nade, User } from '@prisma/client';
 import Image from 'next/image';
 import NadesList from '@/components/admin/NadesList';
-import { trpc } from '@/utils/trpc';
-import { useEffect, useState } from 'react';
 import AccountInfoSkeleton from '@/components/account/AccountInfoSkeleton';
+import useGetUser from '@/hooks/useGetUser';
 
-interface NadeWithMapName extends Nade {
-  map: {
-    mapName: string;
-  };
-}
-
-interface UserWithNades extends User {
-  Nade: NadeWithMapName[];
-}
-
-const Account: NextPage<{ user: UserWithNades; email: string }> = ({
-  email,
-}) => {
-  /* const { name, role, email, image, Nade } = user; */
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<UserWithNades>();
-  const trpcGetUser = trpc.useMutation('user.getUser');
-
-  useEffect(() => {
-    async function getUser() {
-      const user = (await trpcGetUser.mutateAsync({
-        email: email,
-      })) as UserWithNades;
-      setUser(user);
-      setLoading(false);
-    }
-    getUser();
-  }, []);
+const Account: NextPage<{ email: string }> = ({ email }) => {
+  const { loading, user } = useGetUser(email);
 
   return (
     <>
@@ -105,10 +77,10 @@ const Account: NextPage<{ user: UserWithNades; email: string }> = ({
           </>
         )}
       </SimpleContainer>
-      {loading ? (
+      {loading && !user ? (
         <div>Cargando...</div>
       ) : (
-        <NadesList user={user} nades={user?.Nade!} />
+        <NadesList user={user!} nades={user?.Nade!} />
       )}
     </>
   );
@@ -132,24 +104,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
   const email = session.user?.email;
-  /* const user = await prisma.user.findFirst({ */
-  /*   where: { */
-  /*     email: session.user?.email, */
-  /*   }, */
-  /*   include: { */
-  /*     Nade: { */
-  /*       include: { */
-  /*         map: { */
-  /*           select: { mapName: true }, */
-  /*         }, */
-  /*       }, */
-  /*     }, */
-  /*   }, */
-  /* }); */
   return {
     props: {
       email,
-      /* user: JSON.parse(JSON.stringify(user)), */
     },
   };
 };

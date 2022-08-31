@@ -1,3 +1,4 @@
+import { UserWithNades } from '@/interfaces/user';
 import { trpc } from '@/utils/trpc';
 import {
   Button,
@@ -31,7 +32,7 @@ const NadeItem: React.FC<{
   nadeType: string;
   position: string;
   removeNadeFromList: (nadeId: string) => void;
-  user: User | undefined;
+  user: UserWithNades | undefined;
 }> = ({
   id,
   thrownFrom,

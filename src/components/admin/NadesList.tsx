@@ -1,20 +1,15 @@
+import { NadeWithMapName, UserWithNades } from '@/interfaces/user';
 import { trpc } from '@/utils/trpc';
 import { Button, Flex, List } from '@chakra-ui/react';
-import { Nade, User } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import NadeItem from './NadeItem';
 import Pagination from './Pagination';
 
-interface CustomNade extends Nade {
-  map: { mapName: string };
-}
-
-const NadesList: React.FC<{ nades: CustomNade[]; user?: User }> = ({
-  nades,
-  user,
-}) => {
-  console.log('check');
-  const [loadedNades, setLoadedNades] = useState<CustomNade[]>(nades);
+const NadesList: React.FC<{
+  nades: NadeWithMapName[];
+  user?: UserWithNades;
+}> = ({ nades, user }) => {
+  const [loadedNades, setLoadedNades] = useState<NadeWithMapName[]>(nades);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const nadesPerPage = 5;

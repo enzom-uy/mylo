@@ -1,12 +1,12 @@
-import { prisma } from "@/server/db/client";
-import { z } from "zod";
-import { createRouter } from "./context";
+import { prisma } from '@/server/db/client';
+import { z } from 'zod';
+import { createRouter } from './context';
 
-const tooSmallMsg = "Debe tener mínimo 4 letras.";
-const required_error = "Campo obligatorio.";
+const tooSmallMsg = 'Debe tener mínimo 4 letras.';
+const required_error = 'Campo obligatorio.';
 
 export const nadeRouter = createRouter()
-  .mutation("create", {
+  .mutation('create', {
     input: z.object({
       thrownFrom: z
         .string({ required_error: required_error })
@@ -18,7 +18,7 @@ export const nadeRouter = createRouter()
       ttOrCt: z.string({ required_error }),
       gfycatUrl: z
         .string({ required_error })
-        .regex(new RegExp("https://gfycat.com/ifr/[a-zA-Z]+")),
+        .regex(new RegExp('https://gfycat.com/ifr/[a-zA-Z]+')),
       description: z.string({ required_error }).optional(),
       movement: z.string({ required_error }),
       technique: z.string({ required_error }),
@@ -41,8 +41,8 @@ export const nadeRouter = createRouter()
       let error;
       if (nadeAlreadyExists) {
         error = {
-          error: "ALREADY_EXISTS",
-          message: "Ya existe una granada con el mismo link de Gfycat.",
+          error: 'ALREADY_EXISTS',
+          message: 'Ya existe una granada con el mismo link de Gfycat.',
         };
         return error;
       }
@@ -64,10 +64,10 @@ export const nadeRouter = createRouter()
         },
       });
 
-      return { newNade, status: "UPLOADED", error: error };
+      return { newNade, status: 'UPLOADED', error: error };
     },
   })
-  .mutation("getAllUnapprovedNades", {
+  .mutation('getAllUnapprovedNades', {
     async resolve() {
       const nades = await prisma.nade.findMany({
         where: {
@@ -84,7 +84,7 @@ export const nadeRouter = createRouter()
       return nades;
     },
   })
-  .mutation("getNadesFromUser", {
+  .mutation('getNadesFromUser', {
     input: z.object({
       email: z.string(),
     }),
@@ -106,7 +106,7 @@ export const nadeRouter = createRouter()
       return nades;
     },
   })
-  .mutation("edit", {
+  .mutation('edit', {
     input: z.object({
       id: z.string(),
       thrownFrom: z
@@ -121,7 +121,7 @@ export const nadeRouter = createRouter()
       ttOrCt: z.string({ required_error }).optional(),
       gfycatUrl: z
         .string({ required_error })
-        .regex(new RegExp("https://gfycat.com/ifr/[a-zA-Z]+"))
+        .regex(new RegExp('https://gfycat.com/ifr/[a-zA-Z]+'))
         .optional(),
       description: z.string({ required_error }).optional(),
       movement: z.string({ required_error }).optional(),
@@ -146,6 +146,27 @@ export const nadeRouter = createRouter()
         },
       });
 
-      return { newNade, status: "EDITED" };
+      return { newNade, status: 'EDITED' };
+    },
+  })
+  .mutation('delete', {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input }) {
+      let success;
+      let error;
+      try {
+        await prisma.nade.delete({
+          where: {
+            id: input.id,
+          },
+        });
+        success = true;
+      } catch (error) {
+        success = false;
+        error = error;
+      }
+      return { success, error };
     },
   });

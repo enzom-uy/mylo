@@ -1,4 +1,4 @@
-import { trpc } from "@/utils/trpc";
+import { trpc } from '@/utils/trpc';
 import {
   Button,
   chakra,
@@ -8,14 +8,14 @@ import {
   Text,
   useColorModeValue,
   useToast,
-} from "@chakra-ui/react";
-import { User } from "@prisma/client";
-import React from "react";
-import { AiOutlineCheck } from "react-icons/ai";
-import SimpleContainer from "../SimpleContainer";
-import UpdateNade from "./UpdateNade";
+} from '@chakra-ui/react';
+import { User } from '@prisma/client';
+import React from 'react';
+import { AiOutlineCheck, AiOutlineDelete } from 'react-icons/ai';
+import SimpleContainer from '../SimpleContainer';
+import UpdateNade from './UpdateNade';
 
-const Span = chakra("span");
+const Span = chakra('span');
 
 const NadeItem: React.FC<{
   id: string;
@@ -49,9 +49,10 @@ const NadeItem: React.FC<{
   user,
 }) => {
   const toast = useToast();
-  const bgColor = useColorModeValue("#fff", "blue-gray-transparent");
+  const bgColor = useColorModeValue('#fff', 'blue-gray-transparent');
 
-  const trpcEditNade = trpc.useMutation("nade.edit");
+  const trpcEditNade = trpc.useMutation('nade.edit');
+  const trpcDeleteNade = trpc.useMutation('nade.delete');
   const approveNade = async () => {
     const { newNade } = await trpcEditNade.mutateAsync({
       id: id,
@@ -59,14 +60,35 @@ const NadeItem: React.FC<{
     });
     if (newNade) {
       toast({
-        title: "Se ha aprobado la nade.",
-        status: "success",
-        position: "top",
+        title: 'Se ha aprobado la nade.',
+        status: 'success',
+        position: 'top',
         isClosable: true,
       });
       removeNadeFromList(id);
     }
     return newNade;
+  };
+
+  const deleteNade = async () => {
+    toast({
+      title: 'Borrando nade...',
+      status: 'loading',
+      position: 'top',
+      isClosable: true,
+    });
+    const { success, error } = await trpcDeleteNade.mutateAsync({ id: id });
+    console.log(success, error);
+    if (success) {
+      toast.closeAll();
+      toast({
+        title: 'Se ha borrado la nade.',
+        status: 'success',
+        position: 'top',
+        isClosable: true,
+      });
+      removeNadeFromList(id);
+    }
   };
 
   return (
@@ -77,12 +99,12 @@ const NadeItem: React.FC<{
       key={id}
       width="800px"
       boxShadow="baseline"
-      gridTemplateColumns={user ? "1fr 1fr" : "1fr 1fr .4fr"}
+      gridTemplateColumns={user ? '1fr 1fr' : '1fr 1fr .4fr'}
       padding=".8rem"
     >
       <Flex flexDir="column" justifyContent="space-between" maxW="250px">
         <Text>
-          <Span fontWeight="bold">{thrownFrom}</Span> a{" "}
+          <Span fontWeight="bold">{thrownFrom}</Span> a{' '}
           <Span fontWeight="bold">{endLocation}</Span>
         </Text>
         <Text>
@@ -100,7 +122,7 @@ const NadeItem: React.FC<{
       <Flex
         flexDir="column"
         justifyContent="center"
-        width={user ? "fit-content" : undefined}
+        width={user ? 'fit-content' : undefined}
       >
         <Text>
           Tickrate: <Span fontWeight="bold">{tickrate}</Span>
@@ -146,6 +168,15 @@ const NadeItem: React.FC<{
               position={position}
               removeNadeFromList={removeNadeFromList}
             />
+
+            <Button
+              width="fit-content"
+              leftIcon={<AiOutlineDelete fontSize="1.6rem" />}
+              colorScheme="red"
+              onClick={deleteNade}
+            >
+              Borrar
+            </Button>
           </>
         )}
       </Flex>

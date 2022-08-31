@@ -78,7 +78,6 @@ const NadeItem: React.FC<{
       isClosable: true,
     });
     const { success, error } = await trpcDeleteNade.mutateAsync({ id: id });
-    console.log(success, error);
     if (success) {
       toast.closeAll();
       toast({
@@ -88,6 +87,16 @@ const NadeItem: React.FC<{
         isClosable: true,
       });
       removeNadeFromList(id);
+    }
+    if (error) {
+      toast.closeAll();
+      toast({
+        title: 'Ha ocurrido un error.',
+        description: error,
+        status: 'error',
+        position: 'top',
+        isClosable: true,
+      });
     }
   };
 

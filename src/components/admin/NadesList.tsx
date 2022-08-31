@@ -13,6 +13,7 @@ const NadesList: React.FC<{ nades: CustomNade[]; user?: User }> = ({
   nades,
   user,
 }) => {
+  console.log('check');
   const [loadedNades, setLoadedNades] = useState<CustomNade[]>(nades);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,13 +44,11 @@ const NadesList: React.FC<{ nades: CustomNade[]; user?: User }> = ({
   useEffect(() => {
     if (user) {
       const getNadesFromUser = async () => {
-        setLoading(true);
         const nades = await trpcGetNadesFromUser.mutateAsync({
           email: user.email!,
         });
         setLoadedNades(nades);
         setLoading(false);
-        console.log('check');
       };
       getNadesFromUser();
     }

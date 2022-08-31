@@ -120,9 +120,6 @@ const MapOverlay: React.FC<{
         position="relative"
         userSelect="none"
         onClick={(e) => {
-          const target = e.target as HTMLElement;
-          const rect = target.getBoundingClientRect();
-
           if (getNadePosition) {
             const stateCopy = nadePosition;
             const prevPosition = position;
@@ -168,7 +165,7 @@ const MapOverlay: React.FC<{
         {showNades &&
           nades?.map((nade) => {
             if (nade.position !== "") {
-              return <NadeComponent nade={nade} />;
+              return <NadeComponent key={nade.gfycatUrl} nade={nade} />;
             }
           })}
       </Flex>

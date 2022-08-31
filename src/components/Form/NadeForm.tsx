@@ -1,6 +1,6 @@
-import { maps, nadeTypes, navbarLinks } from "@/helpers/variables";
-import { CreateNadeFormInputs, formSchema } from "@/schemas/formSchema";
-import { trpc } from "@/utils/trpc";
+import { maps, nadeTypes, navbarLinks } from '@/helpers/variables';
+import { CreateNadeFormInputs, formSchema } from '@/schemas/formSchema';
+import { trpc } from '@/utils/trpc';
 import {
   Button,
   Flex,
@@ -12,14 +12,14 @@ import {
   Textarea,
   ToastId,
   useToast,
-} from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { ChakraForm } from "./ChakraForm";
-import MovementOptions from "./MovementOptions";
-import SetNadePosition from "./SetNadePosition";
-import TechniquesOptions from "./TechniquesOptions";
+} from '@chakra-ui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { ChakraForm } from './ChakraForm';
+import MovementOptions from './MovementOptions';
+import SetNadePosition from './SetNadePosition';
+import TechniquesOptions from './TechniquesOptions';
 
 interface Props {
   user: {
@@ -39,20 +39,20 @@ const NadeForm: React.FC<Props> = ({ user }) => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<CreateNadeFormInputs>({
-    mode: "onTouched",
+    mode: 'onTouched',
     resolver: zodResolver(formSchema),
   });
-  const [selectedMap, setSelectedMap] = useState("");
-  const [nType, setNType] = useState("");
-  const [tickrate, setTickrate] = useState("");
-  const [nadePosition, setNadePosition] = useState("");
+  const [selectedMap, setSelectedMap] = useState('');
+  const [nType, setNType] = useState('');
+  const [tickrate, setTickrate] = useState('');
+  const [nadePosition, setNadePosition] = useState('');
   const toast = useToast();
   const toastIdRef = React.useRef<ToastId | undefined>();
 
-  const createNade = trpc.useMutation("nade.create");
+  const createNade = trpc.useMutation('nade.create');
 
   useEffect(() => {
-    setNadePosition("");
+    setNadePosition('');
   }, [selectedMap]);
 
   const getNadePosition = (pos: { x: number; y: number }) => {
@@ -64,7 +64,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
 
   const nadeHasPosition =
     nadePosition !== '{"x":0,"y":0}' &&
-    nadePosition !== "" &&
+    nadePosition !== '' &&
     nadePosition !== undefined;
 
   const activeMap = navbarLinks.filter((map) => {
@@ -77,7 +77,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
 
   const onSubmit = async (data: CreateNadeFormInputs) => {
     const gfycatUrl = data.gfycatUrl;
-    const gfycatId = gfycatUrl.split("/").pop();
+    const gfycatId = gfycatUrl.split('/').pop();
     const newGfycatUrl = `https://gfycat.com/ifr/${gfycatId}`;
     const newData = {
       ...data,
@@ -89,10 +89,10 @@ const NadeForm: React.FC<Props> = ({ user }) => {
       gfycatUrl: newGfycatUrl,
     };
     toastIdRef.current = toast({
-      title: "Subiendo la nade...",
-      description: "Un momento.",
-      status: "loading",
-      position: "top",
+      title: 'Subiendo la nade...',
+      description: 'Un momento.',
+      status: 'loading',
+      position: 'top',
       isClosable: true,
     });
 
@@ -100,10 +100,10 @@ const NadeForm: React.FC<Props> = ({ user }) => {
     if (error) {
       toast.close(toastIdRef.current);
       toast({
-        title: "Ha ocurrido un error.",
+        title: 'Ha ocurrido un error.',
         description: message,
-        status: "error",
-        position: "top",
+        status: 'error',
+        position: 'top',
         isClosable: true,
       });
     }
@@ -111,9 +111,9 @@ const NadeForm: React.FC<Props> = ({ user }) => {
       toast.close(toastIdRef.current);
       reset();
       toast({
-        title: "Se ha subido la nade.",
-        status: "success",
-        position: "top",
+        title: 'Se ha subido la nade.',
+        status: 'success',
+        position: 'top',
         isClosable: true,
       });
     }
@@ -136,7 +136,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
               <Select
                 placeholder="Elige un mapa"
                 id="map"
-                {...register("map")}
+                {...register('map')}
                 onChange={(e) => setSelectedMap(e.target.value)}
               >
                 {maps.map((map) => (
@@ -162,7 +162,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
                 type="text"
                 id="thrownFrom"
                 placeholder="Base CT"
-                {...register("thrownFrom")}
+                {...register('thrownFrom')}
               />
               <FormErrorMessage>
                 {errors?.thrownFrom && errors?.thrownFrom?.message}
@@ -175,7 +175,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
                 type="text"
                 id="endLocation"
                 placeholder="Tapete"
-                {...register("endLocation")}
+                {...register('endLocation')}
               />
               <FormErrorMessage>
                 {errors?.endLocation && errors?.endLocation?.message}
@@ -186,7 +186,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
               <Textarea
                 id="description"
                 placeholder="..."
-                {...register("description")}
+                {...register('description')}
               />
               <FormErrorMessage>
                 {errors?.description && errors?.description?.message}
@@ -200,7 +200,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
               <Select
                 placeholder="..."
                 id="tickrate"
-                {...register("tickrate")}
+                {...register('tickrate')}
                 onChange={(e) => setTickrate(e.target.value)}
               >
                 <option>128</option>
@@ -217,7 +217,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
               <Select
                 placeholder="..."
                 id="nadeType"
-                {...register("nadeType")}
+                {...register('nadeType')}
                 onChange={(e) => setNType(e.target.value)}
               >
                 {nadeTypes?.map((nadeType) => (
@@ -231,7 +231,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
 
             <FormControl isInvalid={!!errors?.ttOrCt?.message} isRequired>
               <FormLabel htmlFor="ttOrCt">TT o CT</FormLabel>
-              <Select placeholder="..." id="ttOrCt" {...register("ttOrCt")}>
+              <Select placeholder="..." id="ttOrCt" {...register('ttOrCt')}>
                 <option>TT</option>
                 <option>CT</option>
                 <option>Ambos</option>
@@ -243,7 +243,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
 
             <FormControl isInvalid={!!errors?.movement?.message} isRequired>
               <FormLabel htmlFor="movement">Movimiento</FormLabel>
-              <Select placeholder="..." id="movement" {...register("movement")}>
+              <Select placeholder="..." id="movement" {...register('movement')}>
                 <MovementOptions />
               </Select>
               <FormErrorMessage>
@@ -256,7 +256,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
               <Select
                 placeholder="..."
                 id="technique"
-                {...register("technique")}
+                {...register('technique')}
               >
                 <TechniquesOptions />
               </Select>
@@ -271,7 +271,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
           <Input
             type="url"
             id="gfycatUrl"
-            {...register("gfycatUrl")}
+            {...register('gfycatUrl')}
             placeholder="https://gfycat.com/..."
           />
           <FormErrorMessage>
@@ -281,7 +281,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
         <Button
           type="submit"
           bgColor="primary"
-          _hover={{ bgColor: "primary-light" }}
+          _hover={{ bgColor: 'primary-light' }}
           isLoading={isSubmitting}
           color="white"
         >

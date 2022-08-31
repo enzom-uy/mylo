@@ -142,7 +142,7 @@ const Map: NextPage<{
                 const nadeType = option.typeName;
                 return (
                   <Button
-                    key={option.typeName}
+                    key={nadeType}
                     bgColor="transparent"
                     rounded="none"
                     isActive={selectedType === option.typeName}
@@ -155,7 +155,7 @@ const Map: NextPage<{
                     maxWidth="40px"
                     px={0}
                   >
-                    <MySvg type={option.typeName} />
+                    <MySvg type={nadeType} />
                   </Button>
                 );
               })}

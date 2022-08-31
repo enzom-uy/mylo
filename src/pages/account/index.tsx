@@ -21,11 +21,10 @@ interface UserWithNades extends User {
 
 const Account: NextPage<{ user: UserWithNades }> = ({ user }) => {
   const { name, role, email, image, Nade } = user
-  console.log(user)
   return (
     <>
       <Head>
-        <title>Perfil | Mylo</title>
+        ;       <title>Perfil | Mylo</title>
         <meta
           name="description"
           content="Mira y edita los datos de tu perfil."

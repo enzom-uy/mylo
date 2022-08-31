@@ -1,9 +1,9 @@
-import { trpc } from "@/utils/trpc";
-import { Button, Flex, List } from "@chakra-ui/react";
-import { Nade, User } from "@prisma/client";
-import React, { useEffect, useState } from "react";
-import NadeItem from "./NadeItem";
-import Pagination from "./Pagination";
+import { trpc } from '@/utils/trpc';
+import { Button, Flex, List } from '@chakra-ui/react';
+import { Nade, User } from '@prisma/client';
+import React, { useEffect, useState } from 'react';
+import NadeItem from './NadeItem';
+import Pagination from './Pagination';
 
 interface CustomNade extends Nade {
   map: { mapName: string };
@@ -24,8 +24,8 @@ const NadesList: React.FC<{ nades: CustomNade[]; user?: User }> = ({
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const trpcGetNades = trpc.useMutation("nade.getAllUnapprovedNades");
-  const trpcGetNadesFromUser = trpc.useMutation("nade.getNadesFromUser");
+  const trpcGetNades = trpc.useMutation('nade.getAllUnapprovedNades');
+  const trpcGetNadesFromUser = trpc.useMutation('nade.getNadesFromUser');
 
   const getAllNades = async () => {
     setLoading(true);
@@ -49,7 +49,7 @@ const NadesList: React.FC<{ nades: CustomNade[]; user?: User }> = ({
         });
         setLoadedNades(nades);
         setLoading(false);
-        console.log("check");
+        console.log('check');
       };
       getNadesFromUser();
     }
@@ -115,8 +115,8 @@ const NadesList: React.FC<{ nades: CustomNade[]; user?: User }> = ({
         ) : (
           <div>
             {user
-              ? "Este usuario no ha subido ninguna nade aún 🥹."
-              : "Ya no quedan más nades 😃."}
+              ? 'Este usuario no ha subido ninguna nade aún 🥹.'
+              : 'Ya no quedan más nades 😃.'}
           </div>
         )}
       </Flex>

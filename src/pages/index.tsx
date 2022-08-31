@@ -1,6 +1,6 @@
-import Head from "next/head";
-import type { NextPage } from "next";
-const Home: NextPage = ({ }) => {
+import Head from 'next/head';
+import type { NextPage } from 'next';
+const Home: NextPage = ({}) => {
   return (
     <>
       <Head>

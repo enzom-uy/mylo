@@ -1,9 +1,9 @@
-import { ChakraNextImage } from "@/components/ChakraNextImage";
-import NadeComponent from "@/components/nade/Nade";
-import { Flex } from "@chakra-ui/react";
-import { StaticImageData } from "next/image";
-import React, { useEffect, useState } from "react";
-import { AllMapsInfo } from "./[map]";
+import { ChakraNextImage } from '@/components/ChakraNextImage';
+import NadeComponent from '@/components/nade/Nade';
+import { Flex } from '@chakra-ui/react';
+import { StaticImageData } from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { AllMapsInfo } from '@/interfaces/maps';
 
 const YellowMark: React.FC<{ y: number; x: number }> = ({ y, x }) => {
   const newX = x - 5;
@@ -50,7 +50,7 @@ const MapOverlay: React.FC<{
   mapName: string | undefined;
   getNadePosition?: (pos: any) => void;
   allMapsInfo?: AllMapsInfo[];
-  currentType?: "Smoke" | "Flash" | "Deto" | "Molo" | string;
+  currentType?: 'Smoke' | 'Flash' | 'Deto' | 'Molo' | string;
   position?: string;
 }> = ({
   img,
@@ -60,116 +60,116 @@ const MapOverlay: React.FC<{
   currentType,
   position,
 }) => {
-    const [nadePosition, setNadePosition] = useState(
-      position
-        ? JSON.parse(position)
-        : {
+  const [nadePosition, setNadePosition] = useState(
+    position
+      ? JSON.parse(position)
+      : {
           x: 0,
           y: 0,
         }
-    );
-    let parsedPosition;
-    if (position) {
-      parsedPosition = JSON.parse(position);
+  );
+  let parsedPosition;
+  if (position) {
+    parsedPosition = JSON.parse(position);
+  }
+  const [fakeNadePosition, setFakeNadePosition] = useState(
+    parsedPosition ? parsedPosition : undefined
+  );
+
+  const [userClicked, setUserClicked] = useState(false);
+  const [initialPosition, setInitialPosition] = useState(
+    position ? JSON.parse(position) : {}
+  );
+  const [showNades, setShowNades] = useState(false);
+  const [nades, setNades] = useState<NadeInfo[] | null>();
+
+  useEffect(() => {
+    if (getNadePosition) {
+      getNadePosition(nadePosition);
     }
-    const [fakeNadePosition, setFakeNadePosition] = useState(
-      parsedPosition ? parsedPosition : undefined
-    );
+  }, [nadePosition]);
 
-    const [userClicked, setUserClicked] = useState(false);
-    const [initialPosition, setInitialPosition] = useState(
-      position ? JSON.parse(position) : {}
-    );
-    const [showNades, setShowNades] = useState(false);
-    const [nades, setNades] = useState<NadeInfo[] | null>();
-
-    useEffect(() => {
-      if (getNadePosition) {
-        getNadePosition(nadePosition);
+  useEffect(() => {
+    if (allMapsInfo) {
+      const infoAboutCurrentMap = allMapsInfo.filter(
+        (map) => map.mapName === mapName
+      )[0];
+      if (infoAboutCurrentMap!.NadesInMap.length > 0) {
+        setNades(
+          infoAboutCurrentMap!.NadesInMap.filter(
+            (nade) => nade.nadeType === currentType
+          )
+        );
+        setShowNades(true);
       }
-    }, [nadePosition]);
-
-    useEffect(() => {
-      if (allMapsInfo) {
-        const infoAboutCurrentMap = allMapsInfo.filter(
-          (map) => map.mapName === mapName
-        )[0];
-        if (infoAboutCurrentMap!.NadesInMap.length > 0) {
-          setNades(
-            infoAboutCurrentMap!.NadesInMap.filter(
-              (nade) => nade.nadeType === currentType
-            )
-          );
-          setShowNades(true);
-        }
-        if (infoAboutCurrentMap!.NadesInMap.length <= 0) {
-          setNades(null);
-          setShowNades(false);
-        }
+      if (infoAboutCurrentMap!.NadesInMap.length <= 0) {
+        setNades(null);
+        setShowNades(false);
       }
-    }, [currentType]);
+    }
+  }, [currentType]);
 
-    return (
-      <Flex
-        bgColor="#151515"
-        maxW="824px"
-        minW="824px"
-        maxH="824px"
-        minH="824px"
+  return (
+    <Flex
+      bgColor="#151515"
+      maxW="824px"
+      minW="824px"
+      maxH="824px"
+      minH="824px"
+      rounded="lg"
+      position="relative"
+      userSelect="none"
+      onClick={(e) => {
+        if (getNadePosition) {
+          const stateCopy = nadePosition;
+          const prevPosition = position;
+          const target = e.target as HTMLElement;
+          const rect = target.getBoundingClientRect();
+          const x = e.pageX - rect.x;
+          const y = e.pageY - rect.y;
+          setNadePosition({ ...stateCopy, x: x - 13, y: y - 15 });
+          setFakeNadePosition({ prevPosition, x: x, y: y });
+          getNadePosition(nadePosition);
+          setUserClicked(true);
+        }
+        if (getNadePosition && position) {
+          const stateCopy = nadePosition;
+          const prevPosition = JSON.parse(position);
+          const target = e.target as HTMLElement;
+          const rect = target.getBoundingClientRect();
+          const x = e.pageX - rect.x;
+          const y = e.pageY - rect.y;
+          setNadePosition({ ...stateCopy, x: x - 13.5, y: y - 130 });
+          setFakeNadePosition({ ...prevPosition, x: x, y: y - 120 });
+          getNadePosition(nadePosition);
+          setUserClicked(true);
+        }
+      }}
+    >
+      <ChakraNextImage
+        src={img!}
         rounded="lg"
-        position="relative"
-        userSelect="none"
-        onClick={(e) => {
-          if (getNadePosition) {
-            const stateCopy = nadePosition;
-            const prevPosition = position;
-            const target = e.target as HTMLElement;
-            const rect = target.getBoundingClientRect();
-            const x = e.pageX - rect.x;
-            const y = e.pageY - rect.y;
-            setNadePosition({ ...stateCopy, x: x - 13, y: y - 15 });
-            setFakeNadePosition({ prevPosition, x: x, y: y });
-            getNadePosition(nadePosition);
-            setUserClicked(true);
+        priority
+        objectFit="contain"
+        alt={`Imágen del rader del mapa ${mapName}`}
+        draggable={false}
+      />
+      {userClicked && !position ? (
+        <YellowMark y={fakeNadePosition.y} x={fakeNadePosition.x} />
+      ) : undefined}
+      {position && !userClicked ? (
+        <YellowMark y={initialPosition.y + 14} x={initialPosition.x + 12} />
+      ) : position && userClicked ? (
+        <YellowMark y={fakeNadePosition.y} x={fakeNadePosition.x} />
+      ) : undefined}
+      {showNades &&
+        nades?.map((nade) => {
+          if (nade.position !== '') {
+            return <NadeComponent key={nade.gfycatUrl} nade={nade} />;
           }
-          if (getNadePosition && position) {
-            const stateCopy = nadePosition;
-            const prevPosition = JSON.parse(position);
-            const target = e.target as HTMLElement;
-            const rect = target.getBoundingClientRect();
-            const x = e.pageX - rect.x;
-            const y = e.pageY - rect.y;
-            setNadePosition({ ...stateCopy, x: x - 13.5, y: y - 130 });
-            setFakeNadePosition({ ...prevPosition, x: x, y: y - 120 });
-            getNadePosition(nadePosition);
-            setUserClicked(true);
-          }
-        }}
-      >
-        <ChakraNextImage
-          src={img!}
-          rounded="lg"
-          priority
-          objectFit="contain"
-          alt={`Imágen del rader del mapa ${mapName}`}
-          draggable={false}
-        />
-        {userClicked && !position ? (
-          <YellowMark y={fakeNadePosition.y} x={fakeNadePosition.x} />
-        ) : undefined}
-        {position && !userClicked ? (
-          <YellowMark y={initialPosition.y + 14} x={initialPosition.x + 12} />
-        ) : position && userClicked ? (
-          <YellowMark y={fakeNadePosition.y} x={fakeNadePosition.x} />
-        ) : undefined}
-        {showNades &&
-          nades?.map((nade) => {
-            if (nade.position !== "") {
-              return <NadeComponent key={nade.gfycatUrl} nade={nade} />;
-            }
-          })}
-      </Flex>
-    );
-  };
+        })}
+    </Flex>
+  );
+};
 
 export default MapOverlay;

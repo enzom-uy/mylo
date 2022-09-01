@@ -1,7 +1,5 @@
-import NadeCard, {
-  ChakraIframe,
-} from "@/components/NadesSection/NadeCard/NadeCard";
-import { NadeInfo } from "@/pages/maps/MapOverlay";
+import { ChakraIframe } from '@/components/NadesSection/NadeCard/NadeCard';
+import { NadeInfo } from '@/pages/maps/MapOverlay';
 import {
   Box,
   Flex,
@@ -15,10 +13,10 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
-} from "@chakra-ui/react";
-import React from "react";
-import MySvg from "../MapOverlay/SideMenu/MySvg";
-import NadeInfoText from "./NadeInfo";
+} from '@chakra-ui/react';
+import React from 'react';
+import MySvg from '../MapOverlay/SideMenu/MySvg';
+import NadeInfoText from './NadeInfo';
 
 const NadeComponent: React.FC<{ nade: NadeInfo }> = ({ nade }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -46,7 +44,7 @@ const NadeComponent: React.FC<{ nade: NadeInfo }> = ({ nade }) => {
             <Flex
               flexDir="column"
               height="100%"
-              bgColor={useColorModeValue("#fff", "#15181c")}
+              bgColor={useColorModeValue('#fff', '#15181c')}
               rounded="lg"
               position="relative"
             >
@@ -68,7 +66,7 @@ const NadeComponent: React.FC<{ nade: NadeInfo }> = ({ nade }) => {
                 <NadeInfoText title="Subido por" content={nade.user.name!} />
               </Box>
               <ChakraIframe
-                src={nade.gfycatUrl}
+                src={`${nade.gfycatUrl}/?hd=1`}
                 allowFullScreen
                 width="100%"
                 height="100%"
@@ -77,7 +75,7 @@ const NadeComponent: React.FC<{ nade: NadeInfo }> = ({ nade }) => {
               <Flex px={4} py={2} flexDir="column">
                 <Heading size="md">Descripción</Heading>
                 <Text>
-                  {nade.description ? nade.description : "No hay descripción."}
+                  {nade.description ? nade.description : 'No hay descripción.'}
                 </Text>
               </Flex>
             </Flex>

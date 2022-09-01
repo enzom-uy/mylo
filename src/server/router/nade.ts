@@ -169,4 +169,15 @@ export const nadeRouter = createRouter()
       }
       return { success, error };
     },
+  })
+  .mutation('getNewerNades', {
+    async resolve() {
+      const newerNades = await prisma.nade.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: 6,
+      });
+      return { newerNades };
+    },
   });

@@ -1,10 +1,10 @@
-import NadesList from "@/components/admin/NadesList";
-import { getUnapprovedNades, getUser } from "@/services/database.services";
-import { Nade } from "@prisma/client";
-import { GetServerSideProps, NextPage } from "next";
-import { unstable_getServerSession } from "next-auth";
-import Head from "next/head";
-import { authOptions } from "./api/auth/[...nextauth]";
+import NadesList from '@/components/admin/NadesList';
+import { getUnapprovedNades, getUser } from '@/services/database.services';
+import { Nade } from '@prisma/client';
+import { GetServerSideProps, NextPage } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import Head from 'next/head';
+import { authOptions } from './api/auth/[...nextauth]';
 
 interface CustomNade extends Nade {
   map: { mapName: string };
@@ -26,14 +26,18 @@ const Admin: NextPage<{
 export default Admin;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  );
   const session = await unstable_getServerSession(req, res, authOptions);
   const user = await getUser(session?.user?.email);
-  const userIsAdmin = user[0]?.role === "ADMIN";
+  const userIsAdmin = user[0]?.role === 'ADMIN';
   if (!session || !user || !userIsAdmin) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: '/',
       },
     };
   } else {

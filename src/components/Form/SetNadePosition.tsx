@@ -1,7 +1,8 @@
-import MapOverlay from "@/pages/maps/MapOverlay";
-import { mapOverlays } from "@/pages/maps/[map]";
+import dynamic from 'next/dynamic';
+import { mapOverlays } from '@/pages/maps/[map]';
 import {
   Button,
+  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,9 +10,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   useDisclosure,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+} from '@chakra-ui/react';
+import React, { useEffect, useState, Suspense } from 'react';
+
+const DynamicMapOverlay = dynamic(() => import('@/pages/maps/MapOverlay'), {
+  suspense: true,
+});
 
 const SetNadePosition: React.FC<{
   selectedMap: string;
@@ -44,16 +50,16 @@ const SetNadePosition: React.FC<{
     <>
       <Button
         onClick={onOpen}
-        bgColor={nadeHasPosition ? "green.700" : "primary"}
-        _hover={{ bgColor: "primary-light" }}
+        bgColor={nadeHasPosition ? 'green.700' : 'primary'}
+        _hover={{ bgColor: 'primary-light' }}
         isDisabled={disabled ? true : false}
         color="white"
       >
         {disabled
-          ? "Primero elige un mapa"
+          ? 'Primero elige un mapa'
           : nadeHasPosition
-          ? "Posición seleccionada"
-          : "Selecciona una posición"}
+          ? 'Posición seleccionada'
+          : 'Selecciona una posición'}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -63,19 +69,27 @@ const SetNadePosition: React.FC<{
           <ModalCloseButton />
           <ModalBody>
             {map !== undefined && (
-              <MapOverlay
-                getNadePosition={getPos}
-                img={mapImg}
-                mapName={mapName}
-                position={position}
-              />
+              <Suspense
+                fallback={
+                  <Flex justifyContent="center" alignItems="center">
+                    <Spinner size="lg" />
+                  </Flex>
+                }
+              >
+                <DynamicMapOverlay
+                  getNadePosition={getPos}
+                  img={mapImg}
+                  mapName={mapName}
+                  position={position}
+                />
+              </Suspense>
             )}
           </ModalBody>
 
           <ModalFooter>
             <Button
               bgColor="primary"
-              _hover={{ bgColor: "primary-light" }}
+              _hover={{ bgColor: 'primary-light' }}
               mr={3}
               onClick={onClose}
               color="white"

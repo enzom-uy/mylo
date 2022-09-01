@@ -89,6 +89,10 @@ const Account: NextPage<{ email: string }> = ({ email }) => {
 export default Account;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  );
   const session = await unstable_getServerSession(
     context.req,
     context.res,

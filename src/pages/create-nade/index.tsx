@@ -1,9 +1,9 @@
-import NadeForm from "@/components/Form/NadeForm";
-import { getUser } from "@/services/database.services";
-import { GetServerSideProps, NextPage } from "next";
-import { unstable_getServerSession } from "next-auth";
-import Head from "next/head";
-import { authOptions } from "../api/auth/[...nextauth]";
+import NadeForm from '@/components/Form/NadeForm';
+import { getUser } from '@/services/database.services';
+import { GetServerSideProps, NextPage } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import Head from 'next/head';
+import { authOptions } from '../api/auth/[...nextauth]';
 
 interface Props {
   user: {
@@ -34,17 +34,17 @@ const Create: NextPage<Props> = ({ user }) => {
 
 export default Create;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
   );
+  const session = await unstable_getServerSession(req, res, authOptions);
   if (!session) {
     return {
       redirect: {
         permanent: false,
-        destination: "/?unauthenticated",
+        destination: '/?unauthenticated',
       },
     };
   }

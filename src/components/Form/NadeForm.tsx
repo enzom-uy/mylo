@@ -9,17 +9,22 @@ import {
   FormLabel,
   Input,
   Select,
+  Spinner,
   Textarea,
   ToastId,
   useToast,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { ChakraForm } from './ChakraForm';
 import MovementOptions from './MovementOptions';
-import SetNadePosition from './SetNadePosition';
 import TechniquesOptions from './TechniquesOptions';
+import dynamic from 'next/dynamic';
+
+const DynamicSetNadePosition = dynamic(() => import('./SetNadePosition'), {
+  suspense: true,
+});
 
 interface Props {
   user: {
@@ -148,12 +153,20 @@ const NadeForm: React.FC<Props> = ({ user }) => {
               </FormErrorMessage>
             </FormControl>
             {activeMap && (
-              <SetNadePosition
-                selectedMap={selectedMap}
-                getNadePosition={getNadePosition}
-                disabled={!selectedMap ? true : false}
-                nadeHasPosition={nadeHasPosition}
-              />
+              <Suspense
+                fallback={
+                  <Flex justifyContent="center">
+                    <Spinner size="md" />
+                  </Flex>
+                }
+              >
+                <DynamicSetNadePosition
+                  selectedMap={selectedMap}
+                  getNadePosition={getNadePosition}
+                  disabled={!selectedMap ? true : false}
+                  nadeHasPosition={nadeHasPosition}
+                />
+              </Suspense>
             )}
 
             <FormControl isInvalid={!!errors?.thrownFrom?.message} isRequired>

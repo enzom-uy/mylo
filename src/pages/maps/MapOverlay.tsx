@@ -151,7 +151,6 @@ const MapOverlay: React.FC<{
         rounded="lg"
         priority
         objectFit="contain"
-        alt={`Imágen del rader del mapa ${mapName}`}
         draggable={false}
       />
       {userClicked && !position ? (

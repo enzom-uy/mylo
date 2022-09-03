@@ -46,13 +46,7 @@ const Account: NextPage<{ email: string }> = ({ email }) => {
               <AccountInfoText user={user} loading={loading} />
             </Suspense>
 
-            <Suspense
-              fallback={
-                <Flex justifyContent="center" alignItems="center">
-                  <Spinner size="md" />
-                </Flex>
-              }
-            >
+            <Suspense>
               <EditAccountInfoForm email={user?.email} name={user?.name} />
             </Suspense>
           </Flex>

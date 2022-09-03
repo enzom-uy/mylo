@@ -1,14 +1,14 @@
-import MapsMobileMenu from "@/components/Layout/MapsMobileMenu";
-import MobileMenuItems from "@/components/Layout/MobileMenuItems";
-import useViewport from "@/hooks/useViewport";
-import { Flex, List, ListItem, useColorModeValue } from "@chakra-ui/react";
-import React from "react";
+import MapsMobileMenu from '@/components/Layout/MapsMobileMenu';
+import MobileMenuItems from '@/components/Layout/MobileMenuItems';
+import useViewport from '@/hooks/useViewport';
+import { Flex, List, ListItem, useColorModeValue } from '@chakra-ui/react';
+import React from 'react';
 
 const MobileMenu: React.FC = () => {
-  const iconColor = useColorModeValue("primary", "white");
+  const iconColor = useColorModeValue('primary', 'white');
   const menuBgColor = useColorModeValue(
-    "rgba(255,255,255, .1)",
-    "rgba(45, 55, 72, .2)"
+    'rgba(255,255,255, .1)',
+    'rgba(45, 55, 72, .2)'
   );
   const isMobile = useViewport();
   return (
@@ -17,13 +17,10 @@ const MobileMenu: React.FC = () => {
       w="full"
       bottom="0"
       px={2}
-      bgColor={useColorModeValue(
-        "rgba(255,255,255,.1)",
-        "blue-gray-transparent"
-      )}
+      bgColor={useColorModeValue('rgba(255,255,255,.6)', 'blue-gray')}
       backdropFilter="auto"
       backdropBlur="8px"
-      display={!isMobile ? "none" : undefined}
+      display={!isMobile ? 'none' : undefined}
     >
       <List display="flex" width="full" justifyContent="space-around">
         <ListItem

@@ -1,33 +1,31 @@
-import Layout from "@/components/Layout/layout";
-import useRouteLoading from "@/hooks/useRouteLoading";
-import { ChakraProvider, Progress, ScaleFade } from "@chakra-ui/react";
-import { withTRPC } from "@trpc/next";
-import { SessionProvider } from "next-auth/react";
-import type { AppType } from "next/dist/shared/lib/utils";
-import theme from "src/chakraTheme";
-import Main from "src/components/Layout/Main";
-import MobileMenu from "src/components/Layout/MobileMenu";
-import superjson from "superjson";
-import type { AppRouter } from "../server/router";
-import "../styles/globals.css";
+import Layout from '@/components/Layout/layout';
+import useRouteLoading from '@/hooks/useRouteLoading';
+import { ChakraProvider, Progress, ScaleFade } from '@chakra-ui/react';
+import { withTRPC } from '@trpc/next';
+import { SessionProvider } from 'next-auth/react';
+import type { AppType } from 'next/dist/shared/lib/utils';
+import theme from 'src/chakraTheme';
+import Main from 'src/components/Layout/Main';
+import MobileMenu from 'src/components/Layout/MobileMenu';
+import superjson from 'superjson';
+import type { AppRouter } from '../server/router';
+import '../styles/globals.css';
 
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
   router,
 }) => {
-  const loading = useRouteLoading(router)
+  const loading = useRouteLoading(router);
 
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
-
         <Layout />
         {loading ? (
-          <Progress size="xs" isIndeterminate />
+          <Progress size="xs" isIndeterminate zIndex="99" />
         ) : (
           <>
-
             <ScaleFade key={router.asPath} initialScale={0.9} in={true}>
               <Main>
                 <Component {...pageProps} />
@@ -43,8 +41,8 @@ const MyApp: AppType = ({
 };
 
 const getBaseUrl = () => {
-  if (typeof window !== "undefined") {
-    return "";
+  if (typeof window !== 'undefined') {
+    return '';
   }
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
 

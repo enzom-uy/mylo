@@ -31,7 +31,11 @@ const NadeComponent: React.FC<{ nade: NadeInfo }> = ({ nade }) => {
         cursor="pointer"
         onClick={onOpen}
       >
-        <MySvg type={nade.nadeType} />
+        {nade.nadeType === 'One way' ? (
+          <MySvg type="Smoke" />
+        ) : (
+          <MySvg type={nade.nadeType} />
+        )}
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

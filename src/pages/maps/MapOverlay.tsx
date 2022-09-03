@@ -50,7 +50,7 @@ const MapOverlay: React.FC<{
   mapName: string | undefined;
   getNadePosition?: (pos: any) => void;
   allMapsInfo?: AllMapsInfo[];
-  currentType?: 'Smoke' | 'Flash' | 'Deto' | 'Molo' | string;
+  currentType?: 'Smoke' | 'Flash' | 'Deto' | 'Molo' | 'One way' | string;
   position?: string;
 }> = ({
   img,
@@ -77,9 +77,7 @@ const MapOverlay: React.FC<{
   );
 
   const [userClicked, setUserClicked] = useState(false);
-  const [initialPosition, setInitialPosition] = useState(
-    position ? JSON.parse(position) : {}
-  );
+  const initialPosition = position ? JSON.parse(position) : {};
   const [showNades, setShowNades] = useState(false);
   const [nades, setNades] = useState<NadeInfo[] | null>();
 
@@ -108,6 +106,8 @@ const MapOverlay: React.FC<{
       }
     }
   }, [currentType]);
+
+  console.log(nades);
 
   return (
     <Flex
@@ -171,5 +171,4 @@ const MapOverlay: React.FC<{
     </Flex>
   );
 };
-
 export default MapOverlay;

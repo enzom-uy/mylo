@@ -2,8 +2,8 @@ import { prisma } from '@/server/db/client';
 import { z } from 'zod';
 import { createRouter } from './context';
 
-const tooSmallMsg = 'Debe tener mínimo 4 letras.';
-const required_error = 'Campo obligatorio.';
+export const tooSmallMsg = 'Debe tener mínimo 4 letras.';
+export const required_error = 'Campo obligatorio.';
 
 export const nadeRouter = createRouter()
   .mutation('create', {

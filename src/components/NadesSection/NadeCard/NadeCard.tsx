@@ -6,7 +6,6 @@ import React from 'react';
 export const ChakraIframe = chakra('iframe');
 
 const NadeCard: React.FC<{ nade: Nade }> = ({ nade }) => {
-  console.log(nade.gfycatUrl);
   return (
     <SimpleContainer bgColor={useColorModeValue('#fff', 'blue-gray')} p={0}>
       <Flex flexDir="column">
@@ -26,6 +25,7 @@ const NadeCard: React.FC<{ nade: Nade }> = ({ nade }) => {
             position="absolute"
             top={0}
             left={0}
+            roundedBottom="lg"
           />
         </Flex>
       </Flex>

@@ -54,7 +54,7 @@ const NadeForm: React.FC<Props> = ({ user }) => {
   const toast = useToast();
   const toastIdRef = React.useRef<ToastId | undefined>();
 
-  const createNade = trpc.useMutation('nade.create');
+  const trpcCreateNade = trpc.useMutation('nade.create');
 
   useEffect(() => {
     setNadePosition('');
@@ -101,7 +101,9 @@ const NadeForm: React.FC<Props> = ({ user }) => {
       isClosable: true,
     });
 
-    const { error, message, newNade } = await createNade.mutateAsync(newData);
+    const { error, message, newNade } = await trpcCreateNade.mutateAsync(
+      newData
+    );
     if (error) {
       toast.close(toastIdRef.current);
       toast({

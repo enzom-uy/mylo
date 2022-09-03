@@ -52,7 +52,7 @@ const Map: NextPage<{
   allMapsInfo: AllMapsInfo[];
 }> = ({ allMapsInfo }) => {
   const [selectedType, setSelectedType] = useState<
-    'Deto' | 'Flash' | 'Molo' | 'Smoke' | string
+    'Deto' | 'Flash' | 'Molo' | 'Smoke' | 'One way' | string
   >('Smoke');
   const router = useRouter();
   const isBrowser = typeof window !== undefined;
@@ -66,7 +66,6 @@ const Map: NextPage<{
   const img = currentMap[0]!.img;
 
   const isMobile = useViewport();
-  const sideMenuTypeOptions = nadeTypes.filter((type) => type.svg);
 
   return (
     <>
@@ -104,7 +103,7 @@ const Map: NextPage<{
               boxShadow="0 1px 3px 0px #484149"
               rounded="lg"
             >
-              {sideMenuTypeOptions.map((option) => {
+              {nadeTypes.map((option) => {
                 const nadeType = option.typeName;
                 return (
                   <Button

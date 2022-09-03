@@ -1,5 +1,5 @@
 import SectionTitle from '@/components/SectionTitle';
-import { Flex, Grid, SimpleGrid, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import { Nade } from '@prisma/client';
 import React from 'react';
 import NadeCard from './NadeCard/NadeCard';
@@ -11,7 +11,6 @@ interface IProps {
 const NadesSection: React.FC<IProps> = ({ nades }) => {
   const alignItems = useBreakpointValue({ base: 'center', md: undefined });
   const justifyContent = useBreakpointValue({ base: 'center', md: undefined });
-  console.log(nades);
 
   return (
     <Flex
@@ -19,6 +18,7 @@ const NadesSection: React.FC<IProps> = ({ nades }) => {
       width={['95%', '95%', '95%', '100%']}
       flexDirection="column"
       alignItems={alignItems}
+      mb={10}
     >
       <SectionTitle>Recién subidas</SectionTitle>
 

@@ -1,7 +1,7 @@
 import { NadeWithMapName, UserWithNades } from '@/interfaces/user';
 import { trpc } from '@/utils/trpc';
 import { Button, Flex, List } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import NadeItem from './NadeItem';
 import Pagination from './Pagination';
 
@@ -23,12 +23,15 @@ const NadesList: React.FC<{
   const trpcGetNades = trpc.useMutation('nade.getAllUnapprovedNades');
   const trpcGetNadesFromUser = trpc.useMutation('nade.getNadesFromUser');
 
-  const getAllNades = async () => {
-    setLoading(true);
-    const nades = await trpcGetNades.mutateAsync();
-    setLoadedNades(nades);
-    setLoading(false);
-  };
+  const getAllNades = useMemo(
+    () => async () => {
+      setLoading(true);
+      const nades = await trpcGetNades.mutateAsync();
+      setLoadedNades(nades);
+      setLoading(false);
+    },
+    [loadedNades]
+  );
 
   const removeNadeFromList = (nadeId: string) => {
     const updatedNades = nades.filter((nade) => nade.id !== nadeId);
@@ -118,4 +121,4 @@ const NadesList: React.FC<{
   );
 };
 
-export default NadesList;
+export default React.memo(NadesList);

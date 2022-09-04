@@ -3,11 +3,11 @@ import SidebarContent from '@/components/Layout/sidebar/SidebarContent';
 import SignWithGoogle from '@/components/Layout/SignWithGoogle';
 import useViewport from '@/hooks/useViewport';
 import { Flex, Spinner, useColorModeValue } from '@chakra-ui/react';
+import { Session } from 'next-auth';
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
-import { RiAdminLine } from 'react-icons/ri';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import { Session } from 'next-auth';
+import { RiAdminLine } from 'react-icons/ri';
 
 const Sidebar: React.FC<{
   session: Session | null | undefined;
@@ -38,7 +38,7 @@ const Sidebar: React.FC<{
         <SidebarContent />
       </Flex>
       <Flex flexDir="column" alignItems="center">
-        {status === 'loading' || checking ? (
+        {status === 'loading' ? (
           <Spinner mb={5} />
         ) : !session ? (
           <SignWithGoogle />

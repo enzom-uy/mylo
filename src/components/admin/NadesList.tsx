@@ -112,7 +112,7 @@ const NadesList: React.FC<{
         ) : (
           <div>
             {user
-              ? 'Este usuario no ha subido ninguna nade aún 🥹.'
+              ? 'Este usuario no ha subido ninguna nade aún 😢.'
               : 'Ya no quedan más nades 😃.'}
           </div>
         )}

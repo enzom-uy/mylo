@@ -1,131 +1,112 @@
-# Create T3 App
+<div align="center">
+  <img src="https://i.imgur.com/aWnWy4n.png" alt="logo" width="700" />
+  <h1>Mylo</h1>
+  <p>
+    Website for me and my friends to upload useful CS:GO utilities.
+  </p>
+<!-- Badges -->
+<p>
+  <a href="https://github.com/enzom-uy/mylo/commits">
+    <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/enzom-uy/mylo">
+  </a>
+  <a href="https://github.com/enzom-uy/mylo/commits">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/enzom-uy/mylo" /> 
+  </a>
+</p>
+<h4>
+    <a href="https://mylo.vercel.app/">Website</a>
+  </h4>
+</div>
 
-This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
+<br />
 
-## Why are there `.js` files in here?
+<!-- Table of Contents -->
 
-As per [T3-Axiom #3](https://github.com/t3-oss/create-t3-app/tree/next#3-typesafety-isnt-optional), we believe take typesafety as a first class citizen. Unfortunately, not all frameworks and plugins support TypeScript which means some of the configuration files have to be `.js` files.
+# :notebook_with_decorative_cover: Table of Contents
 
-We try to emphasize that these files are javascript for a reason, by explicitly declaring its type (`cjs` or `mjs`) depending on what's supported by the library it is used by. Also, all the `js` files in this project are still typechecked using a `@ts-check` comment at the top.
+- [:notebook_with_decorative_cover: Table of Contents](#notebook_with_decorative_cover-table-of-contents)
+  - [:star2: About the project](#star2-about-the-project)
+    - [:camera: Screenshots](#camera-screenshots)
+  - [:space_invader: Technologies](#space_invader-technologies)
+  - [Starting the project](#starting-the-project)
+    - [Prerequirements](#prerequirements)
+    - [:running: Running the project locally](#running-running-the-project-locally)
+<!-- About the Project -->
 
-## What's next? How do I make an app with this?
+## :star2: About the project
 
-We try to keep this project as simple as possible, so you can start with the most basic configuration and then move on to more advanced configuration.
+<!-- Screenshots -->
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+### :camera: Screenshots
 
-- [Next-Auth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [TailwindCSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io) (using @next version? [see v10 docs here](https://alpha.trpc.io))
+<div align="center"> 
+  <img src="https://i.imgur.com/aWnWy4n.png" alt="Demo screenshot" width="800" />
+</div>
 
-## How do I deploy this?
+<!-- TechStack -->
 
-### Vercel
+## :space_invader: Technologies
 
-We recommend deploying to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss). It makes it super easy to deploy NextJs apps.
+* [Typescript](https://www.typescriptlang.org/)
+  * Javascript superset that makes it actually safe (and kinda fun 😁) to use.
+* [React.js](https://nextjs.org/)
+  * Next is the Javascript/React framework that I chose for this project, since it's currently the one that interests me the most and fits my needs.
+* [tRPC](https://trpc.io/)
+  * I used tRPC instead of something like Express or GraphQL, mainly because I really like the [t3 stack](https://github.com/t3-oss/create-t3-app).
+* [Chakra UI](https://chakra-ui.com/).
+  * I chose to use a Component Library like Chakra UI because it allowed me to be more focused on my code, instead of styling. It increased my development time, and it's the one that I find more easy to customize if I need to.
+  * Chakra needs [Framer-motion](https://www.framer.com/motion/) to work 
+* [Prisma](https://www.prisma.io/) and [MySQL with Planetscale](https://planetscale.com/)
+  * I really wanted to try something differente than MongoDB or Firebase, basically I wanted to give relational databases a try. Also, giving the nature of my project (having users, letting users upload stuff, etc), a document-based approach in my database would've been a nightmare to work with.
+* [Next-Auth](https://next-auth.js.org/)
+  * Authentication has never been easier than with Next-auth.
 
-- Push your code to a GitHub repository.
-- Go to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss) and sign up with GitHub.
-- Create a Project and import the repository you pushed your code to.
-- Add your environment variables.
-- Click **Deploy**
-- Now whenever you push a change to your repository, Vercel will automatically redeploy your website!
+<!-- Getting Started -->
 
-### Docker
+## Starting the project.
 
-You can also dockerize this stack and deploy a container.
+<!-- Prerequisites -->
 
-1. In your [next.config.mjs](./next.config.mjs), add the `output: "standalone"` option to your config.
-2. Create a `.dockerignore` file with the following contents:
-   <details>
-   <summary>.dockerignore</summary>
+### Prerequirements
 
-   ```
-   Dockerfile
-   .dockerignore
-   node_modules
-   npm-debug.log
-   README.md
-   .next
-   .git
-   ```
+This project uses either yarn or npm as dependency/package manager. You should have npm installed if you already have Node. If you choose to use yarn, run the next command to install it:
 
-  </details>
+```bash
+ npm i -g yarn
+```
 
-3. Create a `Dockerfile` with the following contents:
-   <details>
-   <summary>Dockerfile</summary>
+<!-- Run Locally -->
 
-   ```Dockerfile
-   # Install dependencies only when needed
-   FROM node:16-alpine AS deps
-   # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-   RUN apk add --no-cache libc6-compat
-   WORKDIR /app
+### :running: Running the project locally
 
-   # Install dependencies based on the preferred package manager
-   COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-   RUN \
-      if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-      elif [ -f package-lock.json ]; then npm ci; \
-      elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
-      else echo "Lockfile not found." && exit 1; \
-      fi
+Clone the project:
 
+```bash
+  git clone git@github.com:enzom-uy/mylo.git
+```
 
-   # Rebuild the source code only when needed
-   FROM node:16-alpine AS builder
-   WORKDIR /app
-   COPY --from=deps /app/node_modules ./node_modules
-   COPY . .
+Go to the project directory:
 
-   # Next.js collects completely anonymous telemetry data about general usage.
-   # Learn more here: https://nextjs.org/telemetry
-   # Uncomment the following line in case you want to disable telemetry during the build.
-   # ENV NEXT_TELEMETRY_DISABLED 1
+```bash
+  cd mylo
+```
 
-   RUN yarn build
+Install dependencies:
 
-   # If using npm comment out above and use below instead
-   # RUN npm run build
+```bash
+# with yarn:
+  yarn
+# with npm:
+  npm install
+```
 
-   # Production image, copy all the files and run next
-   FROM node:16-alpine AS runner
-   WORKDIR /app
+Start the development server:
 
-   ENV NODE_ENV production
-   # Uncomment the following line in case you want to disable telemetry during runtime.
-   # ENV NEXT_TELEMETRY_DISABLED 1
+```bash
+# with yarn:
+  yarn start
+# with npm:
+  npm start
+```
 
-   RUN addgroup --system --gid 1001 nodejs
-   RUN adduser --system --uid 1001 nextjs
-
-   # You only need to copy next.config.js if you are NOT using the default configuration
-   # COPY --from=builder /app/next.config.js ./
-   COPY --from=builder /app/public ./public
-   COPY --from=builder /app/package.json ./package.json
-
-   # Automatically leverage output traces to reduce image size
-   # https://nextjs.org/docs/advanced-features/output-file-tracing
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-   USER nextjs
-
-   EXPOSE 3000
-
-   ENV PORT 3000
-
-   CMD ["node", "server.js"]
-   ```
-
-  </details>
-
-4. You can now build an image to deploy yourself, or use a PaaS such as [Railway's](https://railway.app) automated [Dockerfile deployments](https://docs.railway.app/deploy/dockerfiles) to deploy your app.
-
-## Useful resources
-
-Here are some resources that we commonly refer to:
-
-- [Protecting routes with Next-Auth.js](https://next-auth.js.org/configuration/nextjs#unstable_getserversession)
+You'll need to declare some env variables if you actually want it to work.

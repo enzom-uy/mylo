@@ -49,7 +49,7 @@
 
 * [Typescript](https://www.typescriptlang.org/)
   * Javascript superset that makes it actually safe (and kinda fun 😁) to use.
-* [React.js](https://nextjs.org/)
+* [Nextjs](https://nextjs.org/)
   * Next is the Javascript/React framework that I chose for this project, since it's currently the one that interests me the most and fits my needs.
 * [tRPC](https://trpc.io/)
   * I used tRPC instead of something like Express or GraphQL, mainly because I really like the [t3 stack](https://github.com/t3-oss/create-t3-app).

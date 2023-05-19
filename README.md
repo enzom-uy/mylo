@@ -1,3 +1,7 @@
+# This project is now dead due to Snap Inc letting Gfycat die without warning.
+I'm currently evaluating another alternatives to Gfycat, but it will take some time.
+
+---
 <div align="center">
   <img src="https://i.imgur.com/aWnWy4n.png" alt="logo" width="700" />
   <h1>Mylo</h1>
